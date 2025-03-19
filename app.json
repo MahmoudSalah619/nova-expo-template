@@ -9,7 +9,15 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "This app uses the camera to take photos.",
+        "NSPhotoLibraryUsageDescription": "This app uses the photo library to select photos.",
+        "NSMicrophoneUsageDescription": "This app uses the microphone to record audio.",
+        "NSLocationWhenInUseUsageDescription": "This app uses location services to provide information about your current location.",
+        "NSLocationAlwaysUsageDescription": "This app uses location services to provide information about your current location.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "This app uses location services to provide information about your current location."
+      }
     },
     "android": {
       "adaptiveIcon": {
