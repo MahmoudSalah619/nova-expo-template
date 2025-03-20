@@ -2,6 +2,23 @@
   "name": "nova-expo-template",
   "main": "expo-router/entry",
   "version": "1.0.0",
+  "author": "Nova",
+  "keywords": [
+    "expo",
+    "react",
+    "react-native",
+    "React native",
+    "typescript",
+    "nova",
+    "sdk52",
+    "redux",
+    "redux-toolkit",
+    "Rtk query",
+    "i18n",
+    "absolute path",
+    "start files",
+    "template"
+  ],
   "scripts": {
     "start": "expo start",
     "reset-project": "node ./scripts/reset-project.js",

@@ -14,13 +14,16 @@ export const COLORS = {
     grey: "#DEDDE0",
     white: "#FFFFFF",
     black: "#000000",
+
     // app colors
     text: "#11181C",
     background: "#fff",
     tint: tintColorLight,
     icon: "#687076",
+    border: "#C5CCD6",
     tabIconDefault: "#687076",
     tabIconSelected: tintColorLight,
+
     // system message colors
     success: "#159F91",
     danger: "#FF193B",
@@ -35,13 +38,16 @@ export const COLORS = {
     grey: "#DEDDE0",
     white: "#FFFFFF",
     black: "#000000",
+
     // app colors
     text: "#ECEDEE",
     background: "#151718",
     tint: tintColorDark,
     icon: "#9BA1A6",
+    border: "#3E4042",
     tabIconDefault: "#9BA1A6",
     tabIconSelected: tintColorDark,
+    
     // system message colors
     success: "#159F91",
     danger: "#FF193B",

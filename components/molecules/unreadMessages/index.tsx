@@ -1,20 +1,24 @@
 import { View, ViewStyle } from "react-native";
-import Text from "@/components/atoms/Text";
 import styles from "./style";
+import { Text } from "@/components/atoms";
 
 export default function UnreadMessages({
   number,
-  backGroundColor = "black",
+  backgroundColor = "black",
 }: {
-  number: number;
-  backGroundColor: string;
+  number?: number | undefined;
+  backgroundColor: string;
 }) {
   const customStyle: ViewStyle = {
-    backgroundColor: backGroundColor,
+    backgroundColor: backgroundColor,
   };
+
+  if (!number) {
+    return null;
+  }
   return (
     <View style={[customStyle, styles.container]}>
-      <Text autoTrasnlate={false}>
+      <Text autoTranslate={false} type="bell" color="white">
         {number}
       </Text>
     </View>

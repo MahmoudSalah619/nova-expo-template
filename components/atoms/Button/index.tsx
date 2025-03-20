@@ -16,7 +16,7 @@ import { theme } from "@/utils/getTheme";
 export default function Button({
   title,
   onPress,
-  color = COLORS[theme].white,
+  color,
   backgroundColor = COLORS[theme].primary,
   borderColor,
   disabled = false,
@@ -24,32 +24,46 @@ export default function Button({
   buttonCustomStyle,
   textCustomStyle,
   fontSize = 16,
-  iconSize = 18,
   prefix,
   icon,
-  IconName,
   isLoading,
   suffix,
   isFullWidth = false,
   fontFamily = "font500",
   showShadow = false,
+  variant = "filled",
 }: ButtonProps) {
   const customStyle: ViewStyle = {
-    backgroundColor: disabled ? COLORS[theme].grey : backgroundColor,
-    borderColor,
-    borderWidth: borderColor ? 1 : 0,
     height: btnHeight,
     flex: isFullWidth ? 1 : undefined,
     ...buttonCustomStyle,
   };
 
-  const textExtraStyle = { color, fontSize, fontFamily };
+  const textExtraStyle = {
+    color:
+      variant === "filled"
+        ? color || COLORS.light.white
+        : color || COLORS.light.primary,
+    fontSize,
+    fontFamily,
+  };
 
   const hasTitle = !!title;
 
   return (
     <TouchableOpacity
-      style={[styles.button, customStyle, showShadow && getShadowStyle()]}
+      style={[
+        styles.button,
+        styles[variant],
+        customStyle,
+        showShadow && getShadowStyle(),
+        variant === "outlined" && {
+          borderColor: borderColor || backgroundColor,
+        },
+        variant === "underlined" && {
+          borderBottomColor: borderColor || backgroundColor,
+        },
+      ]}
       disabled={disabled || isLoading}
       activeOpacity={disabled ? 1 : 0.2}
       onPress={onPress}
@@ -57,7 +71,7 @@ export default function Button({
       {!isLoading ? (
         <View style={GLOBAL_STYLES.row}>
           {prefix && <View style={styles.prefixSpacing}>{prefix}</View>}
-          {(IconName || icon) && <View style={styles.prefixSpacing}></View>}
+          {icon && <View style={styles.prefixSpacing}></View>}
 
           {hasTitle && (
             <Text style={[styles.text, textExtraStyle, textCustomStyle]}>

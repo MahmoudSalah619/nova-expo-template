@@ -4,6 +4,10 @@ const styles = StyleSheet.create({
   text: {
     writingDirection: I18nManager.isRTL ? "rtl" : "ltr",
   },
+  bell: {
+    fontSize: 8,
+    lineHeight: 12,
+  },
   default: {
     fontSize: 16,
     lineHeight: 24,

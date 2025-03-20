@@ -16,10 +16,10 @@ export interface ButtonProps {
   iconSize?: number;
   prefix?: JSX.Element;
   icon?: ReactNode;
-  IconName?: string;
   isLoading?: boolean;
   suffix?: JSX.Element;
   isFullWidth?: boolean;
   fontFamily?: keyof typeof FontFamily;
   showShadow?: boolean;
+  variant?: "filled" | "outlined" | "underlined";
 }

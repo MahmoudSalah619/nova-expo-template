@@ -1,13 +1,12 @@
-import Text from "@/components/atoms/Text";
-import View from "@/components/atoms/View";
+import { Button, Text, ThemedView } from "@/components/atoms";
 import { useRouter } from "expo-router";
 import React from "react";
-import { StyleSheet, Button } from "react-native";
+import { StyleSheet } from "react-native";
 
 const Favourites = () => {
   const router = useRouter();
   return (
-    <View style={styles.container}>
+    <ThemedView style={styles.container}>
       <Text type="default" color="primary">
         Favourites
       </Text>
@@ -15,15 +14,18 @@ const Favourites = () => {
         title="Go to Home"
         onPress={() => router.navigate("/(main)/screen1")}
       />
-    </View>
+      <Button
+        title="Go to Home"
+        onPress={() => router.navigate("/(main)/screen1")}
+      />
+    </ThemedView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    gap: 16,
   },
   title: {
     fontSize: 24,

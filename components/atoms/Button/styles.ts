@@ -20,11 +20,21 @@ const styles = StyleSheet.create({
     marginStart: 10,
   },
   text: {
-    color: COLORS[theme].white,
     fontSize: 16,
     lineHeight: 28,
     textAlign: "center",
     ...GLOBAL_STYLES.font700,
+  },
+   filled: {
+    backgroundColor: COLORS[theme].primary,
+  },
+  outlined: {
+    backgroundColor: "transparent",
+    borderWidth: 1,
+  },
+  underlined: {
+    backgroundColor: "transparent",
+    borderBottomWidth: 1,
   },
 });
 

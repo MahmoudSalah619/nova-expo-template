@@ -26,7 +26,7 @@ export default function Text({
   lightColor,
   darkColor,
   type = "default",
-  autoTrasnlate = true,
+  autoTranslate = true,
   ...rest
 }: CustomTextProps) {
   const { t } = useAutoCompleteTranslation();
@@ -48,12 +48,13 @@ export default function Text({
         type === "defaultSemiBold" ? styles.defaultSemiBold : undefined,
         type === "subtitle" ? styles.subtitle : undefined,
         type === "link" ? styles.link : undefined,
+        type === "bell" ? styles.bell : undefined,
         styles.text,
         style,
       ]}
       {...rest}
     >
-      {autoTrasnlate ? t(rest.children) : rest.children}
+      {autoTranslate ? t(rest.children) : rest.children}
     </RNText>
   );
 }
