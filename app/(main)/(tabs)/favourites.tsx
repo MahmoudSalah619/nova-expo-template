@@ -18,8 +18,16 @@ const Favourites = () => {
         title="Go to Home"
         onPress={() => router.navigate("/(main)/screen1")}
       />
-      <Input placeholder="Enter your name" />
-      <Input placeholder="password" label="Suiiiiiiii" secureTextEntry/>
+      <Input
+        placeholder="Enter your name"
+        onChange={(e) => console.log(e, "eeeeeeeeee")}
+      />
+      <Input
+        placeholder="Search"
+        isSearch
+        onChange={(e) => console.log(e, "eeeeeeeeee")}
+      />
+      <Input placeholder="password" label="Suiiiiiiii" secureTextEntry />
     </ThemedView>
   );
 };

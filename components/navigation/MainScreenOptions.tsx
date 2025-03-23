@@ -31,7 +31,6 @@ export default function MainScreenOptions({ route }: MainScreenOptionsProps) {
     onPress,
   } = route.params as CustomScreenOptions;
 
-  console.log("route.params", route.params);
 
   const DisplayedHeader = (
     <NavigationHeader

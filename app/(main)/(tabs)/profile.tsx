@@ -1,18 +1,40 @@
-import { Text, ThemedView } from "@/components/atoms";
+import { Button, Text, ThemedView } from "@/components/atoms";
+import { Collapsible } from "@/components/molecules/collapsible/Collapsible";
 import { useRouter } from "expo-router";
 import React from "react";
-import { Button, StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 export default function profile() {
   const router = useRouter();
 
   return (
     <ThemedView style={styles.container}>
-      <Text style={styles.title}>Explore</Text>
-      <Button
-        title="Go to Welcome Page (like a signout button)"
-        onPress={() => router.replace("/(auth)/welcome")}
-      />
+      <Text style={styles.title}>Profile</Text>
+      <Collapsible title="Personal Information">
+        <Text>First Name: John</Text>
+        <Text>Last Name: Doe</Text>
+        <Text>Age: 25</Text>
+      </Collapsible>
+      <Collapsible title="Contact Information">
+        <Text>Email: mahmoud.s.m619@gmail.com </Text>
+        <Text>Phone: +201005541537 </Text>
+      </Collapsible>
+      <Collapsible title="Address">
+        <Text>City: Cairo</Text>
+        <Text>Street: 5th Settlement</Text>
+        <Text>Building: 5</Text>
+      </Collapsible>
+      <Collapsible title="Social Media">
+        <Text>Facebook: Mahmoud salah</Text>
+        <Text>Twitter: Mahmoud salah</Text>
+        <Text>Instagram: Mahmoud salah</Text>
+      </Collapsible>
+      <View>
+        <Button
+          title="Go to Welcome Page (like a signout button)"
+          onPress={() => router.replace("/(auth)/welcome")}
+        />
+      </View>
     </ThemedView>
   );
 }

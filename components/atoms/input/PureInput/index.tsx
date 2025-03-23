@@ -8,6 +8,7 @@ import styles from "./styles";
 import { InputFieldProps } from "./types";
 import { COLORS } from "@/constants/Colors";
 import { theme } from "@/utils/getTheme";
+import debounce from "@/utils/debounce";
 
 export default function Input({
   error,
@@ -24,10 +25,24 @@ export default function Input({
   hintText,
   label,
   isPlaceholderDotsHidden = true,
+  isSearch = false,
+  onChange = () => {},
   ...otherProps
 }: InputFieldProps) {
   const hasErrors = Boolean(error);
   const [showPassword, setShowPassword] = useState(false);
+
+  const debouncedOnChange = debounce((value: string) => {
+    if (onChange) onChange(value);
+  }, 300); // 300ms debounce time
+
+  const handleChangeText = (text: string) => {
+    if (isSearch) {
+      debouncedOnChange(text);
+    } else if (onChange) {
+      onChange(text);
+    }
+  };
 
   const ErrorSectionMarkup = (
     <View>
@@ -100,6 +115,7 @@ export default function Input({
           multiline={Boolean(isTextAreaInput)}
           numberOfLines={isTextAreaInput ? 5 : 1}
           style={inputStyles}
+          onChangeText={handleChangeText}
           {...otherProps}
         />
 
