@@ -22,7 +22,6 @@ export default function NavigationHeader({
   hasBackArrow = true,
   hasLogo = false,
   isRightComponentHidden = false,
-  orangeTitle = false,
   onPress = () => {},
 }) {
   const navigation = useNavigation();
@@ -37,7 +36,6 @@ export default function NavigationHeader({
 
   return (
     <ThemedView style={[styles.headerStyle]}>
-      
       {/* BACK BUTTON */}
       <TouchableOpacity
         disabled={!isBackButtonVisible}
@@ -74,10 +72,7 @@ export default function NavigationHeader({
       {/* RIGHT COMPONENT */}
       <View
         pointerEvents={isRightComponentHidden ? "none" : undefined}
-        style={[
-          isRightComponentHidden && styles.hiddenStyle,
-          orangeTitle && styles.displayNone,
-        ]}
+        style={[isRightComponentHidden && styles.hiddenStyle]}
       >
         <View style={styles.NotiNum}>
           <UnreadMessages number={2} backgroundColor={COLORS.light.primary} />

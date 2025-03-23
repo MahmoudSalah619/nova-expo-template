@@ -28,15 +28,10 @@ export default function MainScreenOptions({ route }: MainScreenOptionsProps) {
     hasLogo,
     isBackArrowHidden,
     isRightComponentHidden,
-    isSmallTitleFont,
-    orangeBackground,
-    orangeTitle,
-    boldTitle,
     onPress,
-  } = route.params as CustomScreenOptions; 
+  } = route.params as CustomScreenOptions;
 
   console.log("route.params", route.params);
-  
 
   const DisplayedHeader = (
     <NavigationHeader
@@ -44,10 +39,6 @@ export default function MainScreenOptions({ route }: MainScreenOptionsProps) {
       hasBackArrow={!isBackArrowHidden}
       isRightComponentHidden={isRightComponentHidden}
       hasLogo={hasLogo}
-      orangeBackground={orangeBackground}
-      isSmallTitleFont={isSmallTitleFont}
-      orangeTitle={orangeTitle}
-      boldTitle={boldTitle}
       onPress={onPress}
     />
   );

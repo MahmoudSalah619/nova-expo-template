@@ -62,6 +62,8 @@ export default function Button({
         },
         variant === "underlined" && {
           borderBottomColor: borderColor || backgroundColor,
+          alignSelf: "center",
+          height: "auto",
         },
       ]}
       disabled={disabled || isLoading}
@@ -74,7 +76,14 @@ export default function Button({
           {icon && <View style={styles.prefixSpacing}></View>}
 
           {hasTitle && (
-            <Text style={[styles.text, textExtraStyle, textCustomStyle]}>
+            <Text
+              style={[
+                styles.text,
+                textExtraStyle,
+                textCustomStyle,
+                variant === "underlined" && { lineHeight: 24 },
+              ]}
+            >
               {title}
             </Text>
           )}

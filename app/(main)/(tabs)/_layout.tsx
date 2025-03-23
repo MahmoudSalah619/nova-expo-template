@@ -34,6 +34,12 @@ export default function _layout() {
           title: "Favorites",
         }}
       />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: "Profile",
+        }}
+      />
     </Tabs>
   );
 }
