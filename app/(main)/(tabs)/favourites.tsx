@@ -1,4 +1,4 @@
-import { Button, Text, ThemedView } from "@/components/atoms";
+import { Button, FormInput, Input, Text, ThemedView } from "@/components/atoms";
 import { useRouter } from "expo-router";
 import React from "react";
 import { StyleSheet } from "react-native";
@@ -18,6 +18,8 @@ const Favourites = () => {
         title="Go to Home"
         onPress={() => router.navigate("/(main)/screen1")}
       />
+      <Input placeholder="Enter your name" />
+      <Input placeholder="password" label="Suiiiiiiii" secureTextEntry/>
     </ThemedView>
   );
 };
@@ -26,6 +28,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     gap: 16,
+    padding: 16,
   },
   title: {
     fontSize: 24,

@@ -2,7 +2,7 @@ import React from "react";
 import { Text, ThemedView } from "@/components/atoms";
 import { useRoute } from "@react-navigation/native";
 
-export default function page() {
+export default function Screen2() {
   const route = useRoute();
   const { from, id } = route.params as { from: string; id: number };
   console.log("name", from);

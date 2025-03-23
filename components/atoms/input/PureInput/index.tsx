@@ -9,20 +9,20 @@ import { InputFieldProps } from "./types";
 import { COLORS } from "@/constants/Colors";
 import { theme } from "@/utils/getTheme";
 
-export default function PureInput({
+export default function Input({
   error,
   editable = true,
-  customContainerStyle,
+  containerStyle,
   prefix,
   suffix,
   placeholder = "",
-  textContentType,
+  secureTextEntry = false,
   placeholderTextColor = `${COLORS[theme].secondary}`,
-  customInputColorWhenDisabled = COLORS[theme].secondary,
+  inputColorWhenDisabled = COLORS[theme].secondary,
   isTextAreaInput = false,
-  customInputStyle,
+  inputStyle,
   hintText,
-  labelText,
+  label,
   isPlaceholderDotsHidden = true,
   ...otherProps
 }: InputFieldProps) {
@@ -50,27 +50,27 @@ export default function PureInput({
 
   const inputContainerStyles = [
     styles.inputContainer,
-    customContainerStyle,
+    containerStyle,
     hasErrors && styles.errorBorder,
     isTextAreaInput && styles.textAreaContainer,
   ];
 
   const inputStyles = [
     styles.input,
-    customInputStyle && { ...customInputStyle },
-    !editable && { color: customInputColorWhenDisabled }, // override color when disabled
+    inputStyle && { ...inputStyle },
+    !editable && { color: inputColorWhenDisabled }, // override color when disabled
     isTextAreaInput && styles.textAreaInput,
   ];
 
   const placeholderTextColorValue = placeholderTextColor || COLORS[theme].grey;
 
-  const LabelMarkup = !!labelText && (
+  const LabelMarkup = !!label && (
     <View>
-      <Text style={styles.labelText}>{labelText}</Text>
+      <Text style={styles.labelText}>{label}</Text>
     </View>
   );
 
-  const PasswordIconMarkup = textContentType === "password" && (
+  const PasswordIconMarkup = secureTextEntry && (
     <TouchableOpacity
       onPress={() => {
         setShowPassword(!showPassword);
@@ -93,7 +93,7 @@ export default function PureInput({
 
         <TextInput
           placeholder={`${placeholder}${isPlaceholderDotsHidden ? "" : "..."}`}
-          secureTextEntry={textContentType === "password" && !showPassword}
+          secureTextEntry={secureTextEntry && !showPassword}
           placeholderTextColor={placeholderTextColorValue}
           autoCorrect={false}
           autoCapitalize="none"
@@ -104,7 +104,7 @@ export default function PureInput({
         />
 
         {!!suffix && <View style={styles.spaceEnd10}>{suffix}</View>}
-        {textContentType === "password" && PasswordIconMarkup}
+        {secureTextEntry && PasswordIconMarkup}
       </View>
 
       {ErrorSectionMarkup}
