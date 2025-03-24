@@ -5,7 +5,7 @@ import { StyleSheet, TouchableOpacity, useColorScheme } from "react-native";
 import { Text, ThemedView } from "@/components/atoms";
 import { COLORS } from "@/constants/Colors";
 
-export function Collapsible({
+export default function Collapsible({
   children,
   title,
 }: PropsWithChildren & { title: string }) {

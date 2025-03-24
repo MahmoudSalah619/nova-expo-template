@@ -1,4 +1,4 @@
-import { Button, FormInput, Input, Text, ThemedView } from "@/components/atoms";
+import { Button, Input, Text, ThemedView } from "@/components/atoms";
 import { useRouter } from "expo-router";
 import React from "react";
 import { StyleSheet } from "react-native";

@@ -10,8 +10,8 @@ export interface ButtonProps {
   borderColor?: string;
   disabled?: boolean;
   btnHeight?: number;
-  buttonCustomStyle?: ViewStyle;
-  textCustomStyle?: TextStyle;
+  buttonStyle?: ViewStyle;
+  textStyle?: TextStyle;
   fontSize?: number;
   iconSize?: number;
   prefix?: JSX.Element;

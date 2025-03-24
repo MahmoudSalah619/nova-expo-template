@@ -10,7 +10,7 @@ import { useNavigation } from "@react-navigation/native";
 import { COLORS } from "@/constants/Colors";
 // import Text from "@/components/atoms/Text";
 import NotificationBell from "./NotificationBell";
-import UnreadMessages from "../molecules/unreadMessages";
+import UnreadMessages from "../molecules/scoped/notifications/unreadMessages";
 import { Feather } from "@expo/vector-icons";
 import { Text, ThemedView } from "../atoms";
 import { useColorScheme } from "@/hooks/useColorScheme.web";

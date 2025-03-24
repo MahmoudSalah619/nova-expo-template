@@ -1,3 +1,5 @@
+import { Input } from "@/components/atoms";
+import { InputFieldProps } from "@/components/atoms/input/types";
 import {
   Controller,
   Control,
@@ -5,8 +7,6 @@ import {
   FieldErrorsImpl,
   Merge,
 } from "react-hook-form";
-import PureInput from "../PureInput";
-import { InputFieldProps } from "../PureInput/types";
 
 interface ControllableInputProps extends InputFieldProps {
   control: Control;
@@ -28,7 +28,7 @@ export default function ControllableInput({
       name={name}
       rules={rules} // Pass rules to Controller
       render={({ field: { onChange, onBlur, value }, fieldState }) => (
-        <PureInput
+        <Input
           onChangeText={onChange}
           onBlur={onBlur}
           value={value}

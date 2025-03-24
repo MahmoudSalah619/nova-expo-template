@@ -21,8 +21,8 @@ export default function Button({
   borderColor,
   disabled = false,
   btnHeight = 40,
-  buttonCustomStyle,
-  textCustomStyle,
+  buttonStyle,
+  textStyle,
   fontSize = 16,
   prefix,
   icon,
@@ -36,7 +36,7 @@ export default function Button({
   const customStyle: ViewStyle = {
     height: btnHeight,
     flex: isFullWidth ? 1 : undefined,
-    ...buttonCustomStyle,
+    ...buttonStyle,
   };
 
   const textExtraStyle = {
@@ -80,7 +80,7 @@ export default function Button({
               style={[
                 styles.text,
                 textExtraStyle,
-                textCustomStyle,
+                textStyle,
                 variant === "underlined" && { lineHeight: 24 },
               ]}
             >

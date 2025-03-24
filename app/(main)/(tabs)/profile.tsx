@@ -1,10 +1,10 @@
 import { Button, Text, ThemedView } from "@/components/atoms";
-import { Collapsible } from "@/components/molecules/collapsible/Collapsible";
+import { Collapsible } from "@/components/molecules/common";
 import { useRouter } from "expo-router";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 
-export default function profile() {
+export default function Profile() {
   const router = useRouter();
 
   return (
