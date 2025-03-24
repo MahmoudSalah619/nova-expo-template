@@ -15,6 +15,12 @@ export default function _layout() {
           title: "Screen 2",
         }}
       />
+      <Stack.Screen
+        name="screen3/index"
+        initialParams={{
+          title: "Screen 3",
+        }}
+      />
       <Stack.Screen name="(tabs)" initialParams={{ hasLogo: true }} />
       <Stack.Screen name="(modals)" initialParams={{ headerShown: false }} />
     </Stack>

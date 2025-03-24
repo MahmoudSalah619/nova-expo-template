@@ -1,17 +1,15 @@
+import { Text, ThemedView } from '@/components/atoms';
 import { Link, Stack } from 'expo-router';
 import { StyleSheet } from 'react-native';
-
-import { ThemedText } from '@/components/atoms/Text';
-import { ThemedView } from '@/components/atoms/ThemedView';
 
 export default function NotFoundScreen() {
   return (
     <>
       <Stack.Screen options={{ title: 'Oops!' }} />
       <ThemedView style={styles.container}>
-        <ThemedText type="title">This screen doesn't exist.</ThemedText>
+        <Text type="title">This screen doesn't exist.</Text>
         <Link href="/" style={styles.link}>
-          <ThemedText type="link">Go to home screen!</ThemedText>
+          <Text type="link">Go to home screen!</Text>
         </Link>
       </ThemedView>
     </>

@@ -1,21 +1,15 @@
-import {
-  Keyboard,
-  Pressable,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import { getStatusBarHeight } from "react-native-status-bar-height";
+import { Keyboard, StyleSheet, TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { COLORS } from "@/constants/Colors";
-// import Text from "@/components/atoms/Text";
-import NotificationBell from "./NotificationBell";
-import UnreadMessages from "../molecules/scoped/notifications/unreadMessages";
+
 import { Feather } from "@expo/vector-icons";
-import { Text, ThemedView } from "../atoms";
 import { useColorScheme } from "@/hooks/useColorScheme.web";
-// import UnreadMessages from "@/components/molecules/unreadMessages";
 // import LogoSvg from "@/assets/icons/Logo";
+import UnreadMessages from "../molecules/scoped/notifications/unreadMessages";
+import NotificationBell from "./NotificationBell";
+import { Image, Text, ThemedView } from "../atoms";
+import logoBlack from "@/assets/images/nova-black.png";
+import logoWhite from "@/assets/images/nova-white.png";
 
 export default function NavigationHeader({
   title = "",
@@ -64,7 +58,12 @@ export default function NavigationHeader({
         {!!hasLogo && (
           <View>
             {/* <LogoSvg /> */}
-            <Text type="defaultSemiBold">Bakaboza</Text>
+            <Image
+              source={colorScheme == "light" ? logoBlack : logoWhite}
+              style={{ width: 80, height: 80 }}
+            />
+
+            {/* <Text type="defaultSemiBold">Bakaboza</Text> */}
           </View>
         )}
       </View>
