@@ -12,12 +12,14 @@ export const COLORS = {
     primary: "#0a7ea4",
     secondary: "#7F7F7F",
     grey: "#DEDDE0",
+    greyCe:"#CECECE",
+    greyE5:"#E5E5E5",
     white: "#FFFFFF",
     black: "#000000",
 
     // app colors
     text: "#11181C",
-    background: "#fff",
+    background: "#F2F2F2",
     tint: tintColorLight,
     icon: "#687076",
     border: "#C5CCD6",
@@ -36,6 +38,8 @@ export const COLORS = {
     primary: "#0a7ea4",
     secondary: "#7F7F7F",
     grey: "#DEDDE0",
+    greyCe:"#CECECE",
+    greyE5:"#E5E5E5",
     white: "#FFFFFF",
     black: "#000000",
 

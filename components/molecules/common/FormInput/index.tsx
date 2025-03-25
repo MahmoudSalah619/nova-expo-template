@@ -11,6 +11,7 @@ import {
 interface ControllableInputProps extends InputFieldProps {
   control: Control;
   name: string;
+  required?: boolean;
   errorMessage?: string | FieldError | Merge<FieldError, FieldErrorsImpl>;
   rules?: object;
 }
@@ -19,6 +20,7 @@ export default function ControllableInput({
   control,
   name,
   rules,
+  required,
   errorMessage,
   ...otherProps
 }: ControllableInputProps) {
@@ -26,7 +28,7 @@ export default function ControllableInput({
     <Controller
       control={control}
       name={name}
-      rules={rules} // Pass rules to Controller
+      rules={{ required: required, ...rules }}
       render={({ field: { onChange, onBlur, value }, fieldState }) => (
         <Input
           onChangeText={onChange}

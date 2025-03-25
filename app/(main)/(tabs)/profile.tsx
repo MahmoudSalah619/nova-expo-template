@@ -31,7 +31,7 @@ export default function Profile() {
       </Collapsible>
       <View>
         <Button
-          title="Go to Welcome Page (like a signout button)"
+          title="Logout"
           onPress={() => router.replace("/(auth)/welcome")}
         />
       </View>

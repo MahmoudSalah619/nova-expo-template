@@ -7,9 +7,9 @@ import { useColorScheme } from "@/hooks/useColorScheme.web";
 // import LogoSvg from "@/assets/icons/Logo";
 import UnreadMessages from "../molecules/scoped/notifications/unreadMessages";
 import NotificationBell from "./NotificationBell";
-import { Image, Text, ThemedView } from "../atoms";
-import logoBlack from "@/assets/images/nova-black.png";
-import logoWhite from "@/assets/images/nova-white.png";
+import { Text, ThemedView } from "../atoms";
+
+import Logo from "../atoms/Logo";
 
 export default function NavigationHeader({
   title = "",
@@ -57,13 +57,7 @@ export default function NavigationHeader({
         )}
         {!!hasLogo && (
           <View>
-            {/* <LogoSvg /> */}
-            <Image
-              source={colorScheme == "light" ? logoBlack : logoWhite}
-              style={{ width: 80, height: 80 }}
-            />
-
-            {/* <Text type="defaultSemiBold">Bakaboza</Text> */}
+            <Logo />
           </View>
         )}
       </View>
