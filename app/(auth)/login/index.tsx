@@ -3,10 +3,9 @@ import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
 import AuthScreenWrapper from "@/components/templates/AuthScreenWrapper";
 import { Controller, useForm } from "react-hook-form";
-import { FormInput } from "@/components/molecules/common";
+import { Checkbox, FormInput } from "@/components/molecules/common";
 import { Button, Text } from "@/components/atoms";
 import GLOBAL_STYLES from "@/constants/GlobalStyles";
-import CustomCheckbox from "@/components/molecules/common/Checkbox";
 
 const Login = () => {
   const { control, handleSubmit } = useForm({});
@@ -34,7 +33,7 @@ const Login = () => {
               control={control}
               name="remember_me"
               render={({ field: { onChange, value } }) => (
-                <CustomCheckbox
+                <Checkbox
                   label="Remember me"
                   onChange={onChange}
                   value={value}

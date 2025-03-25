@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import Text from "@/components/atoms/Text";
 import styles from "./styles";
 
-type CustomCheckboxProps = {
+type CheckboxProps = {
   value: boolean;
   onChange: (value: boolean) => void;
   label: string;
@@ -12,12 +12,12 @@ type CustomCheckboxProps = {
   href?: string;
 };
 
-export default function CustomCheckbox({
+export default function Checkbox({
   value,
   onChange,
   label,
   error,
-}: CustomCheckboxProps) {
+}: CheckboxProps) {
   return (
     <View style={styles.checkboxWrapper}>
       <TouchableOpacity
