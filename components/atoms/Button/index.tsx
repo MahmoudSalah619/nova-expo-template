@@ -29,7 +29,7 @@ export default function Button({
   isLoading,
   suffix,
   isFullWidth = false,
-  fontFamily = "cosmica_500",
+  fontFamily = "cosmica_700",
   showShadow = false,
   variant = "filled",
 }: ButtonProps) {
