@@ -25,6 +25,8 @@ export default function Text({
   style,
   size = 14,
   weight = 400,
+  lineHeight,
+  isCentered,
   fontFamily = "cosmica",
   color = "text",
   lightColor,
@@ -49,7 +51,8 @@ export default function Text({
   const textStyle: TextStyle = {
     color: themedColor,
     fontSize: size,
-    // lineHeight: size * 1.5,
+    textAlign: isCentered ? "center" : undefined,
+    lineHeight: lineHeight || undefined,
     fontFamily: !type ? `${fontFamily}_${weight}` : undefined,
     writingDirection: I18nManager.isRTL ? "rtl" : "ltr",
   };

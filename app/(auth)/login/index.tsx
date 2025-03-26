@@ -47,7 +47,7 @@ const Login = () => {
         </View>
         <Button
           title="Login"
-          onPress={() => router.replace("/(tabs)/home")} // Navigate to the home page and replace the current route
+          onPress={() => router.replace("/(main)/(tabs)/home")} // Navigate to the home page and replace the current route
         />
       </View>
     </AuthScreenWrapper>

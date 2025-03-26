@@ -53,6 +53,22 @@ const GLOBAL_STYLES = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  /* Gaps */
+  gap: {
+    gap: METRICS.generalSpacingValue,
+  },
+  gap8: {
+    gap: 8,
+  },
+  gap16: {
+    gap: 16,
+  },
+  gap24: {
+    gap: 24,
+  },
+  gap32: {
+    gap: 32,
+  },
   /* Spacing & Orientation */
   flipInArabic: {
     transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }],
