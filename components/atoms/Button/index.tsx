@@ -20,7 +20,7 @@ export default function Button({
   backgroundColor = COLORS[theme].primary,
   borderColor,
   disabled = false,
-  btnHeight = 40,
+  btnHeight = 48,
   buttonStyle,
   textStyle,
   fontSize = 16,
@@ -29,7 +29,7 @@ export default function Button({
   isLoading,
   suffix,
   isFullWidth = false,
-  fontFamily = "font500",
+  fontFamily = "cosmica_500",
   showShadow = false,
   variant = "filled",
 }: ButtonProps) {

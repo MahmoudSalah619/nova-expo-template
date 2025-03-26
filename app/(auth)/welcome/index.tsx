@@ -17,33 +17,33 @@ const Welcome = () => {
               Welcome to
             </Text>
             <Text size={24} weight={800} color="primary">
-              NovaByte! 🌟
+              NovaKit! 🌟
             </Text>
           </View>
           <Text color="grey70" lineHeight={21}>
-            Kickstart your mobile app with a clean, modern, and super
-            easy-to-use template. Nova is built to be fast, flexible, and ready
-            for anything—so you can focus on creating something amazing. Let’s
-            build together!🚀
+            Your all-in-one toolkit for building beautiful, high-performance
+            mobile apps. With NovaKit, you get clean, modern, and easy-to-use
+            templates that help you move fast and build smarter. Let’s create
+            something amazing together! ✨
           </Text>
-          <Text size={18} weight={600} lineHeight={21}>
-            Why Nova? 💡
+          <Text size={18} weight={700} lineHeight={21}>
+            Why NovaKit? 💡
           </Text>
           <View style={GLOBAL_STYLES.gap16}>
             <Text color="grey70" weight={500}>
-              ✅ Smooth & Responsive
+              ✅ Ready-to-Use Components
             </Text>
             <Text color="grey70" weight={500}>
-              🎨 Easy to Customize
+              🎨 Highly Customizable
             </Text>
             <Text color="grey70" weight={500}>
-              ⚡ Fast & Lightweight
+              ⚡ Optimized for Speed
             </Text>
             <Text color="grey70" weight={500}>
-              🛠️ Built for Developers
+              🛠️ Developer-Friendly
             </Text>
             <Text color="grey70" weight={500}>
-              🚀 Ready to Go
+              🚀 Built to Scale
             </Text>
           </View>
         </View>
