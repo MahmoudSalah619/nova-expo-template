@@ -57,6 +57,9 @@ const GLOBAL_STYLES = StyleSheet.create({
   gap: {
     gap: METRICS.generalSpacingValue,
   },
+  gap4: {
+    gap: 4,
+  },
   gap8: {
     gap: 8,
   },
