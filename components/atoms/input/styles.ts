@@ -38,7 +38,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
   labelText: {
-    color: COLORS[theme].black,
     fontSize: 14,
     fontWeight: 500,
     marginBottom: 8,

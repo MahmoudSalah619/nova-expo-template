@@ -1,3 +1,4 @@
+import FontFamily from "@/constants/FontFamily";
 import { I18nManager, StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
@@ -6,28 +7,20 @@ const styles = StyleSheet.create({
   },
   bell: {
     fontSize: 8,
-    lineHeight: 12,
   },
-  default: {
+  header: {
     fontSize: 16,
-    lineHeight: 24,
-  },
-  defaultSemiBold: {
-    fontSize: 16,
-    lineHeight: 24,
-    fontWeight: "600",
+    fontFamily: FontFamily.cosmica_600,
   },
   title: {
     fontSize: 32,
-    fontWeight: "bold",
-    lineHeight: 32,
+    fontFamily: FontFamily.cosmica_700,
   },
   subtitle: {
     fontSize: 20,
-    fontWeight: "bold",
+    fontFamily: FontFamily.cosmica_500,
   },
   link: {
-    lineHeight: 30,
     fontSize: 16,
     color: "#0a7ea4",
   },

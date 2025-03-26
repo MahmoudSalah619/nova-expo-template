@@ -24,7 +24,7 @@ export default function Collapsible({
           size={18}
           color={theme === "light" ? COLORS.light.icon : COLORS.dark.icon}
         />
-        <Text type="defaultSemiBold">{title}</Text>
+        <Text weight={600}>{title}</Text>
       </TouchableOpacity>
       {isOpen && <ThemedView style={styles.content}>{children}</ThemedView>}
     </ThemedView>

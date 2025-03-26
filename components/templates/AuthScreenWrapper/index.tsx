@@ -16,9 +16,9 @@ import { Logo, ThemedView } from "@/components/atoms";
 export default function AuthScreenWrapper({
   children,
   justifyContent = "flex-start",
-  customStyle,
+  style,
   hasNoHorizontalSpacing = false,
-  isHeaderHidden = false,
+  isStatusBarShown = false,
   hasNoKeyboardVerticalOffset = false,
   showHeader = true,
   paddingSize = "md",
@@ -26,7 +26,7 @@ export default function AuthScreenWrapper({
 }: ScreenWrapperProps) {
   const extraStyle: ViewStyle = {
     justifyContent: justifyContent,
-    paddingTop: isHeaderHidden ? getStatusBarHeight() : 10,
+    paddingTop: isStatusBarShown ? getStatusBarHeight() : 10,
     paddingBottom: 16,
     paddingHorizontal: paddingSize === "sm" ? 24 : 32,
   };
@@ -35,7 +35,7 @@ export default function AuthScreenWrapper({
     styles.container,
     extraStyle,
     hasNoHorizontalSpacing && styles.paddingHorizontal0,
-    customStyle,
+    style,
   ];
 
   const MainContentMarkup = <View style={allContainerStyle}>{children}</View>;

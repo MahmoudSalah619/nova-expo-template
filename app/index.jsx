@@ -1,15 +1,14 @@
 import React from "react";
 import { View, ActivityIndicator, StyleSheet } from "react-native";
-import useSplashAndFonts from "../hooks/useSplashAndFonts";
 import useInitialRouting from "../hooks/useInitialRouting";
+import UseLoadResources from "../hooks/useLoadResources";
 
 const InitialScreen = () => {
-  const { isReady } = useSplashAndFonts();
+  const { isReady } = UseLoadResources();
   const { isLoading } = useInitialRouting(isReady);
-  console.log("InitialScreen");
 
-  // Show a loading indicator while checking auth state or loading fonts
-  if (isLoading || !isReady) {
+  // Show a loading indicator while checking auth state
+  if (isLoading) {
     return (
       <View style={styles.container}>
         <ActivityIndicator size="large" color="#0000ff" />

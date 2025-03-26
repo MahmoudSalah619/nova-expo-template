@@ -2,10 +2,13 @@ import { COLORS } from "@/constants/Colors";
 import { TextProps } from "react-native";
 
 export type CustomTextProps = TextProps & {
-    color?: keyof typeof COLORS.light & keyof typeof COLORS.dark;
-    lightColor?: keyof typeof COLORS.light;
-    darkColor?: keyof typeof COLORS.dark;
-    type?: "default" | "title" | "defaultSemiBold" | "subtitle" | "link" | "bell";
-    autoTranslate?: boolean;
-  };
-  
+  size?: number;
+  weight?: 400 | 500 | 600 | 700 | 800 ;
+  // Add more options if there're multiple fonts
+  fontFamily?: "cosmica";
+  color?: keyof typeof COLORS.light & keyof typeof COLORS.dark;
+  lightColor?: keyof typeof COLORS.light;
+  darkColor?: keyof typeof COLORS.dark;
+  type?: "title" | "subtitle" | "link" | "bell";
+  autoTranslate?: boolean;
+};

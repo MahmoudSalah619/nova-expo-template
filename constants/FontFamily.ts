@@ -1,8 +1,10 @@
 const FontFamily = {
-  font300: "font300",
-  font400: "font400",
-  font500: "font500",
-  font700: "font700",
+  cosmica_300: "cosmica_300",
+  cosmica_400: "cosmica_400",
+  cosmica_500: "cosmica_500",
+  cosmica_600: "cosmica_600",
+  cosmica_700: "cosmica_700",
+  cosmica_800: "cosmica_800",
 };
 
 export default FontFamily;

@@ -5,18 +5,24 @@ import METRICS from "./Metrics";
 const GLOBAL_STYLES = StyleSheet.create({
   /* FONTS */
   font300: {
-    fontFamily: "font300",
+    fontFamily: "cosmica_300",
   },
   font400: {
-    fontFamily: "font400",
+    fontFamily: "cosmica_400",
   },
   font500: {
-    fontFamily: "font500",
+    fontFamily: "cosmica_500",
+  },
+  font600: {
+    fontFamily: "cosmica_600",
   },
   font700: {
-    fontFamily: "font700",
+    fontFamily: "cosmica_700",
   },
-
+  font800: {
+    fontFamily: "cosmica_800",
+  },
+  /* Containers */
   mainContainer: {
     padding: METRICS.generalSpacingValue,
   },
@@ -25,6 +31,7 @@ const GLOBAL_STYLES = StyleSheet.create({
     padding: METRICS.generalSpacingValue,
     paddingVertical: "2%",
   },
+  /* Flex */
   fullSize: {
     flex: 1,
   },
@@ -46,6 +53,7 @@ const GLOBAL_STYLES = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  /* Spacing & Orientation */
   flipInArabic: {
     transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }],
   },

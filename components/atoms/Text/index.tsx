@@ -1,4 +1,4 @@
-import { Text as RNText } from "react-native";
+import { I18nManager, Text as RNText, TextStyle } from "react-native";
 
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { COLORS } from "@/constants/Colors";
@@ -13,6 +13,7 @@ import useAutoCompleteTranslation from "@/hooks/useAutoCompleteTranslation";
  * @property {string} [color="text"] - Color of the text.
  * @property {string} [lightColor] - Light color of the text.
  * @property {string} [darkColor] - Dark color of the text.
+ * @property {number} [size=14] - Size of the text.
  * @property {string} [type="default"] - Type of the text.
  * @example
  * <Text type="title" color="primary">Title</Text>
@@ -22,10 +23,13 @@ import useAutoCompleteTranslation from "@/hooks/useAutoCompleteTranslation";
 
 export default function Text({
   style,
+  size = 14,
+  weight = 400,
+  fontFamily = "cosmica",
   color = "text",
   lightColor,
   darkColor,
-  type = "default",
+  type,
   autoTranslate = true,
   ...rest
 }: CustomTextProps) {
@@ -33,28 +37,34 @@ export default function Text({
 
   const themedColor = useThemeColor(
     {
-      light: lightColor ? COLORS.light[lightColor as keyof typeof COLORS.light] : undefined,
-      dark: darkColor ? COLORS.dark[darkColor as keyof typeof COLORS.dark] : undefined,
+      light: lightColor
+        ? COLORS.light[lightColor as keyof typeof COLORS.light]
+        : undefined,
+      dark: darkColor
+        ? COLORS.dark[darkColor as keyof typeof COLORS.dark]
+        : undefined,
     },
     color
   );
+  const textStyle: TextStyle = {
+    color: themedColor,
+    fontSize: size,
+    // lineHeight: size * 1.5,
+    fontFamily: !type ? `${fontFamily}_${weight}` : undefined,
+    writingDirection: I18nManager.isRTL ? "rtl" : "ltr",
+  };
 
   return (
     <RNText
       style={[
-        { color: themedColor },
-        type === "default" ? styles.default : undefined,
-        type === "title" ? styles.title : undefined,
-        type === "defaultSemiBold" ? styles.defaultSemiBold : undefined,
-        type === "subtitle" ? styles.subtitle : undefined,
-        type === "link" ? styles.link : undefined,
-        type === "bell" ? styles.bell : undefined,
+        { ...textStyle },
+        type ? styles?.[type] : undefined,
         styles.text,
         style,
       ]}
       {...rest}
     >
-      {autoTranslate ? t(rest.children) : rest.children}
+      {autoTranslate ? t(String(rest.children)) : rest.children}
     </RNText>
   );
 }

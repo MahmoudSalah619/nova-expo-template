@@ -1,5 +1,5 @@
-import { useTranslation } from "react-i18next";
 import { TranslationKeyEnum } from "@/@types/TranslationKeyEnum";
+import { useTranslation } from "react-i18next";
 
 export default function useAutoCompleteTranslation() {
   const { t: defaultT } = useTranslation();

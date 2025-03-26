@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Redirect, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 
 const useInitialRouting = (isReady: boolean) => {
   const router = useRouter();

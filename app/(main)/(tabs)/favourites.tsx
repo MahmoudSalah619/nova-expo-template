@@ -1,23 +1,11 @@
-import { Button, Input, Text, ThemedView } from "@/components/atoms";
-import { useRouter } from "expo-router";
+import { Input, Text, ThemedView } from "@/components/atoms";
 import React from "react";
 import { StyleSheet } from "react-native";
 
 const Favourites = () => {
-  const router = useRouter();
   return (
     <ThemedView style={styles.container}>
-      <Text type="default" color="primary">
-        Favourites
-      </Text>
-      <Button
-        title="Go to Home"
-        onPress={() => router.navigate("/(main)/screen1")}
-      />
-      <Button
-        title="Go to Home"
-        onPress={() => router.navigate("/(main)/screen1")}
-      />
+      <Text color="primary">Favourites</Text>
       <Input
         placeholder="Enter your name"
         onChange={(e) => console.log(e, "eeeeeeeeee")}

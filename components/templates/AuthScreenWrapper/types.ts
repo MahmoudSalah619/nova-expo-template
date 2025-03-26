@@ -11,11 +11,10 @@ export interface ScreenWrapperProps {
     | "flex-end"
     | "space-around"
     | "space-evenly";
-  customStyle?: ViewStyle;
+  style?: ViewStyle;
   hasNoHorizontalSpacing?: boolean;
-  isHeaderHidden?: boolean;
+  isStatusBarShown?: boolean;
   hasNoKeyboardVerticalOffset?: boolean;
   showHeader?: boolean;
   isScrollable?: boolean;
-  hasLogo?: boolean;
 }
