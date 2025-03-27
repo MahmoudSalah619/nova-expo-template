@@ -17,17 +17,17 @@ const Welcome = () => {
               Welcome to
             </Text>
             <Text size={24} weight={800} color="primary">
-              NovaKit! 🌟
+              NovaByte! 🌟
             </Text>
           </View>
           <Text color="grey70" lineHeight={21}>
             Your all-in-one toolkit for building beautiful, high-performance
-            mobile apps. With NovaKit, you get clean, modern, and easy-to-use
+            mobile apps. With NovaByte, you get clean, modern, and easy-to-use
             templates that help you move fast and build smarter. Let’s create
             something amazing together! ✨
           </Text>
           <Text size={18} weight={700} lineHeight={21}>
-            Why NovaKit? 💡
+            Why NovaByte? 💡
           </Text>
           <View style={GLOBAL_STYLES.gap16}>
             <Text color="grey70" weight={500}>
