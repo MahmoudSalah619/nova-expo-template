@@ -1,14 +1,13 @@
 import React from "react";
 import { View, ActivityIndicator, StyleSheet } from "react-native";
 import useInitialRouting from "../hooks/useInitialRouting";
-import UseLoadResources from "../hooks/useLoadResources";
+import { Redirect } from "expo-router";
 
 const InitialScreen = () => {
-  const { isReady } = UseLoadResources();
-  const { isLoading } = useInitialRouting(isReady);
+  const { targetPath } = useInitialRouting();
 
   // Show a loading indicator while checking auth state
-  if (isLoading) {
+  if (!targetPath) {
     return (
       <View style={styles.container}>
         <ActivityIndicator size="large" color="#0000ff" />
@@ -16,7 +15,8 @@ const InitialScreen = () => {
     );
   }
 
-  return null; // The screen will redirect based on routing logic
+  // The screen will redirect based on routing logic
+  return <Redirect href={targetPath} />;
 };
 
 const styles = StyleSheet.create({

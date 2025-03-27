@@ -2,15 +2,23 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import DefaultI18n, { LanguageDetectorAsyncModule } from "i18next";
 import { initReactI18next } from "react-i18next";
 import * as Localization from "expo-localization";
-import "moment/locale/ar";
-
 import { I18nManager } from "react-native";
 import { reloadAsync } from "expo-updates";
-import moment from "moment";
+
+import dayjs from "dayjs";
+import "dayjs/locale/ar";
+import localizedFormat from "dayjs/plugin/localizedFormat";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+import updateLocale from "dayjs/plugin/updateLocale";
+
 import en from "./en.json";
 import ar from "./ar.json";
-import { TranslationKeyEnum } from "@/@types/TranslationKeyEnum";
 import momentArabicLocalization from "@/constants/momentArabicLocalization";
+import { TranslationKeyEnum } from "@/@types/TranslationKeyEnum";
+
+dayjs.extend(localizedFormat);
+dayjs.extend(customParseFormat);
+dayjs.extend(updateLocale);
 
 export const locales = {
   en: {
@@ -35,9 +43,9 @@ const useLanguageStorage: LanguageDetectorAsyncModule = {
   detect: (callback) => {
     AsyncStorage.getItem("lang").then((lang) => {
       if (lang) {
-        moment.locale(lang);
+        dayjs.locale(lang);
         if (lang === "ar") {
-          moment.updateLocale(lang, momentArabicLocalization);
+          dayjs.updateLocale(lang, momentArabicLocalization); // Update to match dayjs localization
         }
         return callback(lang);
       }
@@ -65,7 +73,6 @@ const useLanguageStorage: LanguageDetectorAsyncModule = {
 DefaultI18n.use(useLanguageStorage)
   .use(initReactI18next)
   .init({
-    compatibilityJSON: "v3",
     fallbackLng: defaultLang,
     resources: locales,
     react: {

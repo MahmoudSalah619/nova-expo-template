@@ -22,7 +22,6 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     flexDirection: "row",
-    marginBottom: 4,
   },
   checkboxWrapper: {
     paddingHorizontal: 8,

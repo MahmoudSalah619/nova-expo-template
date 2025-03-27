@@ -42,7 +42,3 @@ export default function ControllableInput({
     />
   );
 }
-ControllableInput.defaultProps = {
-  errorMessage: "",
-  rules: {},
-};

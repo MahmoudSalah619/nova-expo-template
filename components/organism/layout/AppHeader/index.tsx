@@ -4,12 +4,9 @@ import { COLORS } from "@/constants/Colors";
 
 import { Feather } from "@expo/vector-icons";
 import { useColorScheme } from "@/hooks/useColorScheme.web";
-// import LogoSvg from "@/assets/icons/Logo";
-import UnreadMessages from "../molecules/scoped/notifications/unreadMessages";
-import NotificationBell from "./NotificationBell";
-import { Text, ThemedView } from "../atoms";
-
-import Logo from "../atoms/Logo";
+import { Logo, Text, ThemedView } from "@/components/atoms";
+import UnreadMessages from "@/components/molecules/scoped/notifications/UnreadMessages";
+import NotificationBell from "@/components/molecules/scoped/notifications/NotificationBell";
 
 export default function NavigationHeader({
   title = "",
@@ -52,7 +49,7 @@ export default function NavigationHeader({
               Keyboard.dismiss();
             }}
           >
-            <Text type="defaultSemiBold">{title}</Text>
+            <Text>{title}</Text>
           </TouchableOpacity>
         )}
         {!!hasLogo && (

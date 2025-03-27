@@ -1,6 +1,6 @@
-import NavigationHeader from "./Header";
 import { RouteProp } from "@react-navigation/native";
-import { RootStackParamList, CustomScreenOptions } from "./types"; // Import the custom type
+import { RootStackParamList, CustomScreenOptions } from "../types"; // Import the custom type
+import NavigationHeader from "../AppHeader";
 
 type MainScreenOptionsProps = {
   route: RouteProp<RootStackParamList, keyof RootStackParamList>;

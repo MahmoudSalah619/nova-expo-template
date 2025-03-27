@@ -1,7 +1,6 @@
 import { Tabs } from "expo-router";
 import React from "react";
-import TabBar from "@/components/navigation/tabBar";
-
+import TabBar from "@/components/organism/layout/AppTabBar";
 /**
  * _layout component sets up the tab navigation layout.
  * It uses the Tabs component from expo-router to define the tab navigation structure.

@@ -8,38 +8,29 @@ type CheckboxProps = {
   value: boolean;
   onChange: (value: boolean) => void;
   label: string;
-  error?: string;
   href?: string;
 };
 
-export default function Checkbox({
-  value,
-  onChange,
-  label,
-  error,
-}: CheckboxProps) {
+export default function Checkbox({ value, onChange, label }: CheckboxProps) {
   return (
-    <View style={styles.checkboxWrapper}>
-      <TouchableOpacity
-        style={styles.container}
-        onPress={() => onChange(!value)}
-        activeOpacity={0.7}
-      >
-        <View style={styles.checkboxContainer}>
-          <View style={[styles.checkbox, value && styles.checkedCheckbox]}>
-            {value && (
-              <Ionicons
-                name="checkmark"
-                size={12}
-                color="white"
-                style={styles.icon}
-              />
-            )}
-          </View>
-          {label && <Text style={styles.label}>{label}</Text>}
+    <TouchableOpacity
+      style={styles.container}
+      onPress={() => onChange(!value)}
+      activeOpacity={0.7}
+    >
+      <View style={styles.checkboxContainer}>
+        <View style={[styles.checkbox, value && styles.checkedCheckbox]}>
+          {value && (
+            <Ionicons
+              name="checkmark"
+              size={12}
+              color="white"
+              style={styles.icon}
+            />
+          )}
         </View>
-      </TouchableOpacity>
-      {error && <Text color="dangerBC">{error}</Text>}
-    </View>
+        {label && <Text style={styles.label}>{label}</Text>}
+      </View>
+    </TouchableOpacity>
   );
 }

@@ -1,12 +1,12 @@
 import { StyleSheet } from "react-native";
 import React from "react";
 
-import Home from "./Home";
+import Home from "./tabs/Home";
 
-import Heart from "./Heart";
+import Heart from "./tabs/Heart";
 
-import Camera from "./Camera";
-import Profile from "./Profile";
+import Camera from "./tabs/Camera";
+import Profile from "./tabs/Profile";
 
 const icons = {
   home: Home,

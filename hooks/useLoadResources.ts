@@ -9,8 +9,6 @@ import cosmica_700 from "@/assets/fonts/Cosmica-Bold.otf";
 import cosmica_800 from "@/assets/fonts/Cosmica-ExtraBold.otf";
 
 const UseLoadResources = () => {
-  const [isReady, setIsReady] = useState(false);
-
   useEffect(() => {
     const loadResources = async () => {
       try {
@@ -26,15 +24,12 @@ const UseLoadResources = () => {
       } catch (e) {
         console.warn(e);
       } finally {
-        setIsReady(true);
         SplashScreen.hideAsync();
       }
     };
 
     loadResources();
   }, []);
-
-  return { isReady };
 };
 
 export default UseLoadResources;
