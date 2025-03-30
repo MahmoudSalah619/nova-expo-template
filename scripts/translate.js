@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const https = require("https");
 
-const TRANSLATION_DIR = path.join(__dirname, "../src/locales"); // Adjust if needed
+const TRANSLATION_DIR = path.join(__dirname, "../i18n"); // Adjust if needed
 const LANGUAGES = ["en", "es", "fr", "de", "ar"]; // Add your language codes here
 const GOOGLE_TRANSLATE_API_KEY = "YOUR_API_KEY_HERE"; // Replace with your actual API key
 
