@@ -1,67 +1,95 @@
-require('dotenv').config();
-const fs = require('fs');
-const axios = require('axios');
+const fs = require("fs");
+const path = require("path");
+const https = require("https");
 
-const API_URL = process.env.LIBRETRANSLATE_URL || 'https://libretranslate.com';
-const SOURCE_LANG = 'en';
-const TARGET_LANG = 'ar';
-const FILE_PATH = './scripts/translations.json';
+const TRANSLATION_DIR = path.join(__dirname, "../src/locales"); // Adjust if needed
+const LANGUAGES = ["en", "es", "fr", "de", "ar"]; // Add your language codes here
+const GOOGLE_TRANSLATE_API_KEY = "YOUR_API_KEY_HERE"; // Replace with your actual API key
 
-// Read JSON file
-const readJsonFile = (path) => {
-    try {
-        const data = fs.readFileSync(path, 'utf8');
-        return JSON.parse(data);
-    } catch (error) {
-        console.error('Error reading JSON file:', error);
-        return null;
-    }
-};
+function translateText(text, targetLang) {
+  return new Promise((resolve, reject) => {
+    const postData = JSON.stringify({
+      q: text,
+      target: targetLang,
+      source: "en",
+      format: "text",
+    });
 
-// Save JSON file
-const saveJsonFile = (path, data) => {
-    try {
-        fs.writeFileSync(path, JSON.stringify(data, null, 2), 'utf8');
-        console.log('✅ Translations updated successfully!');
-    } catch (error) {
-        console.error('Error writing JSON file:', error);
-    }
-};
+    const options = {
+      hostname: "translation.googleapis.com",
+      path: `/language/translate/v2?key=${GOOGLE_TRANSLATE_API_KEY}`,
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Content-Length": Buffer.byteLength(postData),
+      },
+    };
 
-// Translate text using LibreTranslate
-const translateText = async (text) => {
-    try {
-        const response = await axios.post(`${API_URL}/translate`, {
-            q: text,
-            source: SOURCE_LANG,
-            target: TARGET_LANG,
-            format: 'text'
-        });
-        return response.data.translatedText;
-    } catch (error) {
-        console.error('Translation error:', error.response?.data || error.message);
-        return text;
-    }
-};
+    const req = https.request(options, (res) => {
+      let data = "";
 
-// Process translations
-const processTranslations = async () => {
-    const jsonData = readJsonFile(FILE_PATH);
-    if (!jsonData) return;
+      res.on("data", (chunk) => {
+        data += chunk;
+      });
 
-    let updated = false;
-
-    for (const key in jsonData) {
-        if (jsonData[key] === '') {
-            console.log(`Translating: ${key}`);
-            jsonData[key] = await translateText(key);
-            updated = true;
+      res.on("end", () => {
+        try {
+          const response = JSON.parse(data);
+          resolve(response.data.translations[0].translatedText);
+        } catch (error) {
+          reject(error);
         }
+      });
+    });
+
+    req.on("error", (error) => {
+      reject(error);
+    });
+
+    req.write(postData);
+    req.end();
+  });
+}
+
+async function syncTranslations() {
+  const baseLang = LANGUAGES[0];
+  const baseFilePath = path.join(TRANSLATION_DIR, `${baseLang}.json`);
+
+  if (!fs.existsSync(baseFilePath)) {
+    console.error(`Base language file (${baseLang}.json) not found.`);
+    return;
+  }
+
+  const baseContent = JSON.parse(fs.readFileSync(baseFilePath, "utf-8"));
+
+  for (const lang of LANGUAGES.slice(1)) {
+    const filePath = path.join(TRANSLATION_DIR, `${lang}.json`);
+    let targetContent = {};
+
+    if (fs.existsSync(filePath)) {
+      targetContent = JSON.parse(fs.readFileSync(filePath, "utf-8"));
     }
 
-    if (updated) saveJsonFile(FILE_PATH, jsonData);
-    else console.log('✅ No missing translations found.');
-};
+    const updatedContent = { ...targetContent };
 
-// Run the script
-processTranslations();
+    for (const key of Object.keys(baseContent)) {
+      if (!updatedContent[key]) {
+        console.log(`Translating '${key}' to ${lang}...`);
+        updatedContent[key] = await translateText(baseContent[key], lang).catch(
+          () => baseContent[key]
+        );
+      }
+    }
+
+    fs.writeFileSync(
+      filePath,
+      JSON.stringify(updatedContent, null, 2),
+      "utf-8"
+    );
+    console.log(`Synced translations for ${lang}.json`);
+  }
+
+  console.log("Translation sync complete!");
+}
+
+syncTranslations().catch(console.error);
