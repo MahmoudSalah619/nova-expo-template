@@ -7,6 +7,10 @@ import { StyleSheet, View } from "react-native";
 export default function Profile() {
   const router = useRouter();
 
+  const handleLogout = async () => {
+    router.replace("/(auth)/welcome");
+  };
+
   return (
     <ThemedView style={styles.container}>
       <Text style={styles.title}>Profile</Text>
@@ -30,10 +34,7 @@ export default function Profile() {
         <Text>Instagram: Mahmoud salah</Text>
       </Collapsible>
       <View>
-        <Button
-          title="Logout"
-          onPress={() => router.replace("/(auth)/welcome")}
-        />
+        <Button title="Logout" onPress={handleLogout} />
       </View>
     </ThemedView>
   );

@@ -1,4 +1,4 @@
-import MainScreenOptions from "@/components/organism/layout/MainScrenOptions";
+import MainScreenOptions from "@/components/organism/scoped/navigation/MainScrenOptions";
 import { Stack } from "expo-router";
 
 export default function _layout() {
