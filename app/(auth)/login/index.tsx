@@ -6,10 +6,10 @@ import { Controller, useForm } from "react-hook-form";
 import { Checkbox, FormInput } from "@/components/molecules/common";
 import { Button, SeperateLine, Text } from "@/components/atoms";
 import GLOBAL_STYLES from "@/constants/GlobalStyles";
-import GoogleRegisterationButton from "@/components/organism/scoped/auth/social/GoogleRegisterationButton";
-import FacebookRegisterationButton from "@/components/organism/scoped/auth/social/FacebookRegisterationButton";
-import AppleRegistarationButton from "@/components/organism/scoped/auth/social/AppleRegistarationButton";
-import Biometric from "@/components/organism/scoped/auth/biometric";
+import GoogleRegisterationButton from "@/components/organisms/scoped/auth/social/GoogleRegisterationButton";
+import FacebookRegisterationButton from "@/components/organisms/scoped/auth/social/FacebookRegisterationButton";
+import AppleRegistarationButton from "@/components/organisms/scoped/auth/social/AppleRegistarationButton";
+import Biometric from "@/components/organisms/scoped/auth/biometric";
 
 const Login = () => {
   const { control, handleSubmit } = useForm({});

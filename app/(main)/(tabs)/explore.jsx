@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Text, ThemedView } from "@/components/atoms";
 import { StyleSheet } from "react-native";
 import { SheetManager } from "react-native-actions-sheet";
-import RandomModal from "@/components/organism/common/modals/randomModal";
+import RandomModal from "@/components/organisms/common/modals/randomModal";
 const Explore = () => {
   const [isModalShown, setisModalShown] = useState(false);
   const handleOpenActionSheet = async () => {
