@@ -1,9 +1,9 @@
 import { View, ViewStyle } from "react-native";
 import ActionSheet from "react-native-actions-sheet";
-import styles from "./styles";
 import Text from "@/components/atoms/Text";
-import { SheetWrapperProps } from "./types";
 import SeperateLine from "@/components/atoms/SeperateLine";
+import { SheetWrapperProps } from "./types";
+import styles from "./styles";
 
 function SheetWrapper({
   children,

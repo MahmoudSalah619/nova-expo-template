@@ -1,11 +1,11 @@
 import { TouchableOpacity, View } from "react-native";
 import { SheetManager, SheetProps } from "react-native-actions-sheet";
 import Text from "@/components/atoms/Text";
-import SheetWrapper from "../SheetWrapper";
-import styles from "./styles";
+import SheetWrapper from "../sheetWrapper";
 import Button from "@/components/atoms/Button";
-import { RandomBottomSheetProps } from "./types";
 import GLOBAL_STYLES from "@/constants/GlobalStyles";
+import { RandomBottomSheetProps } from "./types";
+import styles from "./styles";
 
 export default function RandomBottomSheet(
   props: SheetProps<"random-bottom-sheet"> & RandomBottomSheetProps
