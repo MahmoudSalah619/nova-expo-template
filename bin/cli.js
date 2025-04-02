@@ -201,7 +201,7 @@ module.exports = {
           }
         );
 
-        // Setup Husky if selected
+        // Modern Husky v8+ setup
         if (answers.husky) {
           console.log("\nSetting up Husky with lint-staged...");
 
@@ -212,10 +212,21 @@ module.exports = {
             shell: true,
           });
 
-          // Add husky config to package.json
+          // Initialize husky
+          spawnSync(npmCmd, ["exec", "husky", "init"], {
+            cwd: targetPath,
+            stdio: "inherit",
+            shell: true,
+          });
+
+          // Add lint-staged configuration
+          updatedPackageJson.scripts = updatedPackageJson.scripts || {};
           updatedPackageJson.scripts.prepare = "husky install";
           updatedPackageJson["lint-staged"] = {
-            "*.{js,jsx,ts,tsx}": ["eslint --fix", "prettier --write"],
+            "*.{js,jsx,ts,tsx}": [
+              "eslint --fix",
+              "prettier --write"
+            ]
           };
 
           await fs.writeFile(
@@ -223,23 +234,21 @@ module.exports = {
             JSON.stringify(updatedPackageJson, null, 2)
           );
 
-          // Initialize husky
-          spawnSync(npmCmd, ["run", "prepare"], {
-            cwd: targetPath,
-            stdio: "inherit",
-            shell: true,
-          });
+          // Create pre-commit hook
+          const preCommitHook = `#!/usr/bin/env sh
+. "$(dirname "$0")/_/husky.sh"
 
-          // Add pre-commit hook
-          spawnSync(
-            "npx",
-            ["husky", "add", ".husky/pre-commit", "npx lint-staged"],
-            {
-              cwd: targetPath,
-              stdio: "inherit",
-              shell: true,
-            }
-          );
+npx lint-staged`;
+
+          const huskyDir = path.join(targetPath, '.husky');
+          if (!fs.existsSync(huskyDir)) {
+            fs.mkdirSync(huskyDir);
+          }
+
+          fs.writeFileSync(path.join(huskyDir, 'pre-commit'), preCommitHook);
+          fs.chmodSync(path.join(huskyDir, 'pre-commit'), '755');
+
+          console.log("Husky git hooks configured successfully.");
         }
 
         console.log("\nESLint and Prettier setup complete!");
