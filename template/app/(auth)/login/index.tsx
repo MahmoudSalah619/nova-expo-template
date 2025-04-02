@@ -12,7 +12,7 @@ import AppleRegistarationButton from "@/components/organisms/scoped/auth/social/
 import Biometric from "@/components/organisms/scoped/auth/biometric";
 
 const Login = () => {
-  const { control, handleSubmit } = useForm({});
+  const { control } = useForm({});
   const router = useRouter(); // Get the router instance from expo-router
 
   return (

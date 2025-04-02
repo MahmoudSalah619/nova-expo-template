@@ -23,14 +23,8 @@ export default function MainScreenOptions({ route }: MainScreenOptionsProps) {
   }
 
   // Extract params
-  const {
-    title,
-    hasLogo,
-    isBackArrowHidden,
-    isRightComponentHidden,
-    onPress,
-  } = route.params as CustomScreenOptions;
-
+  const { title, hasLogo, isBackArrowHidden, isRightComponentHidden, onPress } =
+    route.params as CustomScreenOptions;
 
   const DisplayedHeader = (
     <NavigationHeader

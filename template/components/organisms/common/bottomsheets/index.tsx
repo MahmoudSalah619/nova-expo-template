@@ -1,5 +1,4 @@
 import { registerSheet } from "react-native-actions-sheet";
-import LogoutBottomSheet from "./randomBottomSheet";
 import RandomBottomSheet from "./randomBottomSheet";
 
 registerSheet("random-bottom-sheet", RandomBottomSheet);

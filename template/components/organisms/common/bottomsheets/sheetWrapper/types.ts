@@ -1,6 +1,5 @@
 import { ReactNode } from "react";
 import { ViewStyle } from "react-native";
-import FontFamily from "@/constants/FontFamily";
 import { COLORS } from "@/constants/Colors";
 
 export interface SheetWrapperProps {

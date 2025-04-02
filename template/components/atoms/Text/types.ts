@@ -3,7 +3,7 @@ import { TextProps } from "react-native";
 
 export type CustomTextProps = TextProps & {
   size?: number;
-  weight?: 400 | 500 | 600 | 700 | 800 ;
+  weight?: 400 | 500 | 600 | 700 | 800;
   lineHeight?: number;
   isCentered?: boolean;
   // Add more options if there're multiple fonts

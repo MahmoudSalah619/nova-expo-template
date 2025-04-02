@@ -1,6 +1,5 @@
 import { View, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
 import Text from "@/components/atoms/Text";
 import styles from "./styles";
 

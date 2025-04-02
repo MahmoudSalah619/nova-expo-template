@@ -1,4 +1,10 @@
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Dimensions,
+} from "react-native";
 import React from "react";
 import Icon from "@/assets/icons";
 
@@ -17,7 +23,11 @@ const getIcon = (routeName, isFocused) => {
   };
   const iconName = icons[routeName];
   return iconName ? (
-    <Icon name={iconName} size={hp(2.5)} color={isFocused ? "#673ab7" : "black"} />
+    <Icon
+      name={iconName}
+      size={hp(2.5)}
+      color={isFocused ? "#673ab7" : "black"}
+    />
   ) : null;
 };
 
@@ -50,7 +60,9 @@ const TabBar = ({ state, descriptors, navigation }) => {
               style={styles.tab}
             >
               {getIcon(route.name, isFocused)}
-              <Text style={{ color: isFocused ? "#673ab7" : "#222" }}>{label}</Text>
+              <Text style={{ color: isFocused ? "#673ab7" : "#222" }}>
+                {label}
+              </Text>
             </TouchableOpacity>
           );
         })}

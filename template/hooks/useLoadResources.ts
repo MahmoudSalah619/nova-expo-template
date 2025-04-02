@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { SplashScreen } from "expo-router";
 import * as Font from "expo-font";
 import cosmica_300 from "@/assets/fonts/Cosmica-Light.otf";

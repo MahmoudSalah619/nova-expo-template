@@ -6,12 +6,10 @@ import {
   ViewStyle,
 } from "react-native";
 
-import { getStatusBarHeight } from "react-native-status-bar-height";
 import GLOBAL_STYLES from "@/constants/GlobalStyles";
 import METRICS from "@/constants/Metrics";
 import { ScreenWrapperProps } from "./types";
 import styles from "./styles";
-import { G } from "react-native-svg";
 
 export default function MainScreenWrapper({
   children,

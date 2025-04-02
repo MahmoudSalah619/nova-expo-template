@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+- EAS configuration.
+
+## [1.1.0] - 2025-04-03
+### Added
 - Adjustments for Husky & Eslint.
 
 ## [1.0.0] - 2025-04-02

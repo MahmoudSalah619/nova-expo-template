@@ -3,5 +3,5 @@ import { ViewStyle } from "react-native";
 
 export interface CardWrapperProps {
   children: ReactNode;
-  customStyles?:ViewStyle;
+  customStyles?: ViewStyle;
 }

@@ -1,4 +1,4 @@
-import { TouchableOpacity, View } from "react-native";
+import { View } from "react-native";
 import { SheetManager, SheetProps } from "react-native-actions-sheet";
 import Text from "@/components/atoms/Text";
 import SheetWrapper from "../sheetWrapper";

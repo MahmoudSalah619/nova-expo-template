@@ -22,6 +22,7 @@ export default function useCheckNewUpdates() {
         }
       } catch (e) {
         // error message
+        console.log(e);
       }
     })();
   }, []);

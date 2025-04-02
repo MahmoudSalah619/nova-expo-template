@@ -13,7 +13,10 @@ export default function Screen2() {
   return (
     <ThemedView style={{ flex: 1, padding: 16 }}>
       <Text type="title">Screen2</Text>
-      <Button title="Go to Screen3" onPress={() => router.push("/(main)/screen3") } />
+      <Button
+        title="Go to Screen3"
+        onPress={() => router.push("/(main)/screen3")}
+      />
       <Text>Props:-</Text>
       <Text>{`id: ${id}`}</Text>
       <Text>{`from: ${from}`}</Text>

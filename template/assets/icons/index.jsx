@@ -1,4 +1,3 @@
-import { StyleSheet } from "react-native";
 import React from "react";
 
 import Home from "./tabs/Home";
@@ -27,5 +26,3 @@ const Icon = ({ name, size, color, strokeWidth }) => {
 };
 
 export default Icon;
-
-const styles = StyleSheet.create({});

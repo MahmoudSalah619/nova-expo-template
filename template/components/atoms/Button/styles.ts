@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     ...GLOBAL_STYLES.font700,
   },
-   filled: {
+  filled: {
     backgroundColor: COLORS[theme].primary,
   },
   outlined: {

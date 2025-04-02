@@ -11,12 +11,14 @@ A starter template for building React Native applications with Expo, designed to
 ## Installation
 
 1. Clone the repository:
+
    ```bash
    git clone <repository-url>
    cd nova-expo-template
    ```
 
 2. Install dependencies:
+
    ```bash
    npm install
    ```
@@ -29,11 +31,13 @@ A starter template for building React Native applications with Expo, designed to
 ## Usage
 
 - Run the app on an Android emulator:
+
   ```bash
   npm run android
   ```
 
 - Run the app on an iOS simulator:
+
   ```bash
   npm run ios
   ```
@@ -72,4 +76,3 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 - [Expo](https://expo.dev/) for providing an excellent development platform.
 - The open-source community for their contributions.
-

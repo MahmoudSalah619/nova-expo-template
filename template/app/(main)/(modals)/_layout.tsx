@@ -1,5 +1,5 @@
-import React from 'react';
-import { Stack } from 'expo-router';
+import React from "react";
+import { Stack } from "expo-router";
 
 /**
  * ModalLayout component sets up the stack navigation layout for modals.
@@ -17,7 +17,7 @@ export default function _layout() {
       <Stack.Screen
         name="exampleModal"
         options={{
-          presentation: 'modal', // Make this screen appear as a modal
+          presentation: "modal", // Make this screen appear as a modal
         }}
       />
     </Stack>

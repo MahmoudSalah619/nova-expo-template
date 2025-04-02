@@ -20,7 +20,12 @@ function Image({ containerStyle, style, ...otherProps }: ImgProps) {
         {...otherProps}
       />
       {isLoading && (
-        <View style={StyleSheet.flatten([styles.loadingFullContainer, style as ViewStyle])}>
+        <View
+          style={StyleSheet.flatten([
+            styles.loadingFullContainer,
+            style as ViewStyle,
+          ])}
+        >
           <LoadingComponent />
         </View>
       )}

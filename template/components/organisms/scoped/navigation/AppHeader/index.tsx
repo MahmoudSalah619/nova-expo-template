@@ -18,11 +18,6 @@ export default function NavigationHeader({
   const navigation = useNavigation();
   const colorScheme = useColorScheme() ?? "light";
 
-  const BackButtonMarkup = (
-    <></>
-    // <Icon name="header-back-arrow" size={24} color={Colors.grey900} />
-  );
-
   const isBackButtonVisible = hasBackArrow && navigation.canGoBack();
 
   return (

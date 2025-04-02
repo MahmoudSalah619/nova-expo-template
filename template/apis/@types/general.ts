@@ -3,7 +3,7 @@ export interface PaginatedResponse<T> {
   next: string | null;
   pages_number: number;
   previous: string | null;
-  results: Array<T>;
+  results: T[];
 }
 
 export interface PaginationParams {
