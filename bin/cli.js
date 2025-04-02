@@ -4,7 +4,6 @@ const fs = require("fs-extra");
 const path = require("path");
 const { spawnSync } = require("child_process");
 const inquirer = require("inquirer");
-const chalk = require("chalk");
 const prompt = inquirer.createPromptModule();
 
 program
@@ -40,11 +39,11 @@ program
       const targetPath = path.join(process.cwd(), answers.projectName);
 
       // Create directory
-      console.log(chalk.blue(`Creating ${answers.projectName}...`));
+      console.log(`Creating ${answers.projectName}...`);
       await fs.ensureDir(targetPath);
 
       // Copy template files
-      console.log(chalk.blue("Copying template files..."));
+      console.log("Copying template files...");
       await fs.copy(templatePath, targetPath);
 
       // Process package.json
@@ -71,7 +70,7 @@ program
       }
 
       // Install dependencies
-      console.log(chalk.blue("Installing dependencies..."));
+      console.log("Installing dependencies...");
       const npmCmd = process.platform === "win32" ? "npm.cmd" : "npm";
       spawnSync(npmCmd, ["install"], {
         cwd: targetPath,
@@ -81,7 +80,7 @@ program
 
       // Enhanced ESLint and Husky setup
       if (answers.eslint) {
-        console.log(chalk.blue("\nSetting up ESLint and Prettier..."));
+        console.log("\nSetting up ESLint and Prettier...");
 
         // List of ESLint related packages to install
         const eslintPackages = [
@@ -204,7 +203,7 @@ module.exports = {
 
         // Setup Husky if selected
         if (answers.husky) {
-          console.log(chalk.blue("\nSetting up Husky with lint-staged..."));
+          console.log("\nSetting up Husky with lint-staged...");
 
           // Install husky and lint-staged
           spawnSync(npmCmd, ["install", "--save-dev", "husky", "lint-staged"], {
@@ -243,19 +242,17 @@ module.exports = {
           );
         }
 
-        console.log(chalk.green("\nESLint and Prettier setup complete!"));
+        console.log("\nESLint and Prettier setup complete!");
       }
 
       console.log(
-        chalk.green(
-          `\n✅ Thank you for using nova! Your project is ready at ${targetPath}`
-        )
+        `\n✅ Thank you for using nova! Your project is ready at ${targetPath}`
       );
-      console.log(chalk.blue("\nNext steps:"));
+      console.log("\nNext steps:");
       console.log(`cd ${answers.projectName}`);
       console.log("npm run dev");
     } catch (error) {
-      console.error(chalk.red("Error creating project:"), error);
+      console.error("Error creating project:", error);
       process.exit(1);
     }
   })

@@ -7,7 +7,8 @@ All notable changes to this project will be documented in this file.
 
 ## [1.1.0] - 2025-04-03
 ### Added
-- Adjustments for Husky & Eslint.
+- Added Eslint & Husky.
+- Added Prettier.
 
 ## [1.0.0] - 2025-04-02
 ### Added
