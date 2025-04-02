@@ -1,50 +1,79 @@
-# Welcome to your Expo app 👋
+# 🚀 **Nova Expo Template**
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This is a React Native template built with Expo. It provides a modern and responsive foundation for building mobile applications. It includes:
 
-## Get started
+- Navigation (Auth/Main stacks)
+- Forms with validation
+- Theming and styling
+- API integration
+- State management
+- Localization using i18n
+- Reusable components
+- An overall ready-for-integration template with an atomic design system.
 
-1. Install dependencies
+## ✨ Features
 
+- **[React Native](https://reactnative.dev/)**: A framework for building native apps using React.
+- **[Expo](https://expo.dev/)**: A framework and platform for universal React applications.
+- **[TypeScript](https://www.typescriptlang.org/)**: A strongly typed programming language that builds on JavaScript.
+- **[React Navigation](https://reactnavigation.org/)**: Routing and navigation for React Native apps.
+- **[Redux Toolkit](https://redux-toolkit.js.org/)**: A toolset for efficient Redux development.
+- **[RTK Query](https://redux-toolkit.js.org/rtk-query/overview)**: Powerful data fetching and caching tool.
+- **[React Toastify](https://fkhadra.github.io/react-toastify/)**: Easy-to-use toast notifications.
+- **[React-i18next](https://react.i18next.com/)**: Internationalization for React Native.
+- **[Day.js](https://day.js.org/)**: A lightweight JavaScript date library.
+- **[React Hook Form](https://react-hook-form.com/)**: Performant, flexible, and extensible forms with easy-to-use validation.
+- **[Atomic Design System](https://bradfrost.com/blog/post/atomic-web-design/)**: A methodology for creating design systems.
+- **[Husky](https://typicode.github.io/husky/)** (optional): Git hooks made easy.
+- **[ESLint](https://eslint.org/)** (optional): A tool for identifying and fixing problems in JavaScript code.
+- **Reusable Components**: Modular and reusable components for easy customization.
+- **State Management**: Integrated state management using Redux or context.
+
+## 🛠️ Installation
+
+To get started with this project, follow these steps:
+
+1. Install the Template:
+   ```bash
+   npx create-nova-expo-template
+   ```
+2. Navigate to the project directory:
+   ```bash
+   cd <project-name>
+   ```
+3. Install the dependencies:
    ```bash
    npm install
    ```
 
-2. Start the app
+## 📚 Usage
 
-   ```bash
-    npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+To start the development server, run:
 
 ```bash
-npm run reset-project
+npm start
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+To build the project for production, run:
 
-## Learn more
+```bash
+expo build
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+To preview the production build, run:
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+```bash
+expo start --no-dev --minify
+```
 
-## Join the community
+## 📋 Changelog
 
-Join our community of developers creating universal apps.
+See the [CHANGELOG](CHANGELOG.md) for a history of changes to this project.
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## 🤝 Contributing
+
+Contributions are welcome! Please read the [contributing guidelines](CONTRIBUTING.md) first.
+
+## 📄 License
+
+This project is licensed under the MIT License.
