@@ -46,12 +46,23 @@ program
       // Process package.json
       const packageJsonPath = path.join(targetPath, "package.json");
       const packageJson = await fs.readFile(packageJsonPath, "utf-8");
-      const rendered = require("ejs").render(packageJson, {
+      const renderedPackageJson = require("ejs").render(packageJson, {
         projectName: answers.projectName,
         eslint: answers.eslint,
         husky: answers.husky,
       });
-      await fs.writeFile(packageJsonPath, rendered);
+      await fs.writeFile(packageJsonPath, renderedPackageJson);
+
+      // Process app.json
+      const appJsonPath = path.join(targetPath, "app.json");
+      if (await fs.pathExists(appJsonPath)) {
+        const appJson = await fs.readFile(appJsonPath, "utf-8");
+        const parsedAppJson = JSON.parse(appJson);
+        parsedAppJson.expo = parsedAppJson.expo || {};
+        parsedAppJson.expo.name = answers.projectName;
+        parsedAppJson.expo.slug = answers.projectName.toLowerCase().replace(/\s+/g, "-");
+        await fs.writeFile(appJsonPath, JSON.stringify(parsedAppJson, null, 2));
+      }
 
       // Install dependencies
       console.log("Installing dependencies...");

@@ -1,5 +1,5 @@
 {
-  "name": "nova-expo-template",
+  "name": "<%= projectName %>",
   "main": "expo-router/entry",
   "version": "1.0.0",
   "author": "Nova",
