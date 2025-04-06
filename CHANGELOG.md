@@ -4,9 +4,14 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-- Notification configuration
 - Folder structure adjustments
 - Internet Detection using NetInfo
+
+## [1.1.3] - 2025-04-03
+
+### Added
+
+- Notification configuration
 
 ## [1.1.2] - 2025-04-03
 

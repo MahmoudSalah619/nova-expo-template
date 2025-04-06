@@ -9,6 +9,7 @@ import { SheetProvider } from "react-native-actions-sheet";
 import Toast from "react-native-toast-message";
 import UseLoadResources from "@/hooks/useLoadResources";
 import useCheckNewUpdates from "@/hooks/useCheckNewUpdate";
+import NotificationListnerContainer from "@/components/templates/NotificationListnerContainer";
 
 /**
  * RootLayout component that defines the main layout of the application.
@@ -39,6 +40,7 @@ const AppProviders = ({ children }: { children: React.ReactNode }) => (
         <StatusBar style="dark" backgroundColor="transparent" />
         <Provider store={store}>
           <SheetProvider>
+            <NotificationListnerContainer />
             <Toast />
 
             {children}
