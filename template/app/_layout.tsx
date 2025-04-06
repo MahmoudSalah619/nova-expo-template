@@ -8,6 +8,7 @@ import store from "@/redux";
 import { SheetProvider } from "react-native-actions-sheet";
 import Toast from "react-native-toast-message";
 import UseLoadResources from "@/hooks/useLoadResources";
+import useCheckNewUpdates from "@/hooks/useCheckNewUpdate";
 
 /**
  * RootLayout component that defines the main layout of the application.
@@ -15,7 +16,10 @@ import UseLoadResources from "@/hooks/useLoadResources";
  */
 
 const RootLayout = () => {
+  // Load resources such as fonts, and handlers
   UseLoadResources();
+  // Check for new updates
+  useCheckNewUpdates();
 
   return (
     <AppProviders>

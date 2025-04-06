@@ -27,7 +27,12 @@
     "web": "expo start --web",
     "test": "jest --watchAll",
     "lint": "expo lint",
-    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix"
+    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
+    "build:dev": "eas build --profile development",
+    "build:staging": "eas build --profile preview",
+    "build:prod": "eas build --profile production",
+    "deploy:staging": "eas update --channel staging",
+    "deploy:prod": "eas update --channel main"
   },
   "jest": {
     "preset": "jest-expo"

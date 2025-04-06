@@ -1,6 +1,6 @@
 # 🚀 **Nova Expo Template**
 
-This is a React Native template built with Expo. It provides a modern and responsive foundation for building mobile applications. It includes:
+This is a React Native template built with Expo 52. It provides a modern and responsive foundation for building mobile applications. It includes:
 
 - Navigation (Auth/Main stacks)
 - Theming and styling
@@ -8,6 +8,7 @@ This is a React Native template built with Expo. It provides a modern and respon
 - State management
 - Localization using i18n
 - Reusable components
+- Building tool (EAS)
 - An overall ready-for-integration template with an atomic design system.
 
 ## ✨ Features
