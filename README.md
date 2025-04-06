@@ -3,7 +3,6 @@
 This is a React Native template built with Expo. It provides a modern and responsive foundation for building mobile applications. It includes:
 
 - Navigation (Auth/Main stacks)
-- Forms with validation
 - Theming and styling
 - API integration
 - State management
