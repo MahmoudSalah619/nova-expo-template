@@ -26,6 +26,7 @@ This is a React Native template built with Expo 52. It provides a modern and res
 - **[Atomic Design System](https://bradfrost.com/blog/post/atomic-web-design/)**: A methodology for creating design systems.
 - **[Husky](https://typicode.github.io/husky/)** (optional): Git hooks made easy.
 - **[ESLint](https://eslint.org/)** (optional): A tool for identifying and fixing problems in JavaScript code.
+- **[Sentry](https://sentry.io/)** (optional): Error monitoring software.
 - **Reusable Components**: Modular and reusable components for easy customization.
 - **State Management**: Integrated state management using Redux or context.
 

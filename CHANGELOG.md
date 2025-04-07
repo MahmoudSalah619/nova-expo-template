@@ -8,6 +8,12 @@ All notable changes to this project will be documented in this file.
 - Internet Detection using NetInfo
 - New translation using googleSheets
 
+## [1.1.5] - 2025-04-03
+
+### Added
+
+- Sentry error monitoring
+
 ## [1.1.3] - 2025-04-03
 
 ### Added
