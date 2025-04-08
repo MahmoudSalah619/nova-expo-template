@@ -1,11 +1,12 @@
 import type { PropsWithChildren, ReactElement } from "react";
-import { StyleSheet, useColorScheme, View } from "react-native";
+import { useColorScheme, View } from "react-native";
 import Animated, {
   interpolate,
   useAnimatedRef,
   useAnimatedStyle,
   useScrollViewOffset,
 } from "react-native-reanimated";
+import styles from "./styles";
 const HEADER_HEIGHT = 250;
 
 type Props = PropsWithChildren<{
@@ -60,19 +61,3 @@ export default function ParallaxScrollView({
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  header: {
-    height: 250,
-    overflow: "hidden",
-  },
-  content: {
-    flex: 1,
-    padding: 32,
-    gap: 16,
-    overflow: "hidden",
-  },
-});

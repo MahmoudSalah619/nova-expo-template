@@ -1,4 +1,4 @@
-import { Keyboard, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Keyboard, TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { COLORS } from "@/constants/Colors";
 
@@ -7,6 +7,7 @@ import { useColorScheme } from "@/hooks/useColorScheme.web";
 import { Logo, Text, ThemedView } from "@/components/atoms";
 import UnreadMessages from "@/components/molecules/scoped/notifications/UnreadMessages";
 import NotificationBell from "@/components/molecules/scoped/notifications/NotificationBell";
+import styles from "./styles";
 
 export default function NavigationHeader({
   title = "",
@@ -67,27 +68,3 @@ export default function NavigationHeader({
     </ThemedView>
   );
 }
-
-const styles = StyleSheet.create({
-  headerStyle: {
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingHorizontal: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: COLORS.light.border,
-    // paddingTop: getStatusBarHeight(),
-  },
-  NotiNum: {
-    position: "absolute",
-    top: -5,
-  },
-  displayNone: {
-    display: "none",
-  },
-  hiddenStyle: { opacity: 0, position: "relative" },
-  spacing: {
-    marginStart: -15,
-    padding: 15,
-  },
-});

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { View, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
 import AuthScreenWrapper from "@/components/templates/AuthScreenWrapper";
 import { Controller, useForm } from "react-hook-form";
@@ -10,15 +10,15 @@ import GoogleRegisterationButton from "@/components/organisms/scoped/auth/social
 import FacebookRegisterationButton from "@/components/organisms/scoped/auth/social/FacebookRegisterationButton";
 import AppleRegistarationButton from "@/components/organisms/scoped/auth/social/AppleRegistarationButton";
 import Biometric from "@/components/organisms/scoped/auth/biometric";
+import styles from "./styles";
 
 const Login = () => {
   const { control } = useForm({});
-  const router = useRouter(); // Get the router instance from expo-router
+  const router = useRouter();
 
   return (
     <AuthScreenWrapper justifyContent="space-between" isScrollable>
-      <View style={styles.container}>
-        {/* <Text style={styles.title}>Login Page</Text> */}
+      <View>
         <View style={{ marginBottom: 24 }}>
           <FormInput
             name="username"
@@ -74,22 +74,5 @@ const Login = () => {
     </AuthScreenWrapper>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    // flex: 1,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 20,
-  },
-  button: {
-    marginVertical: 10,
-  },
-  underlined: {
-    textDecorationLine: "underline",
-  },
-});
 
 export default Login;
