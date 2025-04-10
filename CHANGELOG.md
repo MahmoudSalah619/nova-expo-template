@@ -4,9 +4,17 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- New translation using googleSheets◘
 - Folder structure adjustments
 - Internet Detection using NetInfo
-- New translation using googleSheets
+
+
+## [1.1.7] - 2025-04-03
+
+### Added
+
+- More responsiveness tool such as:- moderateScale, horizontalScale, and verticalScale.
+- Modified SVG script for easier usage.
 
 ## [1.1.5] - 2025-04-03
 

@@ -6,7 +6,7 @@ import {
   Dimensions,
 } from "react-native";
 import React from "react";
-import Icon from "@/assets/icons";
+import { Icon } from "@/components/atoms";
 
 const { height } = Dimensions.get("window");
 
