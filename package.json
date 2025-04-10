@@ -1,6 +1,6 @@
 {
   "name": "create-nova-expo-template",
-  "version": "1.1.7",
+  "version": "1.1.8",
   "description": "A template for creating a new React Native app using Expo and TypeScript, with a focus on performance and best practices.",
   "main": "index.js",
   "author": "mahmoud salah <mahmoud.s.m619@gmail.com>",
@@ -24,6 +24,10 @@
     "bin",
     "template"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MahmoudSalah619/nova-expo-template"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

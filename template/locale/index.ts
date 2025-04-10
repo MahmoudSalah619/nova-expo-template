@@ -15,12 +15,14 @@ import updateLocale from "dayjs/plugin/updateLocale";
 
 import en from "./en.json";
 import ar from "./ar.json";
-import momentArabicLocalization from "@/constants/momentArabicLocalization";
 import { TranslationKeyEnum } from "@/@types/TranslationKeyEnum";
 
+// Configure dayjs plugins
 dayjs.extend(localizedFormat);
 dayjs.extend(customParseFormat);
 dayjs.extend(updateLocale);
+
+export type SupportedLanguages = 'en' | 'ar';
 
 export const locales = {
   en: {
@@ -29,37 +31,52 @@ export const locales = {
   ar: {
     translation: ar,
   },
-};
+} as const;
 
-export const DEFAULT_LOCALE = "en";
+export const DEFAULT_LOCALE: SupportedLanguages = "en";
 
-const isEnglish = Localization.locale.includes("en");
+// Get device locale
+const deviceLocales = Localization.getLocales();
+const deviceLanguage = deviceLocales[0]?.languageCode?.toLowerCase();
 
-const defaultLang = isEnglish ? "en" : "ar";
+// Set default language based on device locale, fallback to English
+const defaultLang: SupportedLanguages = (deviceLanguage === 'ar' ? 'ar' : 'en');
 
 export const currentLanguage = DefaultI18n.language || defaultLang;
 
 const useLanguageStorage: LanguageDetectorAsyncModule = {
   type: "languageDetector",
   async: true,
-  detect: (callback) => {
-    AsyncStorage.getItem("lang").then((lang) => {
-      if (lang) {
+  detect: async (callback): Promise<string | readonly string[] | undefined> => {
+    try {
+      const lang = await AsyncStorage.getItem("lang");
+      if (lang && (lang === 'en' || lang === 'ar')) {
         dayjs.locale(lang);
         if (lang === "ar") {
-          dayjs.updateLocale(lang, momentArabicLocalization); // Update to match dayjs localization
+          // Configure Arabic specific date formatting if needed
+          dayjs.updateLocale(lang, {
+            // Add specific Arabic configurations here if needed
+            direction: 'rtl'
+          });
         }
-        return callback(lang);
+        callback(lang);
+        return lang;
       }
-      return null;
-    });
+      callback(defaultLang);
+      return defaultLang;
+    } catch (error) {
+      console.error('Error detecting language:', error);
+      callback(defaultLang);
+      return defaultLang;
+    }
   },
   init: () => null,
-  cacheUserLanguage: (language: string) => {
-    AsyncStorage.setItem("lang", language).then(() => {
+  cacheUserLanguage: async (language: string) => {
+    try {
+      await AsyncStorage.setItem("lang", language);
       const isRtl = I18nManager.isRTL;
 
-      if (language.includes("ar")) {
+      if (language === "ar") {
         I18nManager.allowRTL(true);
         I18nManager.forceRTL(true);
         if (!isRtl) reloadAsync();
@@ -68,7 +85,9 @@ const useLanguageStorage: LanguageDetectorAsyncModule = {
         I18nManager.forceRTL(false);
         if (isRtl) reloadAsync();
       }
-    });
+    } catch (error) {
+      console.error('Error caching language:', error);
+    }
   },
 };
 

@@ -1,3 +1,3 @@
-import en from "@/i18n/en.json";
+import en from "@/locale/en.json";
 
 export type TranslationKeyEnum = keyof typeof en;
