@@ -1,8 +1,8 @@
 import React from "react";
-import { IconProps } from "./types";
+import { IconComponentProps } from "./types";
 import { iconsList } from "./list";
 
-const Icon = ({ name, size, color, strokeWidth }: IconProps) => {
+const Icon = ({ name, size, color, strokeWidth }: IconComponentProps) => {
   const IconComponent = iconsList[name];
   return (
     <IconComponent

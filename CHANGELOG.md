@@ -8,6 +8,11 @@ All notable changes to this project will be documented in this file.
 - Folder structure adjustments
 - Internet Detection using NetInfo
 
+## [1.1.9] - 2025-04-03
+
+### Added
+
+- Enhancing generate-svg script with Icon component.
 
 ## [1.1.7] - 2025-04-03
 

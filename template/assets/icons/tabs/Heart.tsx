@@ -1,7 +1,12 @@
+import { IconProps } from "@/components/atoms/Icon/types";
 import * as React from "react";
 import Svg, { Path } from "react-native-svg";
 
-const FavouriteIcon = ({ size = 24, strokeWidth, color = "#141211" }) => (
+const FavouriteIcon = ({
+  size = 24,
+  strokeWidth,
+  color = "#141211",
+}: IconProps) => (
   <Svg width={size} height={size} viewBox="0 0 25 24" fill="none">
     <Path
       clipRule="evenodd"

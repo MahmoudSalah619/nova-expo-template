@@ -1,7 +1,8 @@
+import { IconProps } from "@/components/atoms/Icon/types";
 import * as React from "react";
 import Svg, { Path } from "react-native-svg";
 
-function Profile({ size = 24, strokeWidth, color = "#141211" }) {
+function Profile({ size = 24, strokeWidth, color = "#141211" }: IconProps) {
   return (
     <Svg
       width={size}

@@ -1,7 +1,12 @@
+import { IconProps } from "@/components/atoms/Icon/types";
 import * as React from "react";
 import Svg, { G, Path, Defs, ClipPath } from "react-native-svg";
 
-const Camera01Icon = ({ size = 24, strokeWidth, color = "#141211" }) => (
+const Camera01Icon = ({
+  size = 24,
+  strokeWidth,
+  color = "#141211",
+}: IconProps) => (
   <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
     <G
       clipPath="url(#clip0_4878_96)"
