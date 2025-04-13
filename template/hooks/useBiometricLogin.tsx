@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 import * as LocalAuthentication from "expo-local-authentication";
-import useAutoCompleteTranslation from "./useAutoCompleteTranslation";
 import HandleErrors from "@/utils/handleErrors";
+import { t } from "@/locale";
 
 const useBiometricLogin = () => {
-  const { t } = useAutoCompleteTranslation();
   const [isBiometricSupported, setIsBiometricSupported] =
     useState<boolean>(false);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);

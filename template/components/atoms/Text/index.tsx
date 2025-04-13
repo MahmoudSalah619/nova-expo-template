@@ -4,7 +4,7 @@ import { useThemeColor } from "@/hooks/useThemeColor";
 import { COLORS } from "@/constants/Colors";
 import { CustomTextProps } from "./types";
 import styles from "./styles";
-import useAutoCompleteTranslation from "@/hooks/useAutoCompleteTranslation";
+import { useTranslation } from "react-i18next";
 
 /**
  * Text component that uses the current theme color.
@@ -35,8 +35,7 @@ export default function Text({
   autoTranslate = true,
   ...rest
 }: CustomTextProps) {
-  const { t } = useAutoCompleteTranslation();
-
+  const { t } = useTranslation();
   const themedColor = useThemeColor(
     {
       light: lightColor

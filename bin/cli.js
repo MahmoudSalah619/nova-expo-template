@@ -32,6 +32,8 @@ program
         await configureSentry(targetPath, answers);
       }
 
+      await handleTranslationSetup(targetPath, answers);
+
       console.log(
         `\n✅ Thank you for using nova! Your project is ready at ${targetPath}`
       );
@@ -52,6 +54,12 @@ async function promptUser(projectDir) {
       name: "projectName",
       message: "What's the name of the project?",
       default: projectDir,
+    },
+    {
+      type: "confirm",
+      name: "translation",
+      message: "Does your app support multiple languages?",
+      default: true,
     },
     {
       type: "confirm",
@@ -116,7 +124,9 @@ async function processAppJson(targetPath, answers) {
     const parsedAppJson = JSON.parse(appJson);
     parsedAppJson.expo = parsedAppJson.expo || {};
     parsedAppJson.expo.name = answers.projectName;
-    parsedAppJson.expo.slug = answers.projectName.toLowerCase().replace(/\s+/g, "-");
+    parsedAppJson.expo.slug = answers.projectName
+      .toLowerCase()
+      .replace(/\s+/g, "-");
     await fs.writeFile(appJsonPath, JSON.stringify(parsedAppJson, null, 2));
   }
 }
@@ -124,6 +134,81 @@ async function processAppJson(targetPath, answers) {
 function installDependencies(targetPath) {
   const npmCmd = process.platform === "win32" ? "npm.cmd" : "npm";
   spawnSync(npmCmd, ["install"], {
+    cwd: targetPath,
+    stdio: "inherit",
+    shell: true,
+  });
+}
+
+async function handleTranslationSetup(targetPath, answers) {
+  if (!answers.translation) {
+    // Delete locale folder if translation is false
+    const localePath = path.join(targetPath, "locale");
+    if (await fs.pathExists(localePath)) {
+      await fs.remove(localePath);
+    }
+
+    // Update Text component to remove translation logic
+    const textComponentPath = path.join(
+      targetPath,
+      "components",
+      "atoms",
+      "text",
+      "index.tsx"
+    );
+    if (await fs.pathExists(textComponentPath)) {
+      let textContent = await fs.readFile(textComponentPath, "utf-8");
+
+      // Remove the import
+      textContent = textContent.replace(
+        /import { t } from "@\/locale";\n/g,
+        ""
+      );
+
+      // Remove the t function usage
+      textContent = textContent.replace(
+        /const { t } = useAutoCompleteTranslation\(\);\n\n/g,
+        ""
+      );
+
+      // Replace the translation logic with direct children
+      textContent = textContent.replace(
+        /\{autoTranslate \? t\(String\(rest\.children\)\) : rest\.children\}/g,
+        "{rest.children}"
+      );
+
+      // Remove autoTranslate from props
+      textContent = textContent.replace(
+        /,\n\s+autoTranslate = true,\n/g,
+        ",\n"
+      );
+
+      await fs.writeFile(textComponentPath, textContent);
+    }
+
+    // Update Text types to remove autoTranslate
+    const textTypesPath = path.join(
+      targetPath,
+      "components",
+      "atoms",
+      "text",
+      "types.ts"
+    );
+    if (await fs.pathExists(textTypesPath)) {
+      let typesContent = await fs.readFile(textTypesPath, "utf-8");
+      typesContent = typesContent.replace(/autoTranslate\?: boolean;\n/g, "");
+      await fs.writeFile(textTypesPath, typesContent);
+    }
+
+    return;
+  }
+
+  // Install translation-related packages
+  const npmCmd = process.platform === "win32" ? "npm.cmd" : "npm";
+  const translationPackages = ["expo-file-system", "xlsx", "i18n-js"];
+
+  console.log("\nInstalling translation dependencies...");
+  spawnSync(npmCmd, ["install", ...translationPackages], {
     cwd: targetPath,
     stdio: "inherit",
     shell: true,
@@ -222,12 +307,18 @@ module.exports = {
   await fs.writeFile(path.join(targetPath, ".prettierrc"), prettierConfig);
 
   const packageJsonPath = path.join(targetPath, "package.json");
-  const updatedPackageJson = JSON.parse(await fs.readFile(packageJsonPath, "utf8"));
+  const updatedPackageJson = JSON.parse(
+    await fs.readFile(packageJsonPath, "utf8")
+  );
   updatedPackageJson.scripts = updatedPackageJson.scripts || {};
   updatedPackageJson.scripts.lint = "eslint . --ext .js,.jsx,.ts,.tsx";
-  updatedPackageJson.scripts["lint:fix"] = "eslint . --ext .js,.jsx,.ts,.tsx --fix";
+  updatedPackageJson.scripts["lint:fix"] =
+    "eslint . --ext .js,.jsx,.ts,.tsx --fix";
 
-  await fs.writeFile(packageJsonPath, JSON.stringify(updatedPackageJson, null, 2));
+  await fs.writeFile(
+    packageJsonPath,
+    JSON.stringify(updatedPackageJson, null, 2)
+  );
 
   spawnSync("npx", ["eslint", ".", "--ext", ".js,.jsx,.ts,.tsx", "--fix"], {
     cwd: targetPath,
@@ -255,14 +346,19 @@ async function setupHusky(targetPath) {
   });
 
   const packageJsonPath = path.join(targetPath, "package.json");
-  const updatedPackageJson = JSON.parse(await fs.readFile(packageJsonPath, "utf8"));
+  const updatedPackageJson = JSON.parse(
+    await fs.readFile(packageJsonPath, "utf8")
+  );
   updatedPackageJson.scripts = updatedPackageJson.scripts || {};
   updatedPackageJson.scripts.prepare = "husky install";
   updatedPackageJson["lint-staged"] = {
     "*.{js,jsx,ts,tsx}": ["eslint --fix", "prettier --write"],
   };
 
-  await fs.writeFile(packageJsonPath, JSON.stringify(updatedPackageJson, null, 2));
+  await fs.writeFile(
+    packageJsonPath,
+    JSON.stringify(updatedPackageJson, null, 2)
+  );
 
   console.log("Husky git hooks configured successfully.");
 }
@@ -308,12 +404,19 @@ import { View, ActivityIndicator, StyleSheet } from "react-native";
 import useInitialRouting from "../hooks/useInitialRouting";
 import { Redirect, RelativePathString } from "expo-router";
 import * as Sentry from "@sentry/react-native";
+${
+  answers.translation &&
+  `import useFetchTranslation from "@/hooks/useFetchTranslation"`
+}
 
 const InitialScreen = () => {
   const { targetPath } = useInitialRouting();
+  ${answers.translation && `const { isLoading } = useFetchTranslation();`}
 
   Sentry.init({
-    dsn: process.env.EXPO_PUBLIC_SENTRY_DSN || "${answers.sentryDsn || "YOUR_DSN_HERE"}",
+    dsn: process.env.EXPO_PUBLIC_SENTRY_DSN || "${
+      answers.sentryDsn || "YOUR_DSN_HERE"
+    }",
     enableNative: true,
     enableNativeNagger: false,
     debug: __DEV__,
@@ -322,7 +425,7 @@ const InitialScreen = () => {
     tracesSampleRate: 1.0,
   });
 
-  if (!targetPath) {
+  if (${answers.translation ? `!targetPath || isLoading` : `!targetPath`}) {
     return (
       <View style={styles.container}>
         <ActivityIndicator size="large" color="#0000ff" />
@@ -348,6 +451,8 @@ export default InitialScreen;`;
   console.log("✅ Sentry successfully configured in index.tsx");
 
   if (!answers.sentryDsn) {
-    console.log("⚠️  Remember to add your Sentry DSN in index.tsx and app.json");
+    console.log(
+      "⚠️  Remember to add your Sentry DSN in index.tsx and app.json"
+    );
   }
 }

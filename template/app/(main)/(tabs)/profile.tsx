@@ -1,5 +1,6 @@
-import { Button, Text, ThemedView } from "@/components/atoms";
+import { Button, SeperateLine, Text, ThemedView } from "@/components/atoms";
 import { Collapsible } from "@/components/molecules/common";
+import i18n from "@/locale";
 import { useRouter } from "expo-router";
 import React from "react";
 import { StyleSheet, View } from "react-native";
@@ -9,6 +10,10 @@ export default function Profile() {
 
   const handleLogout = async () => {
     router.replace("/(auth)/welcome");
+  };
+
+  const handleSwitch = async (lang: "en" | "ar") => {
+    // i18n.locale = lang;
   };
 
   return (
@@ -33,6 +38,19 @@ export default function Profile() {
         <Text>Twitter: Mahmoud salah</Text>
         <Text>Instagram: Mahmoud salah</Text>
       </Collapsible>
+      <View>
+        <Button
+          title="Change Language To AR"
+          onPress={() => handleSwitch("en")}
+        />
+      </View>
+      <View>
+        <Button
+          title="Change Language To EN"
+          onPress={() => handleSwitch("ar")}
+        />
+      </View>
+      <SeperateLine />
       <View>
         <Button title="Logout" onPress={handleLogout} />
       </View>

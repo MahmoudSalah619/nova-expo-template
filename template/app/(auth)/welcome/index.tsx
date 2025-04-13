@@ -1,17 +1,34 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { I18nManager, StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
 import { Button, Text } from "@/components/atoms";
 import AuthScreenWrapper from "@/components/templates/AuthScreenWrapper";
 import GLOBAL_STYLES from "@/constants/GlobalStyles";
-
+import i18n from "@/locale";
+import * as Updates from "expo-updates";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const Welcome = () => {
   const router = useRouter();
+
+  const changeLanguage = async (lang: "en" | "ar") => {
+    console.log(lang, "lang");
+
+    try {
+      await i18n.changeLanguage(lang);
+      i18n.services.languageDetector.cacheUserLanguage(lang);
+      Updates.reloadAsync();
+      // RNRestart.restart(); // Restart the app to apply the language change
+    } catch (error) {
+      console.error("Language change failed", error);
+    }
+  };
+
+  console.log(I18nManager.isRTL, "isRTL");
 
   return (
     <AuthScreenWrapper paddingSize="sm" isScrollable>
       <View style={styles.container}>
-        <View style={GLOBAL_STYLES.gap16}>
+        {/* <View style={GLOBAL_STYLES.gap16}>
           <View style={[GLOBAL_STYLES.row, GLOBAL_STYLES.gap4]}>
             <Text size={24} weight={700}>
               Welcome to
@@ -46,8 +63,22 @@ const Welcome = () => {
               🚀 Built to Scale
             </Text>
           </View>
-        </View>
+          <Text>Hello</Text>
+        </View> */}
+        <Text>Hello</Text>
         <View style={GLOBAL_STYLES.gap16}>
+          <Button
+            title="Change Language to En"
+            onPress={() => {
+              changeLanguage("en");
+            }}
+          />
+          <Button
+            title="Change Language to Ar"
+            onPress={() => {
+              changeLanguage("ar");
+            }}
+          />
           <Button
             title="Go to Login"
             onPress={() => router.push("/(auth)/login")}

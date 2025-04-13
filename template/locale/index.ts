@@ -1,28 +1,14 @@
-/* eslint-disable */
-
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DefaultI18n, { LanguageDetectorAsyncModule } from "i18next";
 import { initReactI18next } from "react-i18next";
 import * as Localization from "expo-localization";
+import "moment/locale/ar";
 import { I18nManager } from "react-native";
-import { reloadAsync } from "expo-updates";
-
-import dayjs from "dayjs";
-import "dayjs/locale/ar";
-import localizedFormat from "dayjs/plugin/localizedFormat";
-import customParseFormat from "dayjs/plugin/customParseFormat";
-import updateLocale from "dayjs/plugin/updateLocale";
-
+import moment from "moment";
 import en from "./en.json";
 import ar from "./ar.json";
 import { TranslationKeyEnum } from "@/@types/TranslationKeyEnum";
-
-// Configure dayjs plugins
-dayjs.extend(localizedFormat);
-dayjs.extend(customParseFormat);
-dayjs.extend(updateLocale);
-
-export type SupportedLanguages = 'en' | 'ar';
+import momentArabicLocalization from "@/constants/momentArabicLocalization";
 
 export const locales = {
   en: {
@@ -31,69 +17,55 @@ export const locales = {
   ar: {
     translation: ar,
   },
-} as const;
+};
 
-export const DEFAULT_LOCALE: SupportedLanguages = "en";
+export const DEFAULT_LOCALE = "en";
 
-// Get device locale
-const deviceLocales = Localization.getLocales();
-const deviceLanguage = deviceLocales[0]?.languageCode?.toLowerCase();
+const isEnglish = Localization.getLocales();
 
-// Set default language based on device locale, fallback to English
-const defaultLang: SupportedLanguages = (deviceLanguage === 'ar' ? 'ar' : 'en');
+const defaultLang = isEnglish[0].languageCode ? "en" : "ar";
 
-export const currentLanguage = DefaultI18n.language || defaultLang;
+export const currentLanguage = I18nManager.isRTL ? "ar" : "en";
 
 const useLanguageStorage: LanguageDetectorAsyncModule = {
   type: "languageDetector",
   async: true,
-  detect: async (callback): Promise<string | readonly string[] | undefined> => {
-    try {
-      const lang = await AsyncStorage.getItem("lang");
-      if (lang && (lang === 'en' || lang === 'ar')) {
-        dayjs.locale(lang);
+  detect: (callback) => {
+    AsyncStorage.getItem("lang").then((lang) => {
+      if (lang) {
+        moment.locale(lang);
         if (lang === "ar") {
-          // Configure Arabic specific date formatting if needed
-          dayjs.updateLocale(lang, {
-            // Add specific Arabic configurations here if needed
-            direction: 'rtl'
-          });
+          moment.updateLocale(lang, momentArabicLocalization);
         }
-        callback(lang);
-        return lang;
+        return callback(lang);
       }
-      callback(defaultLang);
-      return defaultLang;
-    } catch (error) {
-      console.error('Error detecting language:', error);
-      callback(defaultLang);
-      return defaultLang;
-    }
+      return moment.locale("en");
+    });
   },
   init: () => null,
-  cacheUserLanguage: async (language: string) => {
-    try {
-      await AsyncStorage.setItem("lang", language);
-      const isRtl = I18nManager.isRTL;
+  cacheUserLanguage: (language: string) => {
+    console.log(language, "language FROM CONFIG");
 
-      if (language === "ar") {
+    AsyncStorage.setItem("lang", language).then(() => {
+      if (language.includes("ar")) {
+        console.log("language is ar ? ha ?");
+
         I18nManager.allowRTL(true);
         I18nManager.forceRTL(true);
-        if (!isRtl) reloadAsync();
+        console.log(I18nManager.isRTL, "isRTL from config");
+        
       } else {
         I18nManager.allowRTL(false);
         I18nManager.forceRTL(false);
-        if (isRtl) reloadAsync();
       }
-    } catch (error) {
-      console.error('Error caching language:', error);
-    }
+    });
   },
 };
-
+/* eslint-disable react-hooks/rules-of-hooks */
 DefaultI18n.use(useLanguageStorage)
   .use(initReactI18next)
   .init({
+    // compatibilityJSON: "v3",
     fallbackLng: defaultLang,
     resources: locales,
     react: {

@@ -2,12 +2,13 @@ import React from "react";
 import { View, ActivityIndicator, StyleSheet } from "react-native";
 import useInitialRouting from "../hooks/useInitialRouting";
 import { Redirect } from "expo-router";
+import useFetchTranslation from "@/hooks/useFetchTranslation";
 
 const InitialScreen = () => {
   const { targetPath } = useInitialRouting();
-
+  const { isLoading } = useFetchTranslation();
   // Show a loading indicator while checking auth state
-  if (!targetPath) {
+  if (!targetPath || isLoading) {
     return (
       <View style={styles.container}>
         <ActivityIndicator size="large" color="#0000ff" />

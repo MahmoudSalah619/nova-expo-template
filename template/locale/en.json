@@ -15,5 +15,22 @@
   "GOOGLE": "Google",
   "CHOOSE": "Choose",
   "EMPTY": "Empty",
-  "CONFIRM": "Confirm"
+  "CONFIRM": "Confirm",
+  "Hello": "Hello",
+
+  "title": "Welcome to",
+  "subtitle": "NovaByte! 🌟",
+  "description": "Your all-in-one toolkit for building beautiful, high-performance mobile apps. With NovaByte, you get clean, modern, and easy-to-use templates that help you move fast and build smarter. Let’s create something amazing together! ✨",
+  "whyNovaByte": "Why NovaByte? 💡",
+
+  "readyToUse": "✅ Ready-to-Use Components",
+  "customizable": "🎨 Highly Customizable",
+  "optimized": "⚡ Optimized for Speed",
+  "developerFriendly": "🛠️ Developer-Friendly",
+  "scalable": "🚀 Built to Scale",
+  "changeLanguage": "Change Language",
+  "goToLogin": "Go to Login",
+  "goToSignup": "Go to Signup",
+  "Go to Login": "Go to Login",
+  "Personal Information": "Personal Information"
 }

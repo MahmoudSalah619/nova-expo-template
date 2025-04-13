@@ -8,7 +8,7 @@ import cosmica_600 from "@/assets/fonts/Cosmica-SemiBold.otf";
 import cosmica_700 from "@/assets/fonts/Cosmica-Bold.otf";
 import cosmica_800 from "@/assets/fonts/Cosmica-ExtraBold.otf";
 
-const UseLoadResources = () => {
+const useLoadResources = () => {
   useEffect(() => {
     const loadResources = async () => {
       try {
@@ -32,4 +32,4 @@ const UseLoadResources = () => {
   }, []);
 };
 
-export default UseLoadResources;
+export default useLoadResources;

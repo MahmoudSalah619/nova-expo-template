@@ -10,6 +10,7 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
+      "userInterfaceStyle": "automatic",
       "infoPlist": {
         "NSCameraUsageDescription": "This app uses the camera to take photos.",
         "NSPhotoLibraryUsageDescription": "This app uses the photo library to select photos.",
@@ -23,7 +24,10 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "userInterfaceStyle": "automatic",
+      "supportsRTL": true,
+      "forcesRTL": true
     },
     "web": {
       "bundler": "metro",
@@ -40,10 +44,15 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
-      ]
+      ],
+      "expo-localization"
     ],
     "experiments": {
       "typedRoutes": true
     }
+  },
+  "extra": {
+    "supportsRTL": true,
+    "forcesRTL": true
   }
 }
