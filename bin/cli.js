@@ -261,19 +261,19 @@ async function handleTranslationSetup(targetPath, answers) {
 
       // Remove the i18n import
       profileContent = profileContent.replace(
-        /import i18n from "@\/locale";\n/g,
+        /import\s+i18n\s+from\s+"@\/locale";\s*\n/g,
         ""
       );
 
       // Remove the changeLanguage function
       profileContent = profileContent.replace(
-        /const changeLanguage = async \(lang: "en" \| "ar"\) => {\n\s+try {\n\s+await i18n.changeLanguage\(lang\);\n\s+} catch \(error\) {\n\s+console.error\("Language change failed", error\);\n\s+}\n\s+};\n/g,
+        /const\s+changeLanguage\s*=\s*async\s*\(lang:\s*"en"\s*\|\s*"ar"\)\s*=>\s*{\s*\n\s*try\s*{\s*\n\s*await\s*i18n\.changeLanguage\(lang\);\s*\n\s*}\s*catch\s*\(error\)\s*{\s*\n\s*console\.error\("Language\s+change\s+failed",\s*error\);\s*\n\s*}\s*\n\s*};\s*\n/g,
         ""
       );
 
       // Remove the language change buttons
       profileContent = profileContent.replace(
-        /<View>\n\s+<Button\n\s+title="Change Language To AR"\n\s+onPress=\{\(\) => changeLanguage\("ar"\)\}\n\s+\/>\n\s+<\/View>\n\s+<View>\n\s+<Button\n\s+title="Change Language To EN"\n\s+onPress=\{\(\) => changeLanguage\("en"\)\}\n\s+\/>\n\s+<\/View>\n/g,
+        /<View>\s*\n\s*<Button\s*\n\s*title="Change\s+Language\s+To\s+AR"\s*\n\s*onPress=\{\s*\(\)\s*=>\s*changeLanguage\("ar"\)\s*\}\s*\n\s*\/>\s*\n\s*<\/View>\s*\n\s*<View>\s*\n\s*<Button\s*\n\s*title="Change\s+Language\s+To\s+EN"\s*\n\s*onPress=\{\s*\(\)\s*=>\s*changeLanguage\("en"\)\s*\}\s*\n\s*\/>\s*\n\s*<\/View>\s*\n/g,
         ""
       );
 
