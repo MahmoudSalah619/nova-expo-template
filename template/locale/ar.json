@@ -14,7 +14,7 @@
   "Google": "",
   "Choose": "",
   "Empty": "",
-  "Confirm": "",
+  "Confirm": "تأكيد",
   "Go to Login": "اذهب إلى تسجيل الدخول",
 
   "title": "مرحبًا بك في",
@@ -31,7 +31,7 @@
   "changeLanguage": "تغيير اللغة",
   "goToLogin": "الذهاب إلى تسجيل الدخول",
   "goToSignup": "الذهاب إلى التسجيل",
-
+  "About": "حول",
   "Hello": "مرحبا",
   "Personal Information": "المعلومات الشخصية"
 }

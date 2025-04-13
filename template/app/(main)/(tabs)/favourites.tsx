@@ -1,10 +1,10 @@
-import { Input, Text, ThemedView } from "@/components/atoms";
+import { Input, Text } from "@/components/atoms";
+import MainScreenWrapper from "@/components/templates/MainScreenWrapper";
 import React from "react";
-import { StyleSheet } from "react-native";
 
 const Favourites = () => {
   return (
-    <ThemedView style={styles.container}>
+    <MainScreenWrapper>
       <Text color="primary">Favourites</Text>
       <Input
         placeholder="Enter your name"
@@ -16,20 +16,8 @@ const Favourites = () => {
         onChange={(e) => console.log(e, "eeeeeeeeee")}
       />
       <Input placeholder="password" label="Suiiiiiiii" secureTextEntry />
-    </ThemedView>
+    </MainScreenWrapper>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    gap: 16,
-    padding: 16,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-  },
-});
 
 export default Favourites;

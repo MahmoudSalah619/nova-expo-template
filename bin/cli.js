@@ -151,23 +151,21 @@ async function handleTranslationSetup(targetPath, answers) {
     // Update Text component to remove translation logic
     const textComponentPath = path.join(
       targetPath,
-      "components",
-      "atoms",
-      "text",
-      "index.tsx"
+      "components/atoms/Text/index.tsx"
     );
+
     if (await fs.pathExists(textComponentPath)) {
       let textContent = await fs.readFile(textComponentPath, "utf-8");
 
-      // Remove the import
+      // Remove the useTranslation import
       textContent = textContent.replace(
-        /import { t } from "@\/locale";\n/g,
+        /import { useTranslation } from "react-i18next";\n/g,
         ""
       );
 
       // Remove the t function usage
       textContent = textContent.replace(
-        /const { t } = useAutoCompleteTranslation\(\);\n\n/g,
+        /const { t } = useTranslation\(\);\n/g,
         ""
       );
 
@@ -189,10 +187,7 @@ async function handleTranslationSetup(targetPath, answers) {
     // Update Text types to remove autoTranslate
     const textTypesPath = path.join(
       targetPath,
-      "components",
-      "atoms",
-      "text",
-      "types.ts"
+      "components/atoms/Text/types.ts"
     );
     if (await fs.pathExists(textTypesPath)) {
       let typesContent = await fs.readFile(textTypesPath, "utf-8");
@@ -200,12 +195,97 @@ async function handleTranslationSetup(targetPath, answers) {
       await fs.writeFile(textTypesPath, typesContent);
     }
 
+    // Update ThemedView component to remove translation logic
+    const themedViewComponentPath = path.join(
+      targetPath,
+      "components/atoms/ThemedView/index.tsx"
+    );
+
+    if (await fs.pathExists(themedViewComponentPath)) {
+      let themedViewContent = await fs.readFile(
+        themedViewComponentPath,
+        "utf-8"
+      );
+
+      // Remove the import
+      themedViewContent = themedViewContent.replace(
+        /import { useTranslation } from "react-i18next";\n/g,
+        ""
+      );
+
+      // Remove the i18n usage and direction style
+      themedViewContent = themedViewContent.replace(
+        /const { i18n } = useTranslation\(\);\n/g,
+        ""
+      );
+      themedViewContent = themedViewContent.replace(
+        /style=\{\[\{ backgroundColor, direction: i18n.dir\(\) \}, style\]\}/g,
+        "style={[{ backgroundColor }, style]}"
+      );
+
+      await fs.writeFile(themedViewComponentPath, themedViewContent);
+    }
+
+    // Update Input component to remove translation logic
+    const inputComponentPath = path.join(
+      targetPath,
+      "components/atoms/Input/index.tsx"
+    );
+
+    if (await fs.pathExists(inputComponentPath)) {
+      let inputContent = await fs.readFile(inputComponentPath, "utf-8");
+
+      // Remove the import
+      inputContent = inputContent.replace(
+        /import { useTranslation } from "react-i18next";\n/g,
+        ""
+      );
+
+      // Remove the i18n usage and text alignment logic
+      inputContent = inputContent.replace(
+        /const { i18n } = useTranslation\(\);\n/g,
+        ""
+      );
+      inputContent = inputContent.replace(
+        /\{ textAlign: i18n.dir\(\) === "rtl" \? "right" : "left" as "auto" \| "center" \| "right" \| "left" \| "justify" \| undefined \},/g,
+        ""
+      );
+
+      await fs.writeFile(inputComponentPath, inputContent);
+    }
+
+    // Update profile screen to remove translation logic
+    const profilePath = path.join(targetPath, "app/(main)/(tabs)/profile.tsx");
+    if (await fs.pathExists(profilePath)) {
+      let profileContent = await fs.readFile(profilePath, "utf-8");
+
+      // Remove the i18n import
+      profileContent = profileContent.replace(
+        /import i18n from "@\/locale";\n/g,
+        ""
+      );
+
+      // Remove the changeLanguage function
+      profileContent = profileContent.replace(
+        /const changeLanguage = async \(lang: "en" \| "ar"\) => {\n\s+try {\n\s+await i18n.changeLanguage\(lang\);\n\s+} catch \(error\) {\n\s+console.error\("Language change failed", error\);\n\s+}\n\s+};\n/g,
+        ""
+      );
+
+      // Remove the language change buttons
+      profileContent = profileContent.replace(
+        /<View>\n\s+<Button\n\s+title="Change Language To AR"\n\s+onPress=\{\(\) => changeLanguage\("ar"\)\}\n\s+\/>\n\s+<\/View>\n\s+<View>\n\s+<Button\n\s+title="Change Language To EN"\n\s+onPress=\{\(\) => changeLanguage\("en"\)\}\n\s+\/>\n\s+<\/View>\n/g,
+        ""
+      );
+
+      await fs.writeFile(profilePath, profileContent);
+    }
+
     return;
   }
 
   // Install translation-related packages
   const npmCmd = process.platform === "win32" ? "npm.cmd" : "npm";
-  const translationPackages = ["expo-file-system", "xlsx", "i18n-js"];
+  const translationPackages = ["i18next", "react-i18next"];
 
   console.log("\nInstalling translation dependencies...");
   spawnSync(npmCmd, ["install", ...translationPackages], {
@@ -364,7 +444,7 @@ async function setupHusky(targetPath) {
 }
 
 async function configureSentry(targetPath, answers) {
-  console.log("\nConfiguring Sentry with routing support...");
+  console.log("\nConfiguring Sentry...");
 
   const npmCmd = process.platform === "win32" ? "npm.cmd" : "npm";
   spawnSync(
@@ -398,20 +478,21 @@ async function configureSentry(targetPath, answers) {
   ]);
   await fs.writeJson(appJsonPath, appJson, { spaces: 2 });
 
+  // Remove the existing index.jsx file if it exists
+  const existingIndexPath = path.join(targetPath, "app/index.jsx");
+  if (await fs.pathExists(existingIndexPath)) {
+    await fs.remove(existingIndexPath);
+  }
+
   const initialScreenPath = path.join(targetPath, "app/index.tsx");
   const initialScreenContent = `import React from "react";
 import { View, ActivityIndicator, StyleSheet } from "react-native";
 import useInitialRouting from "../hooks/useInitialRouting";
 import { Redirect, RelativePathString } from "expo-router";
 import * as Sentry from "@sentry/react-native";
-${
-  answers.translation &&
-  `import useFetchTranslation from "@/hooks/useFetchTranslation"`
-}
 
 const InitialScreen = () => {
   const { targetPath } = useInitialRouting();
-  ${answers.translation && `const { isLoading } = useFetchTranslation();`}
 
   Sentry.init({
     dsn: process.env.EXPO_PUBLIC_SENTRY_DSN || "${
@@ -425,7 +506,7 @@ const InitialScreen = () => {
     tracesSampleRate: 1.0,
   });
 
-  if (${answers.translation ? `!targetPath || isLoading` : `!targetPath`}) {
+  if (!targetPath) {
     return (
       <View style={styles.container}>
         <ActivityIndicator size="large" color="#0000ff" />
@@ -433,7 +514,7 @@ const InitialScreen = () => {
     );
   }
 
-  return <Redirect href={targetPath as RelativePathString } />;
+  return <Redirect href={targetPath as RelativePathString} />;
 };
 
 const styles = StyleSheet.create({

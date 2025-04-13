@@ -2,13 +2,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import DefaultI18n, { LanguageDetectorAsyncModule } from "i18next";
 import { initReactI18next } from "react-i18next";
 import * as Localization from "expo-localization";
-import "moment/locale/ar";
+import dayjs from "dayjs";
+import "dayjs/locale/ar"; // Import Arabic locale
 import { I18nManager } from "react-native";
-import moment from "moment";
 import en from "./en.json";
 import ar from "./ar.json";
 import { TranslationKeyEnum } from "@/@types/TranslationKeyEnum";
-import momentArabicLocalization from "@/constants/momentArabicLocalization";
+import dayjsArabicLocalization from "@/constants/dayjsArabicLocalization";
 
 export const locales = {
   en: {
@@ -21,11 +21,16 @@ export const locales = {
 
 export const DEFAULT_LOCALE = "en";
 
-const isEnglish = Localization.getLocales();
+const systemLocales = Localization.getLocales();
 
-const defaultLang = isEnglish[0].languageCode ? "en" : "ar";
+const defaultLang = systemLocales[0].languageCode ? "en" : "ar";
 
 export const currentLanguage = I18nManager.isRTL ? "ar" : "en";
+
+const setRTL = (isRTL: boolean) => {
+  I18nManager.allowRTL(isRTL);
+  I18nManager.forceRTL(isRTL);
+};
 
 const useLanguageStorage: LanguageDetectorAsyncModule = {
   type: "languageDetector",
@@ -33,39 +38,35 @@ const useLanguageStorage: LanguageDetectorAsyncModule = {
   detect: (callback) => {
     AsyncStorage.getItem("lang").then((lang) => {
       if (lang) {
-        moment.locale(lang);
+        dayjs.locale(lang);
         if (lang === "ar") {
-          moment.updateLocale(lang, momentArabicLocalization);
+          dayjs.locale('ar', dayjsArabicLocalization);
+          setRTL(true);
+        } else {
+          setRTL(false);
         }
         return callback(lang);
       }
-      return moment.locale("en");
+      dayjs.locale("en");
+      setRTL(false);
+      return callback("en");
     });
   },
   init: () => null,
   cacheUserLanguage: (language: string) => {
-    console.log(language, "language FROM CONFIG");
-
-    AsyncStorage.setItem("lang", language).then(() => {
-      if (language.includes("ar")) {
-        console.log("language is ar ? ha ?");
-
-        I18nManager.allowRTL(true);
-        I18nManager.forceRTL(true);
-        console.log(I18nManager.isRTL, "isRTL from config");
-        
-      } else {
-        I18nManager.allowRTL(false);
-        I18nManager.forceRTL(false);
-      }
-    });
+    AsyncStorage.setItem("lang", language);
+    if (language === "ar") {
+      setRTL(true);
+    } else {
+      setRTL(false);
+    }
   },
 };
+
 /* eslint-disable react-hooks/rules-of-hooks */
 DefaultI18n.use(useLanguageStorage)
   .use(initReactI18next)
   .init({
-    // compatibilityJSON: "v3",
     fallbackLng: defaultLang,
     resources: locales,
     react: {

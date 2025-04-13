@@ -5,6 +5,7 @@ export interface IconComponentProps {
   size: number;
   color: string;
   strokeWidth: number;
+  direction?: "inherit" | "ltr" | "rtl";
 }
 
 export type IconProps = Partial<IconComponentProps>;

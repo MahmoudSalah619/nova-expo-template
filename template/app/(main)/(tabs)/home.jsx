@@ -1,11 +1,26 @@
 import { Link, useRouter } from "expo-router";
 import React from "react";
-import { StyleSheet, View } from "react-native";
-import { ThemedView, Button } from "@/components/atoms";
+import { View } from "react-native";
+import { Button, Text } from "@/components/atoms";
+import MainScreenWrapper from "@/components/templates/MainScreenWrapper";
+
 const Home = () => {
   const router = useRouter();
   return (
-    <ThemedView style={styles.container}>
+    <MainScreenWrapper>
+      <View>
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            gap: 16,
+          }}
+        >
+          <Text>Left</Text>
+          <Text>Right</Text>
+        </View>
+      </View>
       <Button
         title="Go to Screen 1"
         onPress={() => router.push("/(main)/screen1")}
@@ -24,6 +39,7 @@ const Home = () => {
       <View>
         <Button title={"suiiiiiiiiiii"} variant="underlined" />
       </View>
+      <Text>About</Text>
       <Link href="/(main)/screen1">About</Link>
       <Link
         href={{
@@ -37,20 +53,8 @@ const Home = () => {
         title="Go to Welcome"
         onPress={() => router.push("/(main)/screen1")}
       /> */}
-    </ThemedView>
+    </MainScreenWrapper>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-    gap: 16,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-  },
-});
 
 export default Home;

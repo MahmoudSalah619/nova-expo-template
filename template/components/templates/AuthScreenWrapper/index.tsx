@@ -12,6 +12,7 @@ import METRICS from "@/constants/Metrics";
 import { ScreenWrapperProps } from "./types";
 import styles from "./styles";
 import { Logo, ThemedView } from "@/components/atoms";
+// import i18n from "@/locale";
 
 export default function AuthScreenWrapper({
   children,

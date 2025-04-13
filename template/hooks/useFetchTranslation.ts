@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import * as FileSystem from "expo-file-system";
 import XLSX from "xlsx";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import i18n from "@/locale";
+// import i18n from "@/locale";
 import TranslationConfig from "@/constants/TranslationConfig";
 
 const GOOGLE_SHEET_URL = `https://docs.google.com/spreadsheets/d/${TranslationConfig.sheet_id}/export/export?format=xlsx`;

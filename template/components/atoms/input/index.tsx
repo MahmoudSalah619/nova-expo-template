@@ -29,7 +29,7 @@ export default function Input({
   onChange = () => {},
   ...otherProps
 }: InputFieldProps) {
-  const hasErrors = Boolean(error);
+    const hasErrors = Boolean(error);
   const [showPassword, setShowPassword] = useState(false);
 
   const debouncedOnChange = debounce((value: string) => {
@@ -74,6 +74,7 @@ export default function Input({
     styles.input,
     inputStyle && { ...inputStyle },
     !editable && { color: inputColorWhenDisabled }, // override color when disabled
+    
     isTextAreaInput && styles.textAreaInput,
   ];
 

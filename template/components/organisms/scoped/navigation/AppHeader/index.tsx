@@ -30,7 +30,7 @@ export default function NavigationHeader({
         onPress={navigation.goBack}
       >
         <Feather
-          name="chevron-left"
+          name={"chevron-left"}
           size={32}
           color={COLORS[colorScheme]["text"]}
         />

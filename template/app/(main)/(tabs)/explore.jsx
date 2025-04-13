@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Button, Text, ThemedView } from "@/components/atoms";
-import { StyleSheet } from "react-native";
+import { Button, Text } from "@/components/atoms";
 import { SheetManager } from "react-native-actions-sheet";
 import RandomModal from "@/components/organisms/common/modals/randomModal";
+import MainScreenWrapper from "@/components/templates/MainScreenWrapper";
+
 const Explore = () => {
   const [isModalShown, setisModalShown] = useState(false);
   const handleOpenActionSheet = async () => {
@@ -21,32 +22,16 @@ const Explore = () => {
     setisModalShown(true);
   };
   return (
-    <ThemedView style={styles.container}>
-      <Text style={styles.title}>Explore</Text>
+    <MainScreenWrapper>
+      <Text>Explore</Text>
       <Button title="Open ActionSheet" onPress={handleOpenActionSheet} />
       <Button title="Open Modal" onPress={handleOpenModal} />
 
       {isModalShown && (
         <RandomModal isVisible={isModalShown} setVisible={setisModalShown} />
       )}
-    </ThemedView>
+    </MainScreenWrapper>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-    gap: 16,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 20,
-  },
-  button: {
-    marginVertical: 10,
-  },
-});
 
 export default Explore;

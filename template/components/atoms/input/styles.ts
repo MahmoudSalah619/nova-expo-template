@@ -1,4 +1,4 @@
-import { I18nManager, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import { COLORS } from "@/constants/Colors";
 import GLOBAL_STYLES from "@/constants/GlobalStyles";
 import { theme } from "@/utils/getTheme";
@@ -23,7 +23,6 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 14,
     height: 44,
-    textAlign: I18nManager.isRTL ? "right" : "left",
     textAlignVertical: "center",
     width: "100%",
     ...GLOBAL_STYLES.font500,

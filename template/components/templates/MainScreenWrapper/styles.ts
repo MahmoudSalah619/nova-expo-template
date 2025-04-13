@@ -1,5 +1,4 @@
 import { StyleSheet } from "react-native";
-import COLORS from "@/constants/Colors";
 import METRICS from "@/constants/Metrics";
 
 const styles = StyleSheet.create({
@@ -7,7 +6,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "space-between",
     width: METRICS.screenWidth,
-    backgroundColor: COLORS.white,
     // marginTop: 16,
   },
   hasLogo: {
@@ -22,7 +20,6 @@ const styles = StyleSheet.create({
 
   innerConatiner: {
     flex: 1,
-    backgroundColor: COLORS.white,
     overflow: "hidden",
     position: "relative",
   },
@@ -64,7 +61,6 @@ const styles = StyleSheet.create({
   },
   extraSpace: {
     height: 50,
-    backgroundColor: COLORS.primary,
   },
 });
 

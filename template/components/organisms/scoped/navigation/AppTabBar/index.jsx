@@ -6,7 +6,7 @@ import {
   Dimensions,
 } from "react-native";
 import React from "react";
-import { Icon } from "@/components/atoms";
+import { Icon, ThemedView } from "@/components/atoms";
 
 const { height } = Dimensions.get("window");
 
@@ -46,7 +46,7 @@ const TabBar = ({ state, descriptors, navigation }) => {
   };
 
   return (
-    <View style={styles.tabbarContainer}>
+    <ThemedView style={styles.tabbarContainer}>
       <View style={styles.tabbar}>
         {state.routes.map((route, index) => {
           const { options } = descriptors[route.key];
@@ -67,7 +67,7 @@ const TabBar = ({ state, descriptors, navigation }) => {
           );
         })}
       </View>
-    </View>
+    </ThemedView>
   );
 };
 
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderTopWidth: 1,
     borderTopColor: "#ccc",
-    backgroundColor: "#fff",
+    // backgroundColor: "#fff",
   },
   tab: {
     flex: 1,
