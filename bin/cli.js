@@ -159,13 +159,13 @@ async function handleTranslationSetup(targetPath, answers) {
 
       // Remove the useTranslation import
       textContent = textContent.replace(
-        /import { useTranslation } from "react-i18next";\n/g,
+        /import\s*{\s*useTranslation\s*}\s*from\s*"react-i18next";\s*\n/g,
         ""
       );
 
       // Remove the t function usage
       textContent = textContent.replace(
-        /const { t } = useTranslation\(\);\n/g,
+        /const\s*{\s*t\s*}\s*=\s*useTranslation\(\s*\);\s*\n/g,
         ""
       );
 
@@ -177,7 +177,7 @@ async function handleTranslationSetup(targetPath, answers) {
 
       // Remove autoTranslate from props
       textContent = textContent.replace(
-        /,\n\s+autoTranslate = true,\n/g,
+        /,\s*autoTranslate\s*=\s*true,\s*\n/g,
         ",\n"
       );
 
