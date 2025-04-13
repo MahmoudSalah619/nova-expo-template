@@ -8,32 +8,41 @@ All notable changes to this project will be documented in this file.
 - Folder structure adjustments
 - Internet Detection using NetInfo
 
-## [1.1.9] - 2025-04-03
+## [1.1.10] - 2025-04-13
 
 ### Added
 
-- Enhancing generate-svg script with Icon component.
+- Added Translation to the Prompt.
+- Enhanced file structure.
+- Enhanced generate-svg.
+- Fixed some translation Bugs.
 
-## [1.1.7] - 2025-04-03
+## [1.1.9] - 2025-04-10
+
+### Added
+
+- Enhanced generate-svg script with Icon component.
+
+## [1.1.7] - 2025-04-09
 
 ### Added
 
 - More responsiveness tool such as:- moderateScale, horizontalScale, and verticalScale.
 - Modified SVG script for easier usage.
 
-## [1.1.5] - 2025-04-03
+## [1.1.5] - 2025-04-07
 
 ### Added
 
 - Sentry error monitoring
 
-## [1.1.3] - 2025-04-03
+## [1.1.3] - 2025-04-05
 
 ### Added
 
 - Notification configuration
 
-## [1.1.2] - 2025-04-03
+## [1.1.2] - 2025-04-04
 
 ### Added
 

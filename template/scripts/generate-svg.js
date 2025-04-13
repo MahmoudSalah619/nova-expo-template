@@ -24,32 +24,21 @@ const modifyComponent = (filePath, componentName) => {
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
     .join("");
 
-  // 2. Clean up the content
-  content = `import * as React from "react";
+  // 2. Clean up and format the content
+  const paths = content.match(/<Path[^>]*\/>/g)?.join("\n    ") || "";
+
+  content = `import { IconProps } from "@/components/atoms/Icon/types";
+import * as React from "react";
 import Svg, { Path } from "react-native-svg";
-import { IconProps } from "@/components/atoms/Icon/types";
 
-
-const ${pascalName} = ({
-  size = 24,
-  color = "#000000",
-  strokeWidth = 2,
-  ...props
-}: IconProps) => (
-  <Svg
-    width={size}
-    height={size}
-    stroke={color}
-    strokeWidth={strokeWidth}
-    fill={color}
-    viewBox="0 0 25 24"
-    {...props}
-  >
-    ${content.match(/<Path[^>]*\/>/g)?.join("\n    ") || ""}
+const ${pascalName} = ({ size = 24, strokeWidth = 2, color = "#000000", ...props }: IconProps) => (
+  <Svg width={size} height={size} viewBox="0 0 25 24" fill="none" color={color} {...props}>
+    ${paths}
   </Svg>
 );
 
-export default ${pascalName};`;
+export default ${pascalName};
+`;
 
   fs.writeFileSync(filePath, content);
 };
@@ -57,7 +46,10 @@ export default ${pascalName};`;
 // Process SVG files
 fs.readdirSync(svgFolder).forEach((file) => {
   if (path.extname(file) === ".svg") {
-    const componentName = path.basename(file, ".svg").toUpperCase();
+    const componentName = path
+      .basename(file, ".svg")
+      .toLowerCase()
+      .replace(/^\w/, (c) => c.toUpperCase());
     const outputFile = path.join(outputFolder, `${componentName}.tsx`);
 
     try {
