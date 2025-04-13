@@ -2,15 +2,11 @@ import { IconProps } from "@/components/atoms/Icon/types";
 import * as React from "react";
 import Svg, { G, Path, Defs, ClipPath } from "react-native-svg";
 
-const Camera01Icon = ({
-  size = 24,
-  strokeWidth,
-  color = "#141211",
-}: IconProps) => (
+const Camera01Icon = ({ size = 24, color = "#141211" }: IconProps) => (
   <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
     <G
       clipPath="url(#clip0_4878_96)"
-      strokeWidth={strokeWidth}
+      strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
     >
@@ -26,7 +22,7 @@ const Camera01Icon = ({
     </G>
     <G
       clipPath="url(#clip1_4878_96)"
-      strokeWidth={strokeWidth}
+      strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
     >
@@ -42,7 +38,7 @@ const Camera01Icon = ({
     </G>
     <G
       clipPath="url(#clip2_4878_96)"
-      strokeWidth={strokeWidth}
+      strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
     >
@@ -58,7 +54,7 @@ const Camera01Icon = ({
     </G>
     <G
       clipPath="url(#clip3_4878_96)"
-      strokeWidth={strokeWidth}
+      strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
     >
