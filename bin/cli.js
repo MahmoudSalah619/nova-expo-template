@@ -127,6 +127,17 @@ async function processAppJson(targetPath, answers) {
     parsedAppJson.expo.slug = answers.projectName
       .toLowerCase()
       .replace(/\s+/g, "-");
+    // Auto-generate bundleIdentifier and package
+    parsedAppJson.expo.ios = {
+      bundleIdentifier: `com.nova.${answers.projectName
+        .toLowerCase()
+        .replace(/\s+/g, "")}`,
+    };
+    parsedAppJson.expo.android = {
+      package: `com.nova.${answers.projectName
+        .toLowerCase()
+        .replace(/\s+/g, "")}`,
+    };
     await fs.writeFile(appJsonPath, JSON.stringify(parsedAppJson, null, 2));
   }
 }

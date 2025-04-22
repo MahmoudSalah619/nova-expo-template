@@ -43,9 +43,17 @@ To get started with this project, follow these steps:
    cd <project-name>
    ```
 3. Install the dependencies:
+
    ```bash
    npm install
    ```
+
+### Prerequisites
+
+Ensure you have the following installed:
+
+- **Node.js**: v16.14.0 or higher (currently using v20.17.0)
+- **npm**: v8.5.0 or higher (currently using v10.8.2)
 
 ## 📚 Usage
 

@@ -8,6 +8,13 @@ All notable changes to this project will be documented in this file.
 - Folder structure adjustments
 - Internet Detection using NetInfo
 
+## [1.1.12] - 2025-04-22
+
+### Added
+
+- Added auto-generation of bundleIdentifier and package in processAppJson function for improved project setup
+- Added node, and npm versions in ReadMe.
+
 ## [1.1.10] - 2025-04-13
 
 ### Added
