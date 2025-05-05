@@ -4,6 +4,7 @@ import { I18nManager, StyleSheet } from "react-native";
 const styles = StyleSheet.create({
   text: {
     writingDirection: I18nManager.isRTL ? "rtl" : "ltr",
+    letterSpacing: 0.5,
   },
   bell: {
     fontSize: 8,

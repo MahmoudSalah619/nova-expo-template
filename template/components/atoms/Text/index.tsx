@@ -64,6 +64,7 @@ export default function Text({
         styles.text,
         style,
       ]}
+      numberOfLines={1}
       {...rest}
     >
       {autoTranslate ? t(String(rest.children)) : rest.children}
