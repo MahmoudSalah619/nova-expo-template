@@ -8,6 +8,13 @@ All notable changes to this project will be documented in this file.
 - Folder structure adjustments
 - Internet Detection using NetInfo
 
+## [1.1.13] - 2025-05-06
+
+### Added
+
+- Fixed an issue where the app refreshes on each change made.
+- Fixed an issue where the text component causes overlap texts.
+
 ## [1.1.12] - 2025-04-22
 
 ### Added
