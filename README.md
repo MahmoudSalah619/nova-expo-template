@@ -1,4 +1,4 @@
-# 🚀 **Nova Expo Template**
+# 🚀 **Expo Template**
 
 This is a React Native template built with Expo 52. It provides a modern and responsive foundation for building mobile applications. It includes:
 
