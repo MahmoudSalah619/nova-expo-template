@@ -1,12 +1,6 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  Dimensions,
-} from "react-native";
+import { View, TouchableOpacity, StyleSheet, Dimensions } from "react-native";
 import React from "react";
-import { Icon, ThemedView } from "@/components/atoms";
+import { Icon, Text, ThemedView } from "@/components/atoms";
 
 const { height } = Dimensions.get("window");
 
@@ -60,9 +54,7 @@ const TabBar = ({ state, descriptors, navigation }) => {
               style={styles.tab}
             >
               {getIcon(route.name, isFocused)}
-              <Text style={{ color: isFocused ? "#673ab7" : "#222" }}>
-                {label}
-              </Text>
+              <Text color={isFocused ? "primary" : "text"}>{label}</Text>
             </TouchableOpacity>
           );
         })}

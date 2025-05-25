@@ -9,7 +9,6 @@ import "@/components/organisms/common/bottomsheets";
 export default function _layout() {
   return (
     <Tabs
-      initialRouteName="home" // Set the initial route to the home screen
       tabBar={(props) => <TabBar {...props} />} // Use the custom TabBar component
       backBehavior="history"
       screenOptions={{

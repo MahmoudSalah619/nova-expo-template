@@ -8,6 +8,16 @@ All notable changes to this project will be documented in this file.
 - Folder structure adjustments
 - Internet Detection using NetInfo
 
+## [1.1.15] - 2025-05-26
+
+### Added
+
+- Fixed InitialRoute issue.
+- Added Explanation for the added scripts.
+- Added screenshots to the README.
+- Adjusted some button tiltes for better clarity.
+- Bug fixes.
+
 ## [1.1.13] - 2025-05-06
 
 ### Added

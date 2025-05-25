@@ -29,6 +29,7 @@ const Login = () => {
           <FormInput
             name="password"
             placeholder="Password"
+            secureTextEntry
             control={control}
             required
           />

@@ -75,6 +75,17 @@ To preview the production build, run:
 expo start --no-dev --minify
 ```
 
+## 📸 Screenshots
+
+Here are some screenshots of the application:
+
+![Screenshot 1](screenshots/landing.jpg)
+![Screenshot 2](screenshots/login.jpg)
+![Screenshot 3](screenshots/app.jpg)
+![Screenshot 4](screenshots/modal.jpg)
+![Screenshot 5](screenshots/actionsheet.jpg)
+![Screenshot 6](screenshots/darkmode.jpg)
+
 ## 📋 Changelog
 
 See the [CHANGELOG](CHANGELOG.md) for a history of changes to this project.

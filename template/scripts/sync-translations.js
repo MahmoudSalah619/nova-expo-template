@@ -1,5 +1,42 @@
 /* eslint-disable */
 
+/*
+  ------------------------------------------------------------------------------
+  sync-translations.js
+  ------------------------------------------------------------------------------
+  This script helps you keep translation files in sync across multiple languages.
+  It ensures all translation keys from your base language (e.g., English) exist
+  in other language files, and can generate CSVs for easy translation.
+
+  WHEN TO USE:
+    - Run this script whenever you add, remove, or change translation keys in your base language file (e.g., en.json).
+    - Use it to generate fresh translation files for new languages.
+    - Optionally, generate CSV files for translators.
+
+  HOW TO USE:
+    1. Edit your base translation file (e.g., i18n/en.json) as needed.
+    2. In your terminal, run:
+         node template/scripts/sync-translations.js
+    3. The script will:
+         - Create/update translation files for all languages in the LANGUAGES array.
+         - Ensure all keys from the base language exist in other language files (values will be empty).
+         - Optionally, prompt you to generate CSV files for translators.
+
+    To auto-generate CSVs without prompt, use:
+         node template/scripts/sync-translations.js --csv
+
+  REQUIREMENTS:
+    - Node.js installed.
+    - Commander package installed (npm install commander).
+
+  NOTES:
+    - The script overwrites existing translation files for non-base languages.
+    - Add or remove languages by editing the LANGUAGES array at the top.
+    - CSV files are saved in the same directory as your translation JSON files.
+
+  ------------------------------------------------------------------------------
+*/
+
 const fs = require("fs");
 const path = require("path");
 const { program } = require("commander");

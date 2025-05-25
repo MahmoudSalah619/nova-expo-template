@@ -1,5 +1,35 @@
 /* eslint-disable */
 
+/*
+  ------------------------------------------------------------------------------
+  generate-svg.js
+  ------------------------------------------------------------------------------
+  This script automates the process of converting SVG files into React Native 
+  icon components using SVGR, and updates the icon list for easy imports.
+
+  WHEN TO USE:
+    - Run this script whenever you add new SVG files to ./assets/svgs.
+    - It will generate corresponding .tsx icon components in ./assets/icons.
+    - It will also update ./components/atoms/Icon/list.ts to include the new icons.
+
+  HOW TO USE:
+    1. Place your SVG files in the ./assets/svgs directory.
+    2. In your terminal, run:
+         node template/scripts/generate-svg.js
+    3. The script will:
+         - Convert each SVG to a React Native component using SVGR.
+         - Format and clean up the generated component.
+         - Update the icon list for easy usage in your project.
+
+  NOTES:
+    - The script overwrites existing icon components and updates the icon list.
+    - If you want to keep original SVGs, comment/uncomment the unlinkSync line (line 99).
+    - Make sure your SVG filenames are unique and use kebab-case (e.g., my-icon.svg).
+    - The generated components follow the IconProps interface for consistency.
+
+  ------------------------------------------------------------------------------
+*/
+
 const fs = require("fs");
 const path = require("path");
 const { execSync } = require("child_process");

@@ -15,7 +15,7 @@ const Favourites = () => {
         isSearch
         onChange={(e) => console.log(e, "eeeeeeeeee")}
       />
-      <Input placeholder="password" label="Suiiiiiiii" secureTextEntry />
+      <Input placeholder="password" label="Password Label" secureTextEntry />
     </MainScreenWrapper>
   );
 };

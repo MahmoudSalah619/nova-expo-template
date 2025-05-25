@@ -35,9 +35,9 @@ const Home = () => {
           })
         }
       />
-      <Button title={"suiiiiiiiiiii"} variant="outlined" />
+      <Button title={"Outlined Button"} variant="outlined" />
       <View>
-        <Button title={"suiiiiiiiiiii"} variant="underlined" />
+        <Button title={"Underlined Button"} variant="underlined" />
       </View>
       <Text>About</Text>
       <Link href="/(main)/screen1">About</Link>

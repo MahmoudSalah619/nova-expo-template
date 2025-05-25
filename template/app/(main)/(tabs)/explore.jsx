@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Button, Text } from "@/components/atoms";
 import { SheetManager } from "react-native-actions-sheet";
 import RandomModal from "@/components/organisms/common/modals/randomModal";
