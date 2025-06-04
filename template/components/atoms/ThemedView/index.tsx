@@ -21,7 +21,7 @@ export default function ThemedView({
 
   return (
     <RNView
-      style={[{ backgroundColor, direction: i18n.dir() }, style]}
+      style={[{ backgroundColor, direction: i18n.dir() || "ltr" }, style]}
       {...otherProps}
     />
   );

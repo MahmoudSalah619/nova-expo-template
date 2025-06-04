@@ -8,6 +8,12 @@ All notable changes to this project will be documented in this file.
 - Folder structure adjustments
 - Internet Detection using NetInfo
 
+## [1.1.17] - 2025-06-04
+
+### Added
+
+- Fixed an issue where app sometimes show blank screen in production build.
+
 ## [1.1.15] - 2025-05-26
 
 ### Added
