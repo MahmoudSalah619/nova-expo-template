@@ -25,6 +25,7 @@ This is a React Native template built with Expo 52. It provides a modern and res
 - **[React Toastify](https://fkhadra.github.io/react-toastify/)**: Easy-to-use toast notifications.
 - **[React-i18next](https://react.i18next.com/)**: Internationalization for React Native.
 - **[Day.js](https://day.js.org/)**: A lightweight JavaScript date library.
+- **[Flashlist](https://shopify.github.io/flash-list/)**: A performant list component for React Native.
 - **[React Hook Form](https://react-hook-form.com/)**: Performant, flexible, and extensible forms with easy-to-use validation.
 - **[Atomic Design System](https://bradfrost.com/blog/post/atomic-web-design/)**: A methodology for creating design systems.
 - **[Husky](https://typicode.github.io/husky/)** (optional): Git hooks made easy.
@@ -88,6 +89,7 @@ Here are some screenshots of the application:
 ![Screenshot 4](screenshots/modal.jpg)
 ![Screenshot 5](screenshots/actionsheet.jpg)
 ![Screenshot 6](screenshots/darkmode.jpg)
+![Screenshot 7](screenshots/flashlist.jpg)
 
 ## 📋 Changelog
 

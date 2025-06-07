@@ -1,26 +1,23 @@
 import { View, TouchableOpacity, StyleSheet, Dimensions } from "react-native";
 import React from "react";
-import { Icon, Text, ThemedView } from "@/components/atoms";
-
-const { height } = Dimensions.get("window");
-
-// Helper function to calculate height percentage
-const hp = (percentage) => (height * percentage) / 100;
+import { Text, ThemedView } from "@/components/atoms";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { COLORS } from "@/constants/Colors";
 
 // Icon mapping for routes
 const getIcon = (routeName, isFocused) => {
   const icons = {
-    home: "home",
-    favourites: "heart",
-    explore: "camera",
-    profile: "profile",
+    Home: "home",
+    Favourites: "favorite",
+    Explore: "explore",
+    Profile: "person",
   };
   const iconName = icons[routeName];
   return iconName ? (
-    <Icon
+    <MaterialIcons
       name={iconName}
-      size={hp(2.5)}
-      color={isFocused ? "#673ab7" : "black"}
+      size={26}
+      color={isFocused ? COLORS.light.primary : "black"}
     />
   ) : null;
 };

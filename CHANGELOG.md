@@ -14,6 +14,7 @@ All notable changes to this project will be documented in this file.
 - Added FlashList component for better performance with large lists.
 - Added a new script to remove console logs from the project.
 - Added Wrappers in the components folder for better organization.
+- Added bottomNavigation icons.
 - Adjusted Card Wrapper component for better UI.
 
 

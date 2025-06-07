@@ -35,6 +35,14 @@ const Home = () => {
           })
         }
       />
+      <Button
+        title="Go to FlashList"
+        onPress={() =>
+          router.push({
+            pathname: "/(main)/screen3",
+          })
+        }
+      />
       <Button title={"Outlined Button"} variant="outlined" />
       <View>
         <Button title={"Underlined Button"} variant="underlined" />
