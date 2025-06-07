@@ -64,7 +64,7 @@ const Login = () => {
         <GoogleRegisterationButton />
         <FacebookRegisterationButton />
       </View>
-      <View style={[GLOBAL_STYLES.rowcenter, GLOBAL_STYLES.gap4]}>
+      <View style={[GLOBAL_STYLES.rowCenter, GLOBAL_STYLES.gap4]}>
         <Text>Don't have an account?</Text>
         <TouchableOpacity onPress={() => router.push("/(auth)/signup")}>
           <Text weight={600} color="primary" style={styles.underlined}>

@@ -1,7 +1,8 @@
 import React from "react";
-import { Button, Text, ThemedView } from "@/components/atoms";
+import { Button, Text } from "@/components/atoms";
 import { useRoute } from "@react-navigation/native";
 import { useRouter } from "expo-router";
+import MainScreenWrapper from "@/components/templates/MainScreenWrapper";
 
 export default function Screen2() {
   const route = useRoute();
@@ -11,7 +12,7 @@ export default function Screen2() {
   console.log("id", id);
 
   return (
-    <ThemedView style={{ flex: 1, padding: 16 }}>
+    <MainScreenWrapper>
       <Text type="title">Screen2</Text>
       <Button
         title="Go to Screen3"
@@ -20,6 +21,6 @@ export default function Screen2() {
       <Text>Props:-</Text>
       <Text>{`id: ${id}`}</Text>
       <Text>{`from: ${from}`}</Text>
-    </ThemedView>
+    </MainScreenWrapper>
   );
 }

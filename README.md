@@ -8,6 +8,9 @@ This is a React Native template built with Expo 52. It provides a modern and res
 - State management
 - Localization using i18n
 - Reusable components
+- Utility functions
+- Custom hooks
+- Scripts for easing development tasks
 - Building tool (EAS)
 - An overall ready-for-integration template with an atomic design system.
 

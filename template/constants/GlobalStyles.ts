@@ -39,7 +39,7 @@ const GLOBAL_STYLES = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
   },
-  rowcenter: {
+  rowCenter: {
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "row",

@@ -4,9 +4,18 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-- New translation using googleSheets◘
 - Folder structure adjustments
 - Internet Detection using NetInfo
+
+## [1.1.18] - 2025-06-07
+
+### Added
+
+- Added FlashList component for better performance with large lists.
+- Added a new script to remove console logs from the project.
+- Added Wrappers in the components folder for better organization.
+- Adjusted Card Wrapper component for better UI.
+
 
 ## [1.1.17] - 2025-06-04
 
