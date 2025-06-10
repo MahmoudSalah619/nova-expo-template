@@ -7,6 +7,14 @@ All notable changes to this project will be documented in this file.
 - Folder structure adjustments
 - Internet Detection using NetInfo
 
+## [1.1.19] - 2025-06-11
+
+### Added
+
+- Added Eslint new flat config.
+- Fixed some issues regarding Eslint.
+- Fixed some Language issues.
+
 ## [1.1.18] - 2025-06-07
 
 ### Added
