@@ -54,7 +54,7 @@ export default function GoogleRegisterationButton() {
             token: res?.access_token,
             refreshToken: res?.refresh_token,
           });
-          showSuccessMsg({ i18nKey: "LOGIN_SUCCESSFULLY" });
+          showSuccessMsg({ msg: "LOGIN_SUCCESSFULLY" });
         });
     }
 

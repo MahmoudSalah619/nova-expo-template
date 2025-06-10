@@ -171,6 +171,10 @@ async function handleTranslationSetup(targetPath, answers) {
     if (await fs.pathExists(localePath)) {
       await fs.remove(localePath);
     }
+    const keyEnumPath = path.join(targetPath, "@types/TranslationKeyEnum.ts");
+    if (await fs.pathExists(keyEnumPath)) {
+      await fs.remove(keyEnumPath);
+    }
 
     // Update Text component to remove translation logic
     const textComponentPath = path.join(
@@ -233,20 +237,19 @@ async function handleTranslationSetup(targetPath, answers) {
 
       // Remove the import
       themedViewContent = themedViewContent.replace(
-        /import { useTranslation } from "react-i18next";\n/g,
+        /import\s*{\s*useTranslation\s*}\s*from\s*"react-i18next";\s*\n/g,
         ""
       );
 
       // Remove the i18n usage and direction style
       themedViewContent = themedViewContent.replace(
-        /const { i18n } = useTranslation\(\);\n/g,
+        /\s*const\s*{\s*i18n\s*}\s*=\s*useTranslation\(\);\s*\n/g,
         ""
       );
       themedViewContent = themedViewContent.replace(
-        /style=\{\[\{ backgroundColor, direction: i18n.dir\(\) \}, style\]\}/g,
-        "style={[{ backgroundColor }, style]}"
+        /<RNView[^>]*style={[^>]*direction:[^>]*i18n[^>]*\/>/,
+        "<RNView style={[{ backgroundColor }, style]} {...otherProps} />"
       );
-
       await fs.writeFile(themedViewComponentPath, themedViewContent);
     }
 

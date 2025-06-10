@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import * as LocalAuthentication from "expo-local-authentication";
 import HandleErrors from "@/utils/handleErrors";
-import { t } from "@/locale";
 
 const useBiometricLogin = () => {
   const [isBiometricSupported, setIsBiometricSupported] =
@@ -25,7 +24,7 @@ const useBiometricLogin = () => {
 
       const data = await LocalAuthentication.authenticateAsync({
         // call Biometric
-        promptMessage: t("AUTHENTICATION_WITH_BIOMETRICS"),
+        promptMessage: "AUTHENTICATION_WITH_BIOMETRICS",
       });
 
       if (data?.success) {

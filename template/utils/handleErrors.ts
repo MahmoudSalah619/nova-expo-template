@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Toast from "react-native-toast-message";
-import i18n from "@/locale";
 
 export default function HandleErrors(err: any) {
   const showErrorToast = (msg: string) => {
     Toast.show({
       type: "error",
-      text1: i18n.t("ERROR"),
+      text1: "Error",
       text2: msg,
     });
   };
