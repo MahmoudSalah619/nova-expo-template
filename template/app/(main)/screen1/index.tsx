@@ -12,9 +12,9 @@ export default function Screen1() {
       <View style={GLOBAL_STYLES.rowJustifyBetween}>
         <Text>Enable Dark Mode</Text>
         <Switch
-          value={colorScheme == "dark"}
+          value={colorScheme === "dark"}
           onChange={() => {
-            Appearance.setColorScheme(colorScheme == "dark" ? "light" : "dark");
+            Appearance.setColorScheme(colorScheme === "dark" ? "light" : "dark");
           }}
         />
       </View>
