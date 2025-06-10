@@ -331,61 +331,137 @@ async function setupESLint(targetPath, answers) {
   });
 
   const eslintConfig = `// https://docs.expo.dev/guides/using-eslint/
-module.exports = {
-  extends: ["expo", "prettier"],
-  plugins: ["@typescript-eslint", "react", "react-native", "prettier"],
-  ignorePatterns: ["/dist/*"],
-  rules: {
-    "import/no-unresolved": 0,
-    "react/jsx-filename-extension": [
-      1,
-      {
-        extensions: [".ts", ".tsx"],
-      },
-    ],
-    "@typescript-eslint/no-use-before-define": ["warn"],
-    "import/extensions": 0,
-    "react/prop-types": 0,
-    "no-shadow": "off",
-    camelcase: 0,
-    "react-hooks/exhaustive-deps": ["warn"],
-    "import/no-extraneous-dependencies": 0,
-    "react-native/no-raw-text": 0,
-    "react/jsx-props-no-spreading": 0,
-    "linebreak-style": 0,
-    "@typescript-eslint/no-unused-vars": [
-      "error",
-      {
-        argsIgnorePattern: "^_",
-        varsIgnorePattern: "^_",
-        caughtErrorsIgnorePattern: "^_",
-      },
-    ],
-    "@typescript-eslint/ban-ts-comment": 0,
-    "react/no-unused-prop-types": 0,
-    "@typescript-eslint/no-shadow": ["error"],
-    "prettier/prettier": [
-      "error",
-      {
-        trailingComma: "es5",
-        tabWidth: 2,
-        semi: true,
-        singleQuote: false,
-        endOfLine: "auto",
-      },
-    ],
-    "react-native/sort-styles": 0,
-  },
-};`;
+const typescriptEslint = require('@typescript-eslint/eslint-plugin');
+const reactPlugin = require('eslint-plugin-react');
+const reactHooksPlugin = require('eslint-plugin-react-hooks');
+const reactNativePlugin = require('eslint-plugin-react-native');
+const prettierPlugin = require('eslint-plugin-prettier');
+const globalsPackage = require('globals');
+const typescriptParser = require('@typescript-eslint/parser');
+const { defineConfig } = require('eslint/config');
+const expoConfig = require('eslint-config-expo/flat');
 
-  await fs.writeFile(path.join(targetPath, ".eslintrc.js"), eslintConfig);
+const { node, es2021 } = globalsPackage;
+
+const cleanGlobals = Object.fromEntries(
+  Object.entries({ ...node, ...es2021 }).filter(([key]) => !/\s/.test(key))
+);
+
+module.exports = defineConfig([
+  expoConfig,
+  {
+    ignores: ['dist/*'],
+  },
+  // TypeScript config
+  {
+    files: ['**/*.ts', '**/*.tsx'],
+    languageOptions: {
+      parser: typescriptParser,
+      parserOptions: {
+        ecmaFeatures: { jsx: true },
+        project: './tsconfig.json',
+      },
+      globals: cleanGlobals,
+    },
+    plugins: {
+      '@typescript-eslint': typescriptEslint,
+      react: reactPlugin,
+      'react-hooks': reactHooksPlugin,
+      'react-native': reactNativePlugin,
+    },
+
+    rules: {
+      '@typescript-eslint/no-use-before-define': 'warn',
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_',
+        },
+      ],
+      '@typescript-eslint/ban-ts-comment': 'off',
+      '@typescript-eslint/no-shadow': 'error',
+      'react/jsx-filename-extension': ['warn', { extensions: ['.ts', '.tsx'] }],
+      'react/prop-types': 'off',
+      'react/jsx-props-no-spreading': 'off',
+      'react/no-unused-prop-types': 'off',
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'warn',
+      'react-native/no-raw-text': 'off',
+      'react-native/sort-styles': 'off',
+    },
+  },
+
+  // React & React Native config
+  {
+    files: ['**/*.tsx', '**/*.jsx'],
+    languageOptions: {
+      parserOptions: {
+        ecmaFeatures: { jsx: true },
+      },
+    },
+    plugins: {
+      react: reactPlugin,
+      'react-hooks': reactHooksPlugin,
+      'react-native': reactNativePlugin,
+    },
+    settings: {
+      react: { version: 'detect' },
+    },
+    rules: {
+      'react/jsx-filename-extension': ['warn', { extensions: ['.ts', '.tsx'] }],
+      'react/prop-types': 'off',
+      'react/jsx-props-no-spreading': 'off',
+      'react/no-unused-prop-types': 'off',
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'warn',
+      'react-native/no-raw-text': 'off',
+      'react-native/sort-styles': 'off',
+      'react/no-unescaped-entities': 'off',
+    },
+  },
+
+  // Prettier config
+  {
+    plugins: { prettier: prettierPlugin },
+    rules: {
+      'prettier/prettier': [
+        'error',
+        {
+          trailingComma: 'es5',
+          tabWidth: 2,
+          semi: true,
+          singleQuote: true,
+          printWidth: 100,
+          bracketSpacing: true,
+          arrowParens: 'always',
+          endOfLine: 'auto',
+        },
+      ],
+    },
+  },
+
+  // Global rules
+  {
+    ignores: ['/dist/*'],
+    rules: {
+      'no-shadow': 'off',
+      camelcase: 'off',
+      'linebreak-style': 'off',
+    },
+  },
+]);
+`;
+
+  await fs.writeFile(path.join(targetPath, "eslint.config.js"), eslintConfig);
 
   const prettierConfig = JSON.stringify(
     {
       trailingComma: "es5",
       tabWidth: 2,
       semi: true,
-      singleQuote: false,
+      singleQuote: true,
       printWidth: 100,
       bracketSpacing: true,
       arrowParens: "always",
