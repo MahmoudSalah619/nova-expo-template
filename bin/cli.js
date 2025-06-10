@@ -34,6 +34,18 @@ program
 
       await handleTranslationSetup(targetPath, answers);
 
+      if (answers.eslint) {
+        console.log("Running ESLint to fix issues...");
+        spawnSync(
+          "npx",
+          ["eslint", ".", "--ext", ".js,.jsx,.ts,.tsx", "--fix"],
+          {
+            cwd: targetPath,
+            stdio: "inherit",
+            shell: true,
+          }
+        );
+      }
       console.log(
         `\n✅ Thank you for using nova! Your project is ready at ${targetPath}`
       );
@@ -53,6 +65,7 @@ async function promptUser(projectDir) {
       type: "input",
       name: "projectName",
       message: "What's the name of the project?",
+      required: true,
       default: projectDir,
     },
     {
@@ -486,13 +499,6 @@ module.exports = defineConfig([
     packageJsonPath,
     JSON.stringify(updatedPackageJson, null, 2)
   );
-
-  spawnSync("npx", ["eslint", ".", "--ext", ".js,.jsx,.ts,.tsx", "--fix"], {
-    cwd: targetPath,
-    stdio: "inherit",
-    shell: true,
-  });
-
   console.log("\nESLint and Prettier setup complete!");
 }
 
@@ -565,8 +571,8 @@ async function configureSentry(targetPath, answers) {
   ]);
   await fs.writeJson(appJsonPath, appJson, { spaces: 2 });
 
-  // Remove the existing index.jsx file if it exists
-  const existingIndexPath = path.join(targetPath, "app/index.jsx");
+  // Remove the existing index.tsx file if it exists
+  const existingIndexPath = path.join(targetPath, "app/index.tsx");
   if (await fs.pathExists(existingIndexPath)) {
     await fs.remove(existingIndexPath);
   }

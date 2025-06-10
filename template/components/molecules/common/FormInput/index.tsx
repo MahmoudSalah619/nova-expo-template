@@ -1,5 +1,5 @@
 import { Input } from "@/components/atoms";
-import { InputFieldProps } from "@/components/atoms/input/types";
+import { InputFieldProps } from "@/components/atoms/Input/types";
 import {
   Controller,
   Control,

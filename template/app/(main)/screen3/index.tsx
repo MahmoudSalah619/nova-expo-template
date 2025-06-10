@@ -1,5 +1,4 @@
 import { SeperateLine, Text } from "@/components/atoms";
-import MainScreenWrapper from "@/components/templates/MainScreenWrapper";
 import CardWrapper from "@/components/wrappers/Card";
 import FlashListWrapper from "@/components/wrappers/flashlist";
 import GLOBAL_STYLES from "@/constants/GlobalStyles";
