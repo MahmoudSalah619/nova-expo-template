@@ -1,6 +1,6 @@
-import { StackNavigationOptions } from "@react-navigation/stack";
+import { NavigatorScreenParams } from "@react-navigation/native";
 
-export type CustomScreenOptions = StackNavigationOptions & {
+export type CustomScreenOptions = NavigatorScreenParams & {
   hasLogo?: boolean;
   isBackArrowHidden?: boolean;
   isRightComponentHidden?: boolean;
@@ -15,5 +15,4 @@ export type RootStackParamList = {
   "screen1/index": CustomScreenOptions;
   "screen2/index": CustomScreenOptions;
   "(tabs)": { hasLogo: boolean }; // Example for tabs
-  "(modals)": undefined; // No params for modals
 };

@@ -1,4 +1,4 @@
-import MainScreenOptions from "@/components/organisms/scoped/navigation/MainScrenOptions";
+import MainScreenOptions from "@/components/organisms/scoped/navigation/MainScreenOptions";
 import { Stack } from "expo-router";
 
 export default function _layout() {
@@ -21,7 +21,6 @@ export default function _layout() {
         }}
       />
       <Stack.Screen name="(tabs)" initialParams={{ hasLogo: true }} />
-      <Stack.Screen name="(modals)" initialParams={{ headerShown: false }} />
     </Stack>
   );
 }
