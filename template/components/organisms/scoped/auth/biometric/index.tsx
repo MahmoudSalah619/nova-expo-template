@@ -12,7 +12,7 @@ export default function Biometric() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      router.push("/(main)/(tabs)/home");
+      router.push("/(main)/(tabs)/Home");
     }
   }, [isAuthenticated]);
 

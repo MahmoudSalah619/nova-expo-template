@@ -51,7 +51,7 @@ program
       );
       console.log("\nNext steps:");
       console.log(`cd ${answers.projectName}`);
-      console.log("npm run dev");
+      console.log("npm start");
     } catch (error) {
       console.error("Error creating project:", error);
       process.exit(1);

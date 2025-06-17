@@ -46,10 +46,10 @@ To get started with this project, follow these steps:
    ```bash
    cd <project-name>
    ```
-3. Install the dependencies:
+3. Run the project:
 
    ```bash
-   npm install
+   npm start
    ```
 
 ### Prerequisites
