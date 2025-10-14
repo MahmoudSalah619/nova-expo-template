@@ -8,6 +8,11 @@
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/images/nova-black.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0a7ea4"
+    },
     "ios": {
       "supportsTablet": true,
       "userInterfaceStyle": "automatic",
@@ -40,7 +45,7 @@
           "image": "./assets/images/nova-black.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
+          "backgroundColor": "#0a7ea4"
         }
       ],
       "expo-localization"
