@@ -5,6 +5,8 @@ export interface IconComponentProps {
   size: number;
   color: string;
   direction?: "inherit" | "ltr" | "rtl";
+  rotateX?: number;
+  rotateY?: number;
 }
 
 export type IconProps = Partial<IconComponentProps>;

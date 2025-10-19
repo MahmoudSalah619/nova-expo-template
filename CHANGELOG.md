@@ -7,6 +7,18 @@ All notable changes to this project will be documented in this file.
 - Folder structure adjustments
 - Internet Detection using NetInfo
 
+## [2.0.0] - 2025-10-19
+
+### Added
+
+- Major upgrade to Expo SDK 54.
+- Updated all dependencies to their latest versions.
+- Removed unused dependencies and cleaned up the codebase.
+- Adjusted Icon component props for better usability.
+- Added Progress Bar component.
+- Added OTP Input component in ForgotPassword screen.
+- Added appVersionSource in eas.json for better version management.
+
 ## [1.1.19] - 2025-06-11
 
 ### Added

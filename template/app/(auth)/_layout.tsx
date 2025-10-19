@@ -7,6 +7,7 @@ export default function _layout() {
       <Stack.Screen name="login/index" />
       <Stack.Screen name="signup/index" />
       <Stack.Screen name="welcome/index" />
+      <Stack.Screen name="forgot-password/index" />
     </Stack>
   );
 }

@@ -1,6 +1,6 @@
 # 🚀 **Expo Template**
 
-This is a React Native template built with Expo 52. It provides a modern and responsive foundation for building mobile applications. It includes:
+This is a React Native template built with Expo 54. It provides a modern and responsive foundation for building mobile applications. It includes:
 
 - Navigation (Auth/Main stacks)
 - Theming and styling
@@ -13,6 +13,18 @@ This is a React Native template built with Expo 52. It provides a modern and res
 - Scripts for easing development tasks
 - Building tool (EAS)
 - An overall ready-for-integration template with an atomic design system.
+
+## 📋 Table of Contents
+
+- [✨ Features](#-features)
+- [🛠️ Installation](#️-installation)
+- [⚙️ Prerequisites](#️-prerequisites)
+- [📚 Usage](#-usage)
+- [📸 Screenshots](#-screenshots)
+- [🏗️ Project Structure](#️-project-structure)
+- [📋 Changelog](#-changelog)
+- [🤝 Contributing](#-contributing)
+- [📄 License](#-license)
 
 ## ✨ Features
 
@@ -52,7 +64,7 @@ To get started with this project, follow these steps:
    npm start
    ```
 
-### Prerequisites
+### ⚙️ Prerequisites
 
 Ensure you have the following installed:
 
@@ -90,6 +102,116 @@ Here are some screenshots of the application:
 ![Screenshot 5](screenshots/actionsheet.jpg)
 ![Screenshot 6](screenshots/darkmode.jpg)
 ![Screenshot 7](screenshots/flashlist.jpg)
+
+## 🏗️ Project Structure
+
+```
+your-app-name/                     # Your new Expo app
+├── 📄 app.json                    # Expo app configuration
+├── 📄 eas.json                    # EAS Build configuration
+├── 📄 expo-env.d.ts               # Expo environment types
+├── 📄 package.json                # Project dependencies
+├── 📄 tsconfig.json               # TypeScript configuration
+│
+├── 📁 @types/                     # Global TypeScript definitions
+│   ├── 📄 static-files.d.ts       # Static file types
+│   └── 📄 TranslationKeyEnum.ts   # Translation key enums
+│
+├── 📁 apis/                       # API layer
+│   ├── 📄 Domain.ts               # API domain configuration
+│   ├── 📄 index.ts                # API exports
+│   ├── 📄 tagTypes.ts             # RTK Query tag types
+│   ├── 📁 @types/                 # API type definitions
+│   ├── 📁 middlewares/            # API middlewares
+│   └── 📁 services/               # API service endpoints
+│
+├── 📁 app/                        # App routing (Expo Router)
+│   ├── 📄 _layout.tsx             # Root layout
+│   ├── 📄 +not-found.tsx          # 404 page
+│   ├── 📄 index.tsx               # Home/Landing page
+│   ├── 📁 (auth)/                 # Authentication stack
+│   │   ├── 📄 _layout.tsx         # Auth layout
+│   │   ├── 📁 forgotPassword/     # Password reset screens
+│   │   ├── 📁 login/              # Login screens
+│   │   ├── 📁 signup/             # Registration screens
+│   │   └── 📁 welcome/            # Welcome/onboarding
+│   └── 📁 (main)/                 # Main app stack
+│       ├── 📄 _layout.tsx         # Main layout
+│       ├── 📁 (tabs)/             # Tab navigation
+│       ├── 📁 screen1/            # Feature screens
+│       ├── 📁 screen2/
+│       └── 📁 screen3/
+│
+├── 📁 assets/                     # Static assets
+│   ├── 📁 fonts/                  # Custom fonts
+│   ├── 📁 icons/                  # Icon components
+│   ├── 📁 images/                 # Image assets
+│   └── 📁 svgs/                   # SVG components
+│
+├── 📁 components/                 # UI Components (Atomic Design)
+│   ├── 📁 atoms/                  # Basic building blocks
+│   │   ├── 📁 Button/             # Button component
+│   │   ├── 📁 Input/              # Input component
+│   │   ├── 📁 Text/               # Text component
+│   │   └── 📄 index.ts            # Atom exports
+│   ├── 📁 molecules/              # Component combinations
+│   │   ├── 📁 common/             # Shared molecules
+│   │   └── 📁 scoped/             # Feature-specific molecules
+│   ├── 📁 organisms/              # Complex components
+│   │   ├── 📁 common/             # Shared organisms
+│   │   └── 📁 scoped/             # Feature-specific organisms
+│   ├── 📁 templates/              # Page templates
+│   └── 📁 wrappers/               # Higher-order components
+│
+├── 📁 constants/                  # App constants
+│   ├── 📄 Colors.ts               # Color palette
+│   ├── 📄 FontFamily.ts           # Font definitions
+│   ├── 📄 GlobalStyles.ts         # Global styles
+│   ├── 📄 Metrics.ts              # Screen dimensions
+│   └── 📄 TranslationConfig.ts    # i18n configuration
+│
+├── 📁 hooks/                      # Custom React hooks
+│   ├── 📄 useBiometricLogin.tsx   # Biometric authentication
+│   ├── 📄 useColorScheme.ts       # Theme management
+│   ├── 📄 useFetchTranslation.ts  # Localization hook
+│   └── 📄 useThemeColor.ts        # Color theme hook
+│
+├── 📁 locale/                     # Internationalization
+│   ├── 📄 ar.json                 # Arabic translations
+│   ├── 📄 en.json                 # English translations
+│   └── 📄 index.ts                # i18n exports
+│
+├── 📁 redux/                      # State management
+│   ├── 📄 index.ts                # Store configuration
+│   ├── 📄 appReducer.ts           # App state slice
+│   └── 📄 authReducer.ts          # Auth state slice
+│
+├── 📁 scripts/                    # Development scripts
+│   ├── 📄 generate-svg.js         # SVG component generator
+│   ├── 📄 removeLogs.js           # Production log removal
+│   ├── 📄 sync-translations.js    # Translation sync
+│   └── 📄 translate.js            # Auto-translation tool
+│
+├── 📁 styles/                     # Global styles
+│
+└── 📁 utils/                      # Utility functions
+    ├── 📄 debounce.ts             # Debounce utility
+    ├── 📄 handleErrors.ts         # Error handling
+    ├── 📄 loginHandler.ts         # Authentication helpers
+    └── 📄 showSuccessMsg.ts       # Success messaging
+```
+
+### 📂 Key Directories Explained
+
+- **`app/`**: Uses Expo Router for file-based routing with layout components
+- **`components/`**: Follows Atomic Design methodology (atoms → molecules → organisms → templates)
+- **`apis/`**: Centralized API layer with RTK Query for data fetching and caching
+- **`redux/`**: State management using Redux Toolkit with separate slices
+- **`hooks/`**: Custom React hooks for reusable logic
+- **`constants/`**: App-wide constants including colors, fonts, and metrics
+- **`locale/`**: Multi-language support with JSON translation files
+- **`utils/`**: Helper functions and utilities
+- **`scripts/`**: Development automation scripts
 
 ## 📋 Changelog
 

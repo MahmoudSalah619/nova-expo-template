@@ -1,5 +1,5 @@
 export interface ProgressLineProps {
-  limit?: number;
+  total?: number;
   progress?: number;
   progressColor?: string;
   fillColor?: string;

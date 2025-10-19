@@ -6,20 +6,20 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { useEffect } from "react";
-import COLORS from "@/constants/Colors";
 import { ProgressLineProps } from "./types";
 import styles from "./styles";
+import { COLORS } from "@/constants/Colors";
 
 function ProgressLine({
-  limit = 100,
+  total = 100,
   progress = 10,
-  progressColor = COLORS.Neutral100,
-  fillColor = COLORS.primary,
+  progressColor = COLORS.light.greyCe,
+  fillColor = COLORS.light.primary,
   customHeight = 8,
 }: ProgressLineProps) {
-  const controlProgressPercentage = Math.min(progress, limit);
+  const controlProgressPercentage = Math.min(progress, total);
   const animationProgress = useSharedValue(0);
-  const progressWidth = (controlProgressPercentage / limit) * 100;
+  const progressWidth = (controlProgressPercentage / total) * 100;
 
   useEffect(() => {
     animationProgress.value = withTiming(progressWidth, {
