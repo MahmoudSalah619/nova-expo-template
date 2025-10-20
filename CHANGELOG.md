@@ -7,6 +7,18 @@ All notable changes to this project will be documented in this file.
 - Folder structure adjustments
 - Internet Detection using NetInfo
 
+## [2.0.1] - 2025-10-20
+
+### Added
+
+- **Code Generator (Plop.js)**: Integrated Plop.js for automated code generation
+  - Generate components with proper folder structure (atoms, molecules, organisms, templates, wrappers)
+  - Support for scoped components (common/scoped) for molecules and organisms
+  - Generate screens for auth and main app sections
+  - Create custom hooks with TypeScript interfaces
+  - Generate utility functions with JSDoc documentation
+  - Commands: `npm run generate` or `npm run g`
+
 ## [2.0.0] - 2025-10-19
 
 ### Added
@@ -36,7 +48,6 @@ All notable changes to this project will be documented in this file.
 - Added Wrappers in the components folder for better organization.
 - Added bottomNavigation icons.
 - Adjusted Card Wrapper component for better UI.
-
 
 ## [1.1.17] - 2025-06-04
 

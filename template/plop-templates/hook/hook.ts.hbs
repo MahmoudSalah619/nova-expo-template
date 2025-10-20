@@ -1,0 +1,20 @@
+import { useState, useEffect } from 'react';
+
+interface Use{{pascalCase name}}Return {
+  // Define return type here
+}
+
+function use{{pascalCase name}}(): Use{{pascalCase name}}Return {
+  // Add your hook logic here
+  const [state, setState] = useState();
+
+  useEffect(() => {
+    // Add your effect logic here
+  }, []);
+
+  return {
+    // Return your hook values here
+  };
+}
+
+export default use{{pascalCase name}};
