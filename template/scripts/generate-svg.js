@@ -61,7 +61,7 @@ const modifyComponent = (filePath, componentName) => {
 import * as React from "react";
 import Svg, { Path } from "react-native-svg";
 
-const ${pascalName} = ({ size = 24, strokeWidth = 2, color = "#000000", ...props }: IconProps) => (
+const ${pascalName} = ({ size = 24, color = "#000000", ...props }: IconProps) => (
   <Svg width={size} height={size} viewBox="0 0 25 24" fill="none" color={color} {...props}>
     ${paths}
   </Svg>

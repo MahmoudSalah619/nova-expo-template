@@ -4,8 +4,15 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-- Folder structure adjustments
 - Internet Detection using NetInfo
+
+## [2.0.2] - 2025-11-09
+
+### Added
+
+- **Plop Update**: Enhanced Plop.js code generator to include SVG icon generation
+  - Automatically updates Icon list for easy imports
+  - Seperated Types file for better type management
 
 ## [2.0.1] - 2025-10-20
 

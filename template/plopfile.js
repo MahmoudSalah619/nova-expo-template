@@ -20,6 +20,14 @@ module.exports = function (plop) {
     }).replace(/\s+/g, '');
   });
 
+  // Helper to convert to kebab-case
+  plop.setHelper('kebabCase', function (text) {
+    return text
+      .replace(/([a-z])([A-Z])/g, '$1-$2')
+      .replace(/[\s_]+/g, '-')
+      .toLowerCase();
+  });
+
   plop.setGenerator('create', {
     description: 'Generate components, screens, hooks, or utilities',
     prompts: [
@@ -38,7 +46,7 @@ module.exports = function (plop) {
         type: 'list',
         name: 'type',
         message: 'What would you like to create?',
-        choices: ['component', 'screen', 'hook', 'util']
+        choices: ['component', 'screen', 'hook', 'util', 'svg']
       },
       // Component type selection
       {
@@ -125,6 +133,28 @@ module.exports = function (plop) {
           type: 'add',
           path: 'utils/{{camelCase name}}.ts',
           templateFile: 'plop-templates/util/util.ts.hbs'
+        });
+      } else if (data.type === 'svg') {
+        // Create a React Native SVG icon component directly in assets/icons
+        actions.push({
+          type: 'add',
+          path: 'assets/icons/{{pascalCase name}}.tsx',
+          templateFile: 'plop-templates/icon/icon.tsx.hbs'
+        });
+
+        // Update the icon list to include the new icon
+        actions.push({
+          type: 'modify',
+          path: 'components/atoms/Icon/list.ts',
+          pattern: /^/,
+          template: 'import {{pascalCase name}} from "@/assets/icons/{{pascalCase name}}";\n'
+        });
+
+        actions.push({
+          type: 'modify',
+          path: 'components/atoms/Icon/list.ts',
+          pattern: /(\s*)(\}\;)/,
+          template: '$1  {{camelCase name}}: {{pascalCase name}},\n$1$2'
         });
       }
 
