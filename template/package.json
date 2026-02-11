@@ -50,11 +50,11 @@
     "expo": "^54.0.8",
     "expo-apple-authentication": "~8.0.7",
     "expo-auth-session": "~7.0.8",
-    "expo-blur": "~12.0.8",
+    "expo-blur": "^15.0.8",
     "expo-constants": "~18.0.9",
     "expo-dev-client": "~6.0.12",
     "expo-font": "~14.0.8",
-    "expo-haptics": "~12.0.7",
+    "expo-haptics": "^15.0.8",
     "expo-local-authentication": "~17.0.7",
     "expo-localization": "~17.0.7",
     "expo-notifications": "~0.32.11",
@@ -71,6 +71,7 @@
     "react-native-actions-sheet": "^0.9.7",
     "react-native-gesture-handler": "~2.28.0",
     "react-native-modal": "^14.0.0-rc.1",
+    "react-native-otp-molecule": "^1.0.5",
     "react-native-reanimated": "~4.1.0",
     "react-native-safe-area-context": "~5.6.0",
     "react-native-screens": "~4.16.0",
@@ -79,9 +80,8 @@
     "react-native-toast-message": "^2.2.1",
     "react-native-web": "^0.21.0",
     "react-native-webview": "13.15.0",
-    "react-redux": "^9.2.0",
-    "react-native-otp-molecule": "^1.0.5",
-    "react-native-worklets": "^0.5.1"
+    "react-native-worklets": "^0.5.1",
+    "react-redux": "^9.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

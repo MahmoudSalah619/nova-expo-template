@@ -1,7 +1,8 @@
 import type { ViewStyle, TextStyle, StyleProp } from "react-native";
 import type { BlurTint } from "expo-blur";
+import { CustomTextProps } from "@/components/atoms/Text/Base/types";
 
-export interface FadeTextProps {
+export interface FadeTextProps extends CustomTextProps {
   inputs: string[];
   wordDelay?: number;
   duration?: number;
@@ -10,15 +11,11 @@ export interface FadeTextProps {
   scaleRange?: [number, number];
   translateYRange?: [number, number];
   opacityRange?: [number, number, number];
-  fontSize?: number;
-  fontWeight?: TextStyle["fontWeight"];
-  color?: string;
-  textAlign?: TextStyle["textAlign"];
   containerStyle?: StyleProp<ViewStyle>;
   style?: StyleProp<TextStyle>;
 }
 
-export interface AnimatedWordProps {
+export interface AnimatedWordProps extends CustomTextProps {
   word: string;
   index?: number;
   delay: number;
@@ -28,9 +25,5 @@ export interface AnimatedWordProps {
   scaleRange: [number, number];
   translateYRange: [number, number];
   opacityRange: [number, number, number];
-  fontSize: number;
-  fontWeight: TextStyle["fontWeight"];
-  color: string;
-  textAlign: TextStyle["textAlign"];
   style?: StyleProp<TextStyle>;
 }

@@ -1,6 +1,6 @@
 import { BlurView, type BlurViewProps } from "expo-blur";
 import React, { memo, useEffect } from "react";
-import { StyleSheet, Text, View, type ViewStyle } from "react-native";
+import { StyleSheet, View, type ViewStyle } from "react-native";
 import Animated, {
   Easing,
   Extrapolation,
@@ -13,6 +13,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import type { AnimatedWordProps, FadeTextProps } from "./types";
+import { Text } from "@/components/atoms";
 
 const AnimatedBlurView =
   Animated.createAnimatedComponent<BlurViewProps>(BlurView);
@@ -23,16 +24,13 @@ export const FadeText: React.FC<FadeTextProps> = memo<FadeTextProps>(
     wordDelay = 300,
     duration = 800,
     blurIntensity = [30, 10, 0],
-    blurTint = "dark",
+    blurTint = "default",
     scaleRange = [0.97, 1],
     translateYRange = [10, 0],
     opacityRange = [0, 0.5, 1],
-    fontSize = 32,
-    fontWeight = "600",
-    color = "#ffffff",
-    textAlign = "center",
     containerStyle,
     style,
+    ...props
   }: FadeTextProps): React.ReactNode & React.JSX.Element => {
     const words = inputs.flatMap((text, inputIndex) =>
       text.split(" ").map((word) => ({ word, inputIndex })),
@@ -53,11 +51,8 @@ export const FadeText: React.FC<FadeTextProps> = memo<FadeTextProps>(
               scaleRange={scaleRange}
               translateYRange={translateYRange}
               opacityRange={opacityRange}
-              fontSize={fontSize}
               style={style}
-              fontWeight={fontWeight}
-              color={color}
-              textAlign={textAlign}
+              {...props}
             />
           ))}
         </View>
@@ -76,11 +71,8 @@ const AnimatedWord: React.FC<AnimatedWordProps> = memo<AnimatedWordProps>(
     scaleRange,
     translateYRange,
     opacityRange,
-    fontSize,
-    fontWeight,
-    color,
-    textAlign,
     style,
+    ...props
   }: AnimatedWordProps): React.ReactNode & React.JSX.Element => {
     const animationValue = useSharedValue<number>(0);
 
@@ -143,18 +135,7 @@ const AnimatedWord: React.FC<AnimatedWordProps> = memo<AnimatedWordProps>(
 
     return (
       <Animated.View style={[styles.wordContainer, animatedStyle]}>
-        <Text
-          style={[
-            styles.word,
-            {
-              fontSize,
-              fontWeight,
-              color,
-              textAlign,
-            },
-            style,
-          ]}
-        >
+        <Text style={[styles.word, style]} {...props}>
           {word}{" "}
         </Text>
         <AnimatedBlurView

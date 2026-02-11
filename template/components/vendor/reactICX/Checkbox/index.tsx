@@ -1,4 +1,5 @@
 import React, { memo, useEffect, useRef, useState } from "react";
+import { Pressable, View } from "react-native";
 import Animated, {
   Easing,
   interpolate,
@@ -29,13 +30,20 @@ const StrokePath: React.FC<IStrokePath> = ({
   const pathRef = useRef<typeof AnimatedSvgPath>(null);
 
   const animatedStrokeProps = useAnimatedProps<
-    Pick<PathProps, "strokeDashoffset">
+    Pick<PathProps, "strokeDashoffset" | "opacity">
   >(() => {
+    if (pathLength === 0) {
+      return {
+        strokeDashoffset: 1,
+        opacity: 0,
+      };
+    }
     const easedProgress = Easing.bezierFn(0.37, 0, 0.63, 1)(animValue.value);
     const offset = pathLength - pathLength * easedProgress;
 
     return {
       strokeDashoffset: Math.max(0, offset),
+      opacity: 1,
     };
   });
 
@@ -49,23 +57,39 @@ const StrokePath: React.FC<IStrokePath> = ({
 
   return (
     <AnimatedSvgPath
-      animatedProps={animatedStrokeProps}
-      fill="none"
-      onLayout={handleLayout}
-      // @ts-ignore
       ref={pathRef}
+      onLayout={handleLayout}
       strokeDasharray={pathLength}
+      animatedProps={animatedStrokeProps}
       {...pathProps}
     />
   );
 };
 
 export const Checkbox: React.FC<ICheckbox> = memo<ICheckbox>(
-  ({ checked = false, checkmarkColor, stroke = 1.5, size }: ICheckbox) => {
-    const animValue = useSharedValue<number>(0);
+  ({
+    checked = false,
+    checkmarkColor,
+    stroke = 1.5,
+    size,
+    showBorder = false,
+    onPress,
+    containerStyle,
+  }: ICheckbox) => {
+    const animValue = useSharedValue<number>(checked ? 1 : 0);
+    const borderAnimValue = useSharedValue<number>(showBorder ? 1 : 0);
     const scaleValue = useSharedValue<number>(1);
+    const isFirstRender = useRef<boolean>(true);
 
     useEffect(() => {
+      if (isFirstRender.current) {
+        isFirstRender.current = false;
+        animValue.value = checked ? 1 : 0;
+        borderAnimValue.value = showBorder ? 1 : 0;
+        scaleValue.value = 1;
+        return;
+      }
+
       animValue.value = withTiming<number>(checked ? 1 : 0, {
         duration: checked ? 300 : 250,
         easing: checked
@@ -83,6 +107,17 @@ export const Checkbox: React.FC<ICheckbox> = memo<ICheckbox>(
         scaleValue.value = withTiming<number>(1, { duration: 100 });
       }
     }, [checked, animValue, scaleValue]);
+
+    useEffect(() => {
+      if (isFirstRender.current) return;
+
+      borderAnimValue.value = withTiming<number>(showBorder ? 1 : 0, {
+        duration: 250,
+        easing: showBorder
+          ? Easing.bezier(0.4, 0, 0.2, 1)
+          : Easing.bezier(0.4, 0, 0.6, 1),
+      });
+    }, [showBorder, borderAnimValue]);
 
     const animatedCheckmarkProps = useAnimatedProps<Pick<GProps, "transform">>(
       () => {
@@ -107,43 +142,46 @@ export const Checkbox: React.FC<ICheckbox> = memo<ICheckbox>(
     ].join(" ");
 
     return (
-      <Svg
-        viewBox={viewBox}
-        style={{
-          transform: [
+      <Pressable onPress={onPress}>
+        <View
+          style={[
             {
-              scale: size ? size / VIEWPORT_SIZE : 1,
+              width: size,
+              height: size,
+              backgroundColor: 'rgba(255,255,255,0.12)',
+              borderRadius: 12,
+              justifyContent: 'center',
+              alignItems: 'center',
             },
-          ],
-        }}
-      >
-        {/* <Defs>
-          <ClipPath id="clipPath">
-            <Path
-              d={BOX_PATH}
-              fill="white"
-              stroke="gray"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </ClipPath>
-        </Defs> */}
-
-        <G clipPath="url(#clipPath)">
-          <AnimatedG animatedProps={animatedCheckmarkProps}>
+            containerStyle,
+          ]}
+        >
+          <Svg width={size} height={size} viewBox={viewBox}>
             <StrokePath
-              animValue={animValue}
-              d={TICK_PATH}
+              d={BOX_PATH}
               stroke={checkmarkColor}
               strokeWidth={stroke}
+              fill="none"
               strokeLinecap="round"
               strokeLinejoin="round"
+              animValue={borderAnimValue}
             />
-          </AnimatedG>
-        </G>
-      </Svg>
+            <AnimatedG animatedProps={animatedCheckmarkProps}>
+              <StrokePath
+                d={TICK_PATH}
+                stroke={checkmarkColor}
+                strokeWidth={stroke}
+                fill="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                animValue={animValue}
+              />
+            </AnimatedG>
+          </Svg>
+        </View>
+      </Pressable>
     );
   },
 );
 
-export default memo<React.FunctionComponent<ICheckbox>>(Checkbox);
+export default memo<React.FC<ICheckbox>>(Checkbox);

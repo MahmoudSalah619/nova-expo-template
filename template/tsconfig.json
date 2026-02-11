@@ -3,7 +3,9 @@
   "compilerOptions": {
     "strict": true,
     "baseUrl": "./",
-    "moduleResolution": "node",
+    "jsx": "react-native",
+    "module": "node16",
+    "moduleResolution": "node16",
     "paths": {
       "@/*": ["./*"]
     }
