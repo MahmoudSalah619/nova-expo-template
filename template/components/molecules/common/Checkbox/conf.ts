@@ -1,8 +1,3 @@
-export const VIEWPORT_SIZE = 64;
-export const PADDING = 2;
-
-export const BOX_PATH =
-  "M8 4C5.79086 4 4 5.79086 4 8V56C4 58.2091 5.79086 60 8 60H56C58.2091 60 60 58.2091 60 56V8C60 5.79086 58.2091 4 56 4H8Z";
-
-export const TICK_PATH =
-  "M18 32L28 42L46 24";
+export const DEFAULT_SIZE = 24;
+export const DEFAULT_STROKE = 1.5;
+export const DEFAULT_CHECKMARK_COLOR = "#fff";
