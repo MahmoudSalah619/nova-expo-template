@@ -275,7 +275,6 @@ const styles = StyleSheet.create({
   },
   placeholderWrapper: {
     position: "absolute",
-    left: 18,
     flexDirection: "row",
     flexWrap: "wrap",
     pointerEvents: "none",

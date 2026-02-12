@@ -1,9 +1,9 @@
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
-import { TextInput, TouchableOpacity, View } from "react-native";
-
+import { TouchableOpacity, View } from "react-native";
 import { useState } from "react";
 import GLOBAL_STYLES from "@/constants/GlobalStyles";
-import Text from "@/components/atoms/Text";
+import Text from "@/components/atoms/Text/Base";
+import AnimatedInput from "@/components/vendor/reactICX/Input";
 import styles from "./styles";
 import { InputFieldProps } from "./types";
 import { COLORS } from "@/constants/Colors";
@@ -17,6 +17,7 @@ export default function Input({
   prefix,
   suffix,
   placeholder = "",
+  placeholders,
   secureTextEntry = false,
   placeholderTextColor = `${COLORS[theme].secondary}`,
   inputColorWhenDisabled = COLORS[theme].secondary,
@@ -27,14 +28,22 @@ export default function Input({
   isPlaceholderDotsHidden = true,
   isSearch = false,
   onChange = () => {},
+  // ICX AnimatedInput props
+  animationInterval,
+  characterEnterDuration,
+  characterExitDuration,
+  characterDelayIncrement,
+  blurAnimationDuration,
+  blurIntensityRange,
+  blurProgressRange,
   ...otherProps
-}: InputFieldProps) {
-    const hasErrors = Boolean(error);
+}: InputFieldProps): React.JSX.Element {
+  const hasErrors = Boolean(error);
   const [showPassword, setShowPassword] = useState(false);
 
   const debouncedOnChange = debounce((value: string) => {
     if (onChange) onChange(value);
-  }, 300); // 300ms debounce time
+  }, 300);
 
   const handleChangeText = (text: string) => {
     if (isSearch) {
@@ -107,16 +116,24 @@ export default function Input({
       <View pointerEvents={pointerEventValue} style={inputContainerStyles}>
         {!!prefix && <View style={styles.spaceEnd10}>{prefix}</View>}
 
-        <TextInput
-          placeholder={`${placeholder}${isPlaceholderDotsHidden ? "" : "..."}`}
+        <AnimatedInput
+          placeholders={placeholders || [placeholder || ""]}
           secureTextEntry={secureTextEntry && !showPassword}
-          placeholderTextColor={placeholderTextColorValue}
           autoCorrect={false}
           autoCapitalize="none"
           multiline={Boolean(isTextAreaInput)}
           numberOfLines={isTextAreaInput ? 5 : 1}
-          style={inputStyles}
+          inputStyle={[inputStyles, { flex: 1 }]}
+          inputWrapperStyle={{ flex: 1, paddingHorizontal: 0, paddingVertical: 0, minHeight: 44 }}
+          containerStyle={{ flex: 1, marginVertical: 0 }}
           onChangeText={handleChangeText}
+          animationInterval={animationInterval}
+          characterEnterDuration={characterEnterDuration}
+          characterExitDuration={characterExitDuration}
+          characterDelayIncrement={characterDelayIncrement}
+          blurAnimationDuration={blurAnimationDuration}
+          blurIntensityRange={blurIntensityRange}
+          blurProgressRange={blurProgressRange}
           {...otherProps}
         />
 

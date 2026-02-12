@@ -136,7 +136,7 @@ const AnimatedWord: React.FC<AnimatedWordProps> = memo<AnimatedWordProps>(
     return (
       <Animated.View style={[styles.wordContainer, animatedStyle]}>
         <Text style={[styles.word, style]} {...props}>
-          {word}{" "}
+          {word}
         </Text>
         <AnimatedBlurView
           style={[StyleSheet.absoluteFillObject]}
@@ -152,13 +152,11 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
     alignItems: "center",
-    paddingHorizontal: 20,
   },
   textWrapper: {
     flexDirection: "row",
     flexWrap: "wrap",
-    justifyContent: "center",
-    alignItems: "center",
+    gap: 6,
   },
   wordContainer: {
     overflow: "hidden",

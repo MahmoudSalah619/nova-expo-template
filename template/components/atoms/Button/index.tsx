@@ -9,7 +9,7 @@ import GLOBAL_STYLES from "@/constants/GlobalStyles";
 import { COLORS } from "@/constants/Colors";
 import getShadowStyle from "@/utils/getShadowStyle";
 import { ButtonProps } from "./types";
-import Text from "@/components/atoms/Text";
+import Text from "@/components/atoms/Text/Base";
 import styles from "./styles";
 import { theme } from "@/utils/getTheme";
 

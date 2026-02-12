@@ -10,7 +10,7 @@ export default function Checkbox({
   checkmarkColor,
   stroke = DEFAULT_STROKE,
   size = DEFAULT_SIZE,
-  showBorder = false,
+  showBorder = true,
   onPress,
   containerStyle,
   label,
@@ -26,13 +26,16 @@ export default function Checkbox({
       stroke={stroke}
       size={size}
       showBorder={showBorder}
-      onPress={onPress}
       containerStyle={containerStyle}
     />
   );
 
   if (!label) {
-    return checkboxComponent;
+    return (
+      <Pressable onPress={onPress}>
+        {checkboxComponent}
+      </Pressable>
+    );
   }
 
   return (

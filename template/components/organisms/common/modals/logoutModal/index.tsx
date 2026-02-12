@@ -2,7 +2,7 @@ import React from "react";
 import { View } from "react-native";
 import ModalWrapper from "../modalWrapper";
 import GLOBAL_STYLES from "@/constants/GlobalStyles";
-import Text from "@/components/atoms/Text";
+import Text from "@/components/atoms/Text/Base";
 import Button from "@/components/atoms/Button";
 
 export default function LogoutModal({

@@ -32,7 +32,7 @@ const StrokePath: React.FC<IStrokePath> = ({
   const animatedStrokeProps = useAnimatedProps<
     Pick<PathProps, "strokeDashoffset" | "opacity">
   >(() => {
-    if (pathLength === 0) {
+    if (pathLength === 0 || animValue.value === 0) {
       return {
         strokeDashoffset: 1,
         opacity: 0,
@@ -69,9 +69,9 @@ const StrokePath: React.FC<IStrokePath> = ({
 export const Checkbox: React.FC<ICheckbox> = memo<ICheckbox>(
   ({
     checked = false,
-    checkmarkColor,
-    stroke = 1.5,
-    size,
+    checkmarkColor = "#000",
+    stroke = 2.5,
+    size = 28,
     showBorder = false,
     onPress,
     containerStyle,
@@ -124,11 +124,11 @@ export const Checkbox: React.FC<ICheckbox> = memo<ICheckbox>(
         const scale = interpolate(scaleValue.value, [0, 1], [0.8, 1]);
         return {
           transform: [
-            { translateX: 32 },
-            { translateY: 32 },
+            { translateX: size / 2 },
+            { translateY: size / 2 },
             { scale },
-            { translateX: -32 },
-            { translateY: -32 },
+            { translateX: -size / 2 },
+            { translateY: -size / 2 },
           ],
         };
       },
@@ -149,7 +149,7 @@ export const Checkbox: React.FC<ICheckbox> = memo<ICheckbox>(
               width: size,
               height: size,
               backgroundColor: 'rgba(255,255,255,0.12)',
-              borderRadius: 12,
+              borderRadius: 8,
               justifyContent: 'center',
               alignItems: 'center',
             },
