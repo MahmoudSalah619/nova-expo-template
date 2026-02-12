@@ -10,3 +10,4 @@ export { default as SeperateLine } from "./SeperateLine";
 export { default as ParallaxScrollView } from "./ParallaxScrollView";
 export { default as ExternalLink } from "./ExternalLink";
 export { default as Logo } from "./Logo";
+export { default as Switch } from "./Switch";
