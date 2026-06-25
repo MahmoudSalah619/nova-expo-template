@@ -1,9 +1,8 @@
-import { NavigationProp } from "@react-navigation/native";
 import { NotificationData, NotificationType } from "@/apis/@types/notification";
 
 export default function handleNotificationRedirection(
   notificationData: NotificationData,
-  navigation: NavigationProp<ReactNavigation.RootParamList>
+  navigation: { navigate: (name: string, params?: object) => void }
 ) {
   console.log(notificationData, "NOTIFICATION DATA");
 

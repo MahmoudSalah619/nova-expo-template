@@ -547,11 +547,9 @@ async function configureSentry(targetPath, answers) {
     npmCmd,
     [
       "install",
-      "@sentry/react-native@^5.9.0",
-      "sentry-expo",
+      "@sentry/react-native@^8.14.1",
       "expo-constants",
       "expo-device",
-      "@sentry/webpack-plugin",
     ],
     {
       cwd: targetPath,
@@ -565,7 +563,7 @@ async function configureSentry(targetPath, answers) {
 
   appJson.expo.plugins ||= [];
   appJson.expo.plugins.push([
-    "sentry-expo",
+    "@sentry/react-native/expo",
     {
       organization: answers.projectName.toLowerCase().replace(/\s+/g, "-"),
       project: answers.projectName.toLowerCase().replace(/\s+/g, "-"),
@@ -598,7 +596,7 @@ const InitialScreen = () => {
     enableNativeNagger: false,
     debug: __DEV__,
     environment: __DEV__ ? "development" : "production",
-    integrations: [new Sentry.ReactNativeTracing()],
+    integrations: [Sentry.reactNativeTracingIntegration()],
     tracesSampleRate: 1.0,
   });
 

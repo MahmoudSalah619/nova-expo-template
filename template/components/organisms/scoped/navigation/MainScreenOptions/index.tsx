@@ -1,18 +1,16 @@
-import { RouteProp } from "@react-navigation/native";
-import { RootStackParamList, CustomScreenOptions } from "../types"; // Import the custom type
+import { NativeStackNavigationOptions } from "expo-router";
+import { CustomScreenOptions } from "../types"; // Import the custom type
 import NavigationHeader from "../AppHeader";
 
 type MainScreenOptionsProps = {
-  route: RouteProp<RootStackParamList, keyof RootStackParamList>;
+  route: { params?: CustomScreenOptions };
 };
 
-export default function MainScreenOptions({ route }: MainScreenOptionsProps) {
+export default function MainScreenOptions({
+  route,
+}: MainScreenOptionsProps): NativeStackNavigationOptions {
   // Default options if no params are passed
-  const defaultOptions: CustomScreenOptions = {
-    tabBarShowLabel: false,
-    tabBarStyle: {
-      // height: METRICS.bottomTabsHeight,
-    },
+  const defaultOptions: NativeStackNavigationOptions = {
     animation: "slide_from_right",
     animationDuration: 300,
   };
@@ -24,7 +22,7 @@ export default function MainScreenOptions({ route }: MainScreenOptionsProps) {
 
   // Extract params
   const { title, hasLogo, isBackArrowHidden, isRightComponentHidden, onPress } =
-    route.params as CustomScreenOptions;
+    route.params;
 
   const DisplayedHeader = (
     <NavigationHeader

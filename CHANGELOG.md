@@ -6,6 +6,20 @@ All notable changes to this project will be documented in this file.
 
 - Internet Detection using NetInfo
 
+## [3.0.0] - 2026-06-25
+
+### Changed
+
+- **Major upgrade to Expo SDK 56** (React Native 0.85.3, React 19.2.3).
+- Updated all `expo-*` packages to SDK 56 unified versioning (e.g. `expo-router@~56.2.11`).
+- Bumped all third-party dependencies to versions compatible with SDK 56.
+- Upgraded TypeScript to 6.0.
+- Updated the optional Sentry integration to `@sentry/react-native@^8` (removed deprecated `sentry-expo` / webpack plugin; switched to the `@sentry/react-native/expo` config plugin and v8 tracing API).
+
+### Removed
+
+- Dropped the unmaintained `react-native-status-bar-height` dependency in favor of `Constants.statusBarHeight` from `expo-constants`.
+
 ## [2.0.2] - 2025-11-09
 
 ### Added

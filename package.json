@@ -8,7 +8,7 @@
     "react",
     "react-native",
     "expo",
-    "expo54",
+    "expo56",
     "template",
     "expo template",
     "expo-template",
@@ -16,7 +16,7 @@
     "novabyte",
     "bit68",
     "typescript",
-    "sdk54"
+    "sdk56"
   ],
   "bin": {
     "create-nova-expo-template": "bin/cli.js"

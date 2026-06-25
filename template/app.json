@@ -7,12 +7,6 @@
     "icon": "./assets/images/nova-black.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
-    "splash": {
-      "image": "./assets/images/nova-black.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#0a7ea4"
-    },
     "ios": {
       "supportsTablet": true,
       "userInterfaceStyle": "automatic",
@@ -23,7 +17,8 @@
         "NSLocationWhenInUseUsageDescription": "This app uses location services to provide information about your current location.",
         "NSLocationAlwaysUsageDescription": "This app uses location services to provide information about your current location.",
         "NSLocationAlwaysAndWhenInUseUsageDescription": "This app uses location services to provide information about your current location."
-      }
+      },
+      "bundleIdentifier": "com.bit68.----projectName---"
     },
     "android": {
       "adaptiveIcon": {

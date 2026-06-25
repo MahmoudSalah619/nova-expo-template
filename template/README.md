@@ -1,6 +1,6 @@
 # 🚀 Your Nova Expo App
 
-A modern React Native application built with Expo 54, featuring a comprehensive development setup with TypeScript, navigation, state management, internationalization, and atomic design components.
+A modern React Native application built with Expo 56, featuring a comprehensive development setup with TypeScript, navigation, state management, internationalization, and atomic design components.
 
 ## 📋 Table of Contents
 

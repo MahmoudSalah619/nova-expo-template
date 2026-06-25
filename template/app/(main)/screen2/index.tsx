@@ -1,7 +1,6 @@
 import React from "react";
 import { Button, Text } from "@/components/atoms";
-import { useRoute } from "@react-navigation/native";
-import { useRouter } from "expo-router";
+import { useRoute, useRouter } from "expo-router";
 import MainScreenWrapper from "@/components/templates/MainScreenWrapper";
 
 export default function Screen2() {

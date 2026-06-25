@@ -1,5 +1,5 @@
 import { Keyboard, TouchableOpacity, View } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation } from "expo-router";
 import { COLORS } from "@/constants/Colors";
 
 import { Feather } from "@expo/vector-icons";

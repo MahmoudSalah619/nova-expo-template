@@ -3,7 +3,12 @@ import React from "react";
 import { Text, ThemedView } from "@/components/atoms";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { COLORS } from "@/constants/Colors";
-import type { BottomTabBarProps } from "@react-navigation/bottom-tabs";
+import { Tabs } from "expo-router";
+
+// Props that expo-router's <Tabs tabBar={...} /> passes to a custom tab bar.
+type BottomTabBarProps = Parameters<
+  NonNullable<React.ComponentProps<typeof Tabs>["tabBar"]>
+>[0];
 
 // Icon mapping for routes
 const getIcon = (routeName: string, isFocused: boolean) => {

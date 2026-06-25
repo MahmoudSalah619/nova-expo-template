@@ -1,6 +1,5 @@
-import { NavigatorScreenParams } from "@react-navigation/native";
-
-export type CustomScreenOptions = NavigatorScreenParams & {
+export type CustomScreenOptions = {
+  title?: string;
   hasLogo?: boolean;
   isBackArrowHidden?: boolean;
   isRightComponentHidden?: boolean;

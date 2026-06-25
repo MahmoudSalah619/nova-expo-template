@@ -1,6 +1,6 @@
 # 🚀 **Expo Template**
 
-This is a React Native template built with Expo 54. It provides a modern and responsive foundation for building mobile applications. It includes:
+This is a React Native template built with Expo 56. It provides a modern and responsive foundation for building mobile applications. It includes:
 
 - Navigation (Auth/Main stacks)
 - Theming and styling

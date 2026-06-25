@@ -1,5 +1,5 @@
 import { Dimensions, PixelRatio, Platform } from "react-native";
-import { getStatusBarHeight } from "react-native-status-bar-height";
+import Constants from "expo-constants";
 
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
@@ -27,7 +27,7 @@ const METRICS = {
   screenWidth: WIDTH,
   screenHeight: HEIGHT,
   bottomTabsHeight: Platform.select({ android: 66, ios: 80 }),
-  headerHeight: getStatusBarHeight(),
+  headerHeight: Constants.statusBarHeight,
   generalSpacingValue: WIDTH * 0.035,
 };
 

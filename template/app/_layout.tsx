@@ -37,7 +37,7 @@ const AppProviders = ({ children }: { children: React.ReactNode }) => (
   <SafeAreaInsetsContext.Consumer>
     {(insets) => (
       <View style={{ flex: 1, paddingTop: insets?.top }}>
-        <StatusBar style="dark" backgroundColor="transparent" />
+        <StatusBar style="dark" />
         <Provider store={store}>
           <SheetProvider>
             {/* <NotificationListnerContainer /> */}

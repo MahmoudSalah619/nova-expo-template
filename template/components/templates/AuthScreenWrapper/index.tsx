@@ -6,7 +6,7 @@ import {
   ViewStyle,
 } from "react-native";
 
-import { getStatusBarHeight } from "react-native-status-bar-height";
+import Constants from "expo-constants";
 import GLOBAL_STYLES from "@/constants/GlobalStyles";
 import METRICS from "@/constants/Metrics";
 import { ScreenWrapperProps } from "./types";
@@ -27,7 +27,7 @@ export default function AuthScreenWrapper({
 }: ScreenWrapperProps) {
   const extraStyle: ViewStyle = {
     justifyContent: justifyContent,
-    paddingTop: isStatusBarShown ? getStatusBarHeight() : 10,
+    paddingTop: isStatusBarShown ? Constants.statusBarHeight : 10,
     paddingBottom: 16,
     paddingHorizontal: paddingSize === "sm" ? 24 : 32,
   };
