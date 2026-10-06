@@ -21,7 +21,7 @@ export default function Screen3() {
         )}
         estimatedItemSize={150}
         gap={12}
-        renderItem={({ item, index }) => (
+        renderItem={({ item }) => (
           <View>
           <CardWrapper customStyles={styles.card}>
             <View style={styles.cardTop}>

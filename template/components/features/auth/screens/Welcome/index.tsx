@@ -40,7 +40,7 @@ const Welcome = () => {
         </View>
 
         <View style={styles.featuresGrid}>
-          {FEATURES.map((feature, index) => (
+          {FEATURES.map((feature) => (
             <View key={feature.title} style={styles.featureCard}>
               <View style={styles.featureIcon}>
                 <Icon name={feature.icon} size={20} color="action" />

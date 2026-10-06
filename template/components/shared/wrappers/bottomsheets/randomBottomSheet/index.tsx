@@ -5,7 +5,6 @@ import SheetWrapper from "../sheetWrapper";
 import Button from "@/components/shared/ui/Button";
 import GLOBAL_STYLES from "@/constants/GlobalStyles";
 import { RandomBottomSheetProps } from "./types";
-import styles from "./styles";
 
 export default function RandomBottomSheet(
   props: SheetProps<"random-bottom-sheet"> & RandomBottomSheetProps

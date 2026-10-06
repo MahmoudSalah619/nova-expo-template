@@ -3,7 +3,7 @@ import React, {
   memo,
   useContext,
   useEffect,
-  useRef,
+  useMemo,
   useState,
   type FC,
   type FunctionComponent,
@@ -40,7 +40,7 @@ const OtpItem: FC<IOtpItem> & FunctionComponent<IOtpItem> = ({
   | (React.ReactNode & React.JSX.Element & React.ReactElement)
   | null => {
   const {
-    inputRef,
+    inputRefs,
     onPress,
     otpValue,
     onFocusNext,
@@ -76,25 +76,25 @@ const OtpItem: FC<IOtpItem> & FunctionComponent<IOtpItem> = ({
   const animations = ANIMATION_VARIATIONS[animationVariant];
 
   useEffect(() => {
-    borderWidth.value = withTiming<number>(focus === index ? 2 : 1, {
+    borderWidth.set(withTiming<number>(focus === index ? 2 : 1, {
       duration: 1200,
-    });
-    focusProgress.value = withTiming<number>(focus === index ? 1 : 0, {
+    }));
+    focusProgress.set(withTiming<number>(focus === index ? 1 : 0, {
       duration: 200,
-    });
+    }));
 
     if (focus === index) {
-      inputScale.value = withSequence<number>(
+      inputScale.set(withSequence<number>(
         withSpring(1.05, { damping: 50, stiffness: 120, mass: 0.5 }),
         withSpring(1, { damping: 50, stiffness: 120, mass: 0.5 }),
-      );
+      ));
     }
   }, [focus]);
 
   useEffect(() => {
-    errorProgress.value = withTiming<number>(error ? 1 : 0, {
+    errorProgress.set(withTiming<number>(error ? 1 : 0, {
       duration: 200,
-    });
+    }));
   }, [error]);
 
   useEffect(() => {
@@ -169,7 +169,7 @@ const OtpItem: FC<IOtpItem> & FunctionComponent<IOtpItem> = ({
         ]}
         caretHidden
         keyboardType="number-pad"
-        ref={inputRef.current[index]}
+        ref={inputRefs[index]}
         value={otpValue[index]}
         onChangeText={(v) => onFocusNext(v, index)}
         onKeyPress={(e) => onFocusPrevious(e.nativeEvent.key, index)}
@@ -235,13 +235,18 @@ export const OtpInput: FC<IOtpInput> & FunctionComponent<IOtpInput> =
     }: IOtpInput):
       | (React.ReactNode & React.JSX.Element & React.ReactElement)
       | null => {
-      const inputRef = useRef<any[]>([]);
       const data: string[] = new Array(otpCount).fill("");
-      inputRef.current = data.map(
-        (_, index) => (inputRef.current[index] = React.createRef<TextInput>()),
+      const inputRefs = useMemo(
+        () =>
+          Array.from({ length: otpCount }, () => React.createRef<TextInput>()),
+        [otpCount],
       );
       const [focus, setFocus] = useState<number>(0);
       const [otpValue, setOtpValue] = useState<string[]>(data);
+      const setOtpAt = (position: number, digit: string) =>
+        setOtpValue((previous) =>
+          previous.map((current, i) => (i === position ? digit : current)),
+        );
 
       const opacity = useSharedValue<number>(1);
       const translateX = useSharedValue<number>(0);
@@ -249,11 +254,10 @@ export const OtpInput: FC<IOtpInput> & FunctionComponent<IOtpInput> =
       const onPress = () => {
         if (focus === -1) {
           setFocus(otpCount - 1);
-          otpValue[data.length - 1] = "";
-          setOtpValue([...otpValue]);
-          inputRef.current[data.length - 1].current.focus();
+          setOtpAt(data.length - 1, "");
+          inputRefs[data.length - 1].current?.focus();
         } else {
-          inputRef.current[focus].current.focus();
+          inputRefs[focus].current?.focus();
         }
       };
       const onFocusNext = <V extends string, I extends number>(
@@ -261,27 +265,25 @@ export const OtpInput: FC<IOtpInput> & FunctionComponent<IOtpInput> =
         index: I,
       ) => {
         if (index < data.length - 1 && value) {
-          inputRef.current[index + 1].current.focus();
+          inputRefs[index + 1].current?.focus();
           setFocus(index + 1);
         }
         if (index === data.length - 1) {
           setFocus(-1);
-          inputRef.current[index].current.blur();
+          inputRefs[index].current?.blur();
         }
-        otpValue[index] = value;
-        setOtpValue([...otpValue]);
+        setOtpAt(index, value);
       };
       const onFocusPrevious = <K extends string, I extends number>(
         key: K,
         index: I,
       ) => {
         if (key === "Backspace" && index !== 0) {
-          inputRef.current[index - 1].current.focus();
+          inputRefs[index - 1].current?.focus();
           setFocus(index - 1);
-          otpValue[index - 1] = "";
-          setOtpValue([...otpValue]);
+          setOtpAt(index - 1, "");
         } else if (key === "Backspace" && index === 0) {
-          otpValue[0] = "";
+          setOtpAt(0, "");
         }
       };
       if (otpCount < 4 || otpCount > 6) {
@@ -294,14 +296,14 @@ export const OtpInput: FC<IOtpInput> & FunctionComponent<IOtpInput> =
         transform: [{ translateX: translateX.value }],
       }));
       const triggerCompleteAnimation = () => {
-        opacity.value = withSequence<number>(
+        opacity.set(withSequence<number>(
           withTiming(0.6, { duration: 900 }),
           withTiming(1, { duration: 900 }),
-        );
+        ));
       };
 
       const triggerShakeAnimation = () => {
-        translateX.value = withSequence<number>(
+        translateX.set(withSequence<number>(
           withTiming(-4, { duration: 50 }),
           withTiming(4, { duration: 50 }),
           withTiming(-3, { duration: 50 }),
@@ -309,11 +311,11 @@ export const OtpInput: FC<IOtpInput> & FunctionComponent<IOtpInput> =
           withTiming(-2, { duration: 50 }),
           withTiming(2, { duration: 50 }),
           withTiming(0, { duration: 50 }),
-        );
+        ));
       };
 
       const inputProps: IOtpContext = {
-        inputRef,
+        inputRefs,
         otpValue,
         onPress,
         onFocusNext,
@@ -361,10 +363,9 @@ export const OtpInput: FC<IOtpInput> & FunctionComponent<IOtpInput> =
         if (error) {
           triggerShakeAnimation();
           const timeout = setTimeout(() => {
-            otpValue.fill("");
-            setOtpValue([...otpValue]);
+            setOtpValue(new Array(otpCount).fill(""));
             setFocus(0);
-            inputRef.current[0].current.focus();
+            inputRefs[0].current?.focus();
           }, 1000);
           return () => clearTimeout(timeout);
         }
@@ -392,6 +393,7 @@ export const OtpInput: FC<IOtpInput> & FunctionComponent<IOtpInput> =
       );
     },
   );
+OtpInput.displayName = "OtpInput";
 
 export default memo<FC<IOtpInput> & FunctionComponent<IOtpInput>>(OtpInput);
 

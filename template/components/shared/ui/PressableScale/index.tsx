@@ -34,12 +34,12 @@ export default function PressableScale({
     <AnimatedPressable
       style={[style, animatedStyle]}
       onPressIn={(event) => {
-        scale.value = withTiming(pressedScale, TIMING);
+        scale.set(withTiming(pressedScale, TIMING));
         if (hasHaptics) Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
         onPressIn?.(event);
       }}
       onPressOut={(event) => {
-        scale.value = withTiming(1, TIMING);
+        scale.set(withTiming(1, TIMING));
         onPressOut?.(event);
       }}
       {...rest}

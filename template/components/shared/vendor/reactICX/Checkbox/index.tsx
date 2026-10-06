@@ -84,39 +84,39 @@ export const Checkbox: React.FC<ICheckbox> = memo<ICheckbox>(
     useEffect(() => {
       if (isFirstRender.current) {
         isFirstRender.current = false;
-        animValue.value = checked ? 1 : 0;
-        borderAnimValue.value = showBorder ? 1 : 0;
-        scaleValue.value = 1;
+        animValue.set(checked ? 1 : 0);
+        borderAnimValue.set(showBorder ? 1 : 0);
+        scaleValue.set(1);
         return;
       }
 
-      animValue.value = withTiming<number>(checked ? 1 : 0, {
+      animValue.set(withTiming<number>(checked ? 1 : 0, {
         duration: checked ? 300 : 250,
         easing: checked
           ? Easing.bezier(0.4, 0, 0.2, 1)
           : Easing.bezier(0.4, 0, 0.6, 1),
-      });
+      }));
 
       if (checked) {
-        scaleValue.value = withSpring<number>(1, {
+        scaleValue.set(withSpring<number>(1, {
           damping: 10,
           stiffness: 150,
           mass: 0.5,
-        });
+        }));
       } else {
-        scaleValue.value = withTiming<number>(1, { duration: 100 });
+        scaleValue.set(withTiming<number>(1, { duration: 100 }));
       }
     }, [checked, animValue, scaleValue]);
 
     useEffect(() => {
       if (isFirstRender.current) return;
 
-      borderAnimValue.value = withTiming<number>(showBorder ? 1 : 0, {
+      borderAnimValue.set(withTiming<number>(showBorder ? 1 : 0, {
         duration: 250,
         easing: showBorder
           ? Easing.bezier(0.4, 0, 0.2, 1)
           : Easing.bezier(0.4, 0, 0.6, 1),
-      });
+      }));
     }, [showBorder, borderAnimValue]);
 
     const animatedCheckmarkProps = useAnimatedProps<Pick<GProps, "transform">>(
@@ -183,5 +183,6 @@ export const Checkbox: React.FC<ICheckbox> = memo<ICheckbox>(
     );
   },
 );
+Checkbox.displayName = "Checkbox";
 
 export default memo<React.FC<ICheckbox>>(Checkbox);

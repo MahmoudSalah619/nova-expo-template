@@ -1,6 +1,5 @@
-import type { MutableRefObject } from "react";
-import type { TextInputProps, ViewStyle, TextStyle, StyleProp } from "react-native";
-import type { AnimateProps } from "react-native-reanimated";
+import type { RefObject } from "react";
+import type { TextInput, TextInputProps, ViewStyle, TextStyle, StyleProp } from "react-native";
 
 export type AnimationVariant = "fadeSlideDown" | "fadeSlideUp" | "scale" | "bounce";
 
@@ -31,7 +30,7 @@ export interface IOtpInput extends Omit<TextInputProps, "value"> {
 }
 
 export interface IOtpContext extends IOtpInput {
-  inputRef: MutableRefObject<any[]>;
+  inputRefs: RefObject<TextInput | null>[];
   otpValue: string[];
   onPress: () => void;
   onFocusNext: <V extends string, I extends number>(value: V, index: I) => void;

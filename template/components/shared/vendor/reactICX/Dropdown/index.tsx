@@ -55,19 +55,19 @@ const Dropdown = ({ children }: DropdownProps): JSX.Element => {
 
   const open = (): void => {
     setVisible(true);
-    flipAnim.value = withSpring(1, {
+    flipAnim.set(withSpring(1, {
       damping: 15,
       stiffness: 150,
       mass: 0.8,
-    });
+    }));
   };
 
   const close = (): void => {
-    flipAnim.value = withTiming(0, {
+    flipAnim.set(withTiming(0, {
       duration: 200,
       easing: Easing.bezier(0.4, 0, 0.6, 1),
-    });
-    activeItemIndex.value = -1;
+    }));
+    activeItemIndex.set(-1);
     setTimeout(() => setVisible(false), 200);
   };
 
@@ -152,8 +152,6 @@ const Content = ({
       // Check bottom space
       const spaceBelow = SCREEN_HEIGHT - (y + height);
       const spaceAbove = y;
-      const spaceRight = SCREEN_WIDTH - x;
-      const spaceLeft = x;
 
       // Vertical positioning
       if (spaceBelow >= contentHeight + SPACING) {
@@ -225,30 +223,30 @@ const Content = ({
     .onBegin((event) => {
       "worklet";
       const index = calculateActiveIndex(event.y);
-      activeItemIndex.value = index;
-      lastHapticIndex.value = index;
+      activeItemIndex.set(index);
+      lastHapticIndex.set(index);
       scheduleOnRN(triggerHaptic);
     })
     .onUpdate((event) => {
       "worklet";
       const index = calculateActiveIndex(event.y);
       if (index !== activeItemIndex.value) {
-        activeItemIndex.value = index;
+        activeItemIndex.set(index);
         if (index !== lastHapticIndex.value) {
-          lastHapticIndex.value = index;
+          lastHapticIndex.set(index);
           scheduleOnRN(triggerHaptic);
         }
       }
     })
     .onEnd(() => {
       "worklet";
-      activeItemIndex.value = -1;
-      lastHapticIndex.value = -1;
+      activeItemIndex.set(-1);
+      lastHapticIndex.set(-1);
     })
     .onFinalize(() => {
       "worklet";
-      activeItemIndex.value = -1;
-      lastHapticIndex.value = -1;
+      activeItemIndex.set(-1);
+      lastHapticIndex.set(-1);
     });
 
   const animatedStyle = useAnimatedStyle(() => {
@@ -328,7 +326,7 @@ const Item = ({
 
   const animatedStyle = useAnimatedStyle(() => {
     const isActive = activeItemIndex.value === index;
-    const LIFT_DISTANCE = -6;
+    // const LIFT_DISTANCE = -6;
     const SCALE_UP = 1.02;
 
     return {

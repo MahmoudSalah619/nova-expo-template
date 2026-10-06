@@ -155,15 +155,15 @@ const DialogContent: React.FC<ExtendedDialogContentProps> = ({
 
   useEffect(() => {
     if (isOpen) {
-      animationProgress.value = withTiming(1, {
+      animationProgress.set(withTiming(1, {
         duration: 550,
-      });
+      }));
     }
   }, [isOpen]);
 
   useEffect(() => {
     if (externalIsAnimating) {
-      animationProgress.value = withTiming(
+      animationProgress.set(withTiming(
         0,
         {
           duration: 650,
@@ -178,7 +178,7 @@ const DialogContent: React.FC<ExtendedDialogContentProps> = ({
             }
           }
         },
-      );
+      ));
     }
   }, [externalIsAnimating]);
 

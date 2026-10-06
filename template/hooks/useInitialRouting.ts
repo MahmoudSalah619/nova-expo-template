@@ -3,13 +3,11 @@ import { useEffect, useState } from "react";
 const useInitialRouting = () => {
   const [targetPath, setTargetPath] = useState<string | null>(null);
 
-  const determineRoute = async () => {
-    const isSignedIn = await fakeAuthCheck(); // Your auth logic
-    setTargetPath(isSignedIn ? "/(main)/(tabs)/Home" : "/(auth)/welcome");
-  };
-
   useEffect(() => {
-    determineRoute();
+    // Your auth logic
+    fakeAuthCheck().then((isSignedIn) => {
+      setTargetPath(isSignedIn ? "/(main)/(tabs)/Home" : "/(auth)/welcome");
+    });
   }, []);
 
   return { targetPath };

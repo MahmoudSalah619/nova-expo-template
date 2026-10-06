@@ -295,6 +295,7 @@ export const AnimatedSwitch: React.FC<AnimatedSwitchProps> &
     );
   },
 );
+AnimatedSwitch.displayName = "AnimatedSwitch";
 
 const styles = StyleSheet.create({
   track: {

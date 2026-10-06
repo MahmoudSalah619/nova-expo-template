@@ -60,6 +60,7 @@ export const FadeText: React.FC<FadeTextProps> = memo<FadeTextProps>(
     );
   },
 );
+FadeText.displayName = "FadeText";
 
 const AnimatedWord: React.FC<AnimatedWordProps> = memo<AnimatedWordProps>(
   ({
@@ -147,6 +148,7 @@ const AnimatedWord: React.FC<AnimatedWordProps> = memo<AnimatedWordProps>(
     );
   },
 );
+AnimatedWord.displayName = "AnimatedWord";
 
 const styles = StyleSheet.create({
   container: {

@@ -100,7 +100,7 @@ export default function Notifications() {
           </Text>
         </View>
       ) : (
-        NOTIFICATION_GROUPS.map((group, groupIndex) => {
+        NOTIFICATION_GROUPS.map((group) => {
           const groupItems = visibleNotifications.filter(
             (item) => item.group === group.key
           );

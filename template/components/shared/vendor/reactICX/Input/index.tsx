@@ -257,6 +257,7 @@ const AnimatedInput: React.FC<IAnimatedInput> &
     );
   },
 );
+AnimatedInput.displayName = "AnimatedInput";
 
 export default memo<
   React.FC<IAnimatedInput> & React.FunctionComponent<IAnimatedInput>

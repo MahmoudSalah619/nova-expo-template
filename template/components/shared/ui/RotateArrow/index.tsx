@@ -17,7 +17,7 @@ export default function RotateArrow({
   const iconPosition = useSharedValue("0deg");
 
   const rotateArrow = useCallback(() => {
-    iconPosition.value = withSpring(isOpen ? "180deg" : "0deg");
+    iconPosition.set(withSpring(isOpen ? "180deg" : "0deg"));
   }, [iconPosition, isOpen]);
 
   useEffect(() => {

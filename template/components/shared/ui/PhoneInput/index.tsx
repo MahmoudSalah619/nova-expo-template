@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useMemo, useRef } from "react";
 import { View } from "react-native";
 import Text from "@/components/shared/ui/Text/Base";
 import { COLORS } from "@/constants/Colors";
@@ -8,6 +8,8 @@ import DropDown from "../DropDown";
 import Input from "../Input";
 import { PhoneInputProps } from "./types";
 import styles from "./styles";
+
+const findCountry = (code: unknown) => COUNTRIES.find((c) => c.code === code);
 
 /**
  * Phone number input with a country dial-code picker.
@@ -25,8 +27,12 @@ export default function PhoneInput({
   containerStyle,
   ...otherProps
 }: PhoneInputProps) {
-  const [selectedCountry, setSelectedCountry] = useState<Country>(DEFAULT_COUNTRY);
+  const [selectedCountry, setSelectedCountry] = useState<Country>(
+    () => findCountry(defaultCountry) ?? DEFAULT_COUNTRY
+  );
   const [phoneValue, setPhoneValue] = useState<string>(value);
+  const [prevDefaultCountry, setPrevDefaultCountry] = useState(defaultCountry);
+  const [prevValue, setPrevValue] = useState(value);
   const containerRef = useRef<View>(null);
 
   const countryData = useMemo(
@@ -38,20 +44,23 @@ export default function PhoneInput({
     []
   );
 
-  useEffect(() => {
-    const country = COUNTRIES.find((c) => c.code === defaultCountry);
+  // Sync with the controlling props during render instead of in an effect
+  if (prevDefaultCountry !== defaultCountry) {
+    setPrevDefaultCountry(defaultCountry);
+    const country = findCountry(defaultCountry);
     if (country) setSelectedCountry(country);
-  }, [defaultCountry]);
+  }
 
-  useEffect(() => {
+  if (prevValue !== value) {
+    setPrevValue(value);
     setPhoneValue(value);
-  }, [value]);
+  }
 
   const buildFullNumber = (country: Country, phone: string) =>
     phone ? `${country.dialCode}${phone}` : "";
 
   const handleCountryChange = (countryCode: unknown) => {
-    const country = COUNTRIES.find((c) => c.code === countryCode);
+    const country = findCountry(countryCode);
     if (!country) return;
     setSelectedCountry(country);
     onChange?.(buildFullNumber(country, phoneValue));

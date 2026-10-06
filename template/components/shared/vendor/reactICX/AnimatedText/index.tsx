@@ -186,6 +186,7 @@ const Character: React.FC<CharacterProps> = memo<CharacterProps>(
     );
   },
 );
+Character.displayName = "Character";
 
 export const StaggeredText: React.FC<StaggeredTextProps> =
   memo<StaggeredTextProps>(
@@ -258,6 +259,7 @@ export const StaggeredText: React.FC<StaggeredTextProps> =
       );
     },
   );
+StaggeredText.displayName = "StaggeredText";
 
 export default memo<StaggeredTextProps>(StaggeredText);
 

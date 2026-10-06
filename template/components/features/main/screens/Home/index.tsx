@@ -62,7 +62,7 @@ const Home = () => {
           homeQuickActions
         </Text>
         <View style={styles.actionsGrid}>
-          {QUICK_ACTIONS.map((action, index) => (
+          {QUICK_ACTIONS.map((action) => (
             <View key={action.title} style={styles.actionCardWrapper}>
             <PressableScale
               style={styles.actionCard}

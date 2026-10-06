@@ -55,13 +55,13 @@ export default function DropDown({
   const listHeight = useSharedValue(0);
 
   const toggleList = () => {
-    listHeight.value = withSpring(
+    listHeight.set(withSpring(
       listHeight.value !== containerHeight ? containerHeight : 0,
       {
         duration: 640,
         reduceMotion: ReduceMotion.System,
       }
-    );
+    ));
   };
 
   const animatedStyle = useAnimatedStyle(() => {
@@ -79,9 +79,9 @@ export default function DropDown({
 
   const onDismissModal = () => {
     setIsModalVisible(false);
-    listHeight.value = withSpring(0, {
+    listHeight.set(withSpring(0, {
       duration: 300,
-    });
+    }));
   };
 
   const isValueSelected = (value: string | number): boolean => {

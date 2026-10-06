@@ -1,4 +1,4 @@
-import type { TextStyle, ViewStyle } from "react-native";
+import type { TextStyle } from "react-native";
 import type { WithSpringConfig } from "react-native-reanimated";
 
 export interface AnimationConfig {
