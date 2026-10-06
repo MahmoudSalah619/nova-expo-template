@@ -1,23 +1,16 @@
-import React from 'react';
-{{#eq screenType "auth"}}
-import AuthScreenWrapper from '@/components/templates/AuthScreenWrapper';
-{{else}}
-import MainScreenWrapper from '@/components/templates/MainScreenWrapper';
-{{/eq}}
-import { Text } from '@/components/atoms';
-// import styles from './styles';
+import React from "react";
+import { View } from "react-native";
+import ScreenWrapper from "@/components/shared/layout/ScreenWrapper";
+import { Text } from "@/components/shared/ui";
+import styles from "./styles";
 
 const {{pascalCase name}} = () => {
   return (
-    {{#eq screenType "auth"}}
-    <AuthScreenWrapper>
-      <Text>{{pascalCase name}} Screen</Text>
-    </AuthScreenWrapper>
-    {{else}}
-    <MainScreenWrapper>
-      <Text>{{pascalCase name}} Screen</Text>
-    </MainScreenWrapper>
-    {{/eq}}
+    <ScreenWrapper{{#eq screenType "main"}} variant="main"{{/eq}}>
+      <View style={styles.container}>
+        <Text>{{pascalCase name}} Screen</Text>
+      </View>
+    </ScreenWrapper>
   );
 };
 

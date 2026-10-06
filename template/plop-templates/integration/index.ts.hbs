@@ -1,14 +1,14 @@
-import api from '@/apis';
-import { PaginatedResponse } from '@/apis/@types/general';
+import api from "@/apis";
+import { PaginatedResponse } from "@/apis/@types/general";
 import {
   {{pascalCase name}}ListItem,
   {{pascalCase name}}Detail,
   {{pascalCase name}}Params,
   Create{{pascalCase name}}Body,
   Update{{pascalCase name}}Body,
-} from './types';
-import getSerializedQueryArgs from '@/utils/getSerializedQueryArgs';
-import infintyPaginationMergeHandler from '@/utils/infintyPaginationMergeHandler';
+} from "./types";
+import getSerializedQueryArgs from "@/utils/getSerializedQueryArgs";
+import infintyPaginationMergeHandler from "@/utils/infintyPaginationMergeHandler";
 
 export const {{camelCase name}}Api = api.injectEndpoints({
   endpoints: (build) => ({
@@ -16,40 +16,40 @@ export const {{camelCase name}}Api = api.injectEndpoints({
       PaginatedResponse<{{pascalCase name}}ListItem>,
       {{pascalCase name}}Params
     >({
-      query: (params) => ({ url: '/{{kebabCase name}}s/', method: 'GET', params }),
+      query: (params) => ({ url: "/{{kebabCase name}}s/", method: "GET", params }),
       // Infinite-pagination trio — keep together for paginated lists, drop for non-paginated reads.
       serializeQueryArgs: getSerializedQueryArgs,
       merge: infintyPaginationMergeHandler,
       forceRefetch({ currentArg, previousArg }) {
         return currentArg?.page !== previousArg?.page;
       },
-      providesTags: ['{{pascalCase name}}s'],
+      providesTags: ["{{pascalCase name}}s"],
     }),
 
     get{{pascalCase name}}Details: build.query<{{pascalCase name}}Detail, { id: number }>({
-      query: ({ id }) => ({ url: `/{{kebabCase name}}s/${id}/`, method: 'GET' }),
-      providesTags: (_result, _error, { id }) => [{ type: '{{pascalCase name}}', id }],
+      query: ({ id }) => ({ url: `/{{kebabCase name}}s/${id}/`, method: "GET" }),
+      providesTags: (_result, _error, { id }) => [{ type: "{{pascalCase name}}", id }],
     }),
 
     create{{pascalCase name}}: build.mutation<{{pascalCase name}}ListItem, Create{{pascalCase name}}Body>({
-      query: (body) => ({ url: '/{{kebabCase name}}s/', method: 'POST', body }),
-      invalidatesTags: ['{{pascalCase name}}s'],
+      query: (body) => ({ url: "/{{kebabCase name}}s/", method: "POST", body }),
+      invalidatesTags: ["{{pascalCase name}}s"],
     }),
 
     update{{pascalCase name}}: build.mutation<
       {{pascalCase name}}ListItem,
       { id: number } & Update{{pascalCase name}}Body
     >({
-      query: ({ id, ...body }) => ({ url: `/{{kebabCase name}}s/${id}/`, method: 'PATCH', body }),
+      query: ({ id, ...body }) => ({ url: `/{{kebabCase name}}s/${id}/`, method: "PATCH", body }),
       invalidatesTags: (_result, _error, { id }) => [
-        '{{pascalCase name}}s',
-        { type: '{{pascalCase name}}', id },
+        "{{pascalCase name}}s",
+        { type: "{{pascalCase name}}", id },
       ],
     }),
 
     delete{{pascalCase name}}: build.mutation<void, { id: number }>({
-      query: ({ id }) => ({ url: `/{{kebabCase name}}s/${id}/`, method: 'DELETE' }),
-      invalidatesTags: ['{{pascalCase name}}s'],
+      query: ({ id }) => ({ url: `/{{kebabCase name}}s/${id}/`, method: "DELETE" }),
+      invalidatesTags: ["{{pascalCase name}}s"],
     }),
   }),
 });

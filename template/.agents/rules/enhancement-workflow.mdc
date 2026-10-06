@@ -9,9 +9,9 @@ Use this for non-breaking feature enhancement and UX improvements.
 
 ## Project location guide
 
-- New screen/flow UI -> `components/pages/<flow>/<ScreenName>/...` + thin route in `app/...`
-- Shared UI enhancement -> `components/molecules/common` or `components/organisms/common`
-- Feature-only enhancement -> `components/molecules/scoped/<feature>` or `organisms/scoped/<feature>`
+- New screen/flow UI -> `components/features/<flow>/screens/<ScreenName>/...` + barrel export in `components/features/<flow>/index.ts` + thin route in `app/...`
+- Shared UI enhancement -> `components/shared/ui|layout|wrappers`
+- Feature-only enhancement -> `components/features/<feature>`
 - API enhancement -> `apis/services/**` + `apis/@types/**`
 
 ## 1) Define enhancement scope
@@ -22,7 +22,7 @@ Use this for non-breaking feature enhancement and UX improvements.
 
 ## 2) Place code in correct layer
 
-- Keep component placement aligned with Atomic Design.
+- Keep component placement aligned with the component directory structure (`component-structure.mdc`).
 - Prefer extending existing reusable components before creating duplicates.
 
 ## 3) Implement incrementally
@@ -38,8 +38,8 @@ Use this for non-breaking feature enhancement and UX improvements.
 
 ## 5) UX consistency
 
-- Use `Text` atom + translation keys (no hardcoded user-facing strings).
-- Use existing design tokens (`Spacing`, colors, wrappers).
+- Use the `Text` component (`@/components/shared/ui`) + translation keys (no hardcoded user-facing strings).
+- Use existing design tokens and shared building blocks (`Spacing`, colors, `components/shared/layout/ScreenWrapper`, `components/shared/wrappers`).
 
 ## 6) Validation
 

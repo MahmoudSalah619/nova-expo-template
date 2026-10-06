@@ -1,4 +1,4 @@
-import MainScreenOptions from "@/components/organisms/scoped/navigation/MainScreenOptions";
+import MainScreenOptions from "@/components/shared/layout/MainScreenOptions";
 import { Stack } from "expo-router";
 
 export default function _layout() {
@@ -6,7 +6,7 @@ export default function _layout() {
     <Stack screenOptions={MainScreenOptions}>
       <Stack.Screen
         name="screen1/index"
-        initialParams={{ title: "Screen 1 Header" }}
+        initialParams={{ title: "appearance" }}
       />
       <Stack.Screen
         name="screen2/index"
@@ -17,7 +17,14 @@ export default function _layout() {
       <Stack.Screen
         name="screen3/index"
         initialParams={{
-          title: "Screen 3",
+          title: "flashListTitle",
+        }}
+      />
+      <Stack.Screen
+        name="notifications/index"
+        initialParams={{
+          title: "notificationsTitle",
+          isRightComponentHidden: true,
         }}
       />
       <Stack.Screen name="(tabs)" initialParams={{ hasLogo: true }} />

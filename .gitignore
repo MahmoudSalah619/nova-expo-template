@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Template dev artifacts
+template/.expo/
+template/expo-env.d.ts

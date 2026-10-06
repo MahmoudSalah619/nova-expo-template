@@ -1,16 +1,19 @@
+import { COLORS } from "@/constants/Colors";
+import { theme } from "@/utils/getTheme";
+
 export default function getShadowStyle({
-  radius = 5,
-  opacity = 0.2,
-  offsetY = 2,
+  radius = 12,
+  opacity = theme === "dark" ? 0.4 : 0.08,
+  offsetY = 6,
 } = {}) {
   return {
-    shadowColor: "#000",
+    shadowColor: COLORS[theme].shadow.neutral,
     shadowOpacity: opacity,
     shadowOffset: {
       width: 0,
       height: offsetY,
     },
     shadowRadius: radius,
-    elevation: radius * 0.5,
+    elevation: Math.round(radius * 0.5),
   };
 }

@@ -9,28 +9,44 @@ Use this rule when creating or updating any screen component.
 
 ## Required structure
 
-- Screen UI implementation must be created under `components/pages/...`.
-- Use flow-based page paths:
-  - `components/pages/auth/<ScreenName>/index.tsx`
-  - `components/pages/main/<ScreenName>/index.tsx`
-- Additional flow examples (as needed by project growth):
-  - `components/pages/onboarding/<ScreenName>/index.tsx`
-  - `components/pages/profile/<ScreenName>/index.tsx`
-  - `components/pages/settings/<ScreenName>/index.tsx`
-  - `components/pages/home/<ScreenName>/index.tsx`
-- Route files under `app/...` should stay thin and only export/import page components from `components/pages/...`.
-- Match wrappers to existing project flows:
-  - `components/pages/main/*` -> `MainScreenWrapper`
-  - `components/pages/auth/*` -> `ScreenWrapper` (current default in this project)
-  - use `AuthScreenWrapper` only when you are explicitly implementing that auth layout pattern.
-- Follow Atomic Design boundaries from `atomic-design-pattern.mdc`.
-- Prefer composing with existing atoms/molecules/templates before creating new primitives.
+- Screen UI implementation must be created under the owning feature's `screens/` subfolder: `components/features/<flow>/screens/...`.
+- Use flow-based screen paths:
+  - `components/features/auth/screens/<ScreenName>/index.tsx`
+  - `components/features/main/screens/<ScreenName>/index.tsx`
+- Additional flows (as needed by project growth) get their own feature folder with its own `index.ts` barrel:
+  - `components/features/onboarding/screens/<ScreenName>/index.tsx`
+  - `components/features/settings/screens/<ScreenName>/index.tsx`
+- Route files under `app/...` should stay thin and only export/import screen components from that flow's `components/features/<flow>/index.ts` barrel (e.g. `export { ScreenNameScreen as default } from "@/components/features/<flow>";`) — never from the deep `screens/<ScreenName>` path directly.
+- Every screen must be re-exported by name from its feature's `index.ts` barrel, with a `Screen` suffix on the exported alias to distinguish it from plain feature components (`export { default as ScreenNameScreen } from "./screens/ScreenName";`). The barrel is that feature's single entry point for anything outside the feature folder.
+- Wrap every screen in `ScreenWrapper` (`components/shared/layout/ScreenWrapper`). It renders the auth layout (logo header, auth padding) by default; pass `variant="main"` for main-flow screens. Use its props (`isScrollable`, `justifyContent`, `paddingSize`, `showHeader`, `style`, ...) instead of re-creating a screen container.
+- Follow component directory structure boundaries from `component-structure.mdc`.
+- Prefer composing with existing shared/feature-scoped components before creating new primitives.
+
+```tsx
+// app/(auth)/login/index.tsx
+export { LoginScreen as default } from "@/components/features/auth";
+
+// components/features/auth/index.ts
+export { default as LoginScreen } from "./screens/Login";
+
+// components/features/main/screens/Home/index.tsx
+import ScreenWrapper from "@/components/shared/layout/ScreenWrapper";
+import { Text } from "@/components/shared/ui";
+
+export default function Home() {
+  return (
+    <ScreenWrapper variant="main">
+      <Text variant="H3">HOME</Text>
+    </ScreenWrapper>
+  );
+}
+```
 
 ## UI conventions
 
-- Use `Text` from `@/components/atoms/Text` for all user-facing text.
-- Use `Icon` from `@/components/atoms/Icon` for icons.
-- Use `Spacing` tokens first in styles; use `moderateScale` only when a token does not exist.
+- Use `Text` from `@/components/shared/ui` (implemented in `components/shared/ui/Text/Base`) for all user-facing text.
+- Use `Icon` from `@/components/shared/ui/Icon` for icons.
+- Use `Spacing` tokens (`@/constants/Spacing`) first in styles; use `moderateScale` (`@/constants/Metrics`) only when a token does not exist.
 - Keep styles in colocated `styles.ts`.
 
 ## Navigation and routing

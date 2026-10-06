@@ -12,7 +12,7 @@ This is a React Native template built with Expo 57. It provides a modern and res
 - Custom hooks
 - Scripts for easing development tasks
 - Building tool (EAS)
-- An overall ready-for-integration template with an atomic design system.
+- An overall ready-for-integration template with a feature-based component structure.
 
 ## 📋 Table of Contents
 
@@ -39,7 +39,7 @@ This is a React Native template built with Expo 57. It provides a modern and res
 - **[Day.js](https://day.js.org/)**: A lightweight JavaScript date library.
 - **[Flashlist](https://shopify.github.io/flash-list/)**: A performant list component for React Native.
 - **[React Hook Form](https://react-hook-form.com/)**: Performant, flexible, and extensible forms with easy-to-use validation.
-- **[Atomic Design System](https://bradfrost.com/blog/post/atomic-web-design/)**: A methodology for creating design systems.
+- **Feature-based components**: Components and screens organized by product feature, with a shared layer for reusable UI, layout, and wrappers.
 - **[Husky](https://typicode.github.io/husky/)** (optional): Git hooks made easy.
 - **[ESLint](https://eslint.org/)** (optional): A tool for identifying and fixing problems in JavaScript code.
 - **[Sentry](https://sentry.io/)** (optional): Error monitoring software.
@@ -95,13 +95,13 @@ expo start --no-dev --minify
 
 Here are some screenshots of the application:
 
-![Screenshot 1](screenshots/landing.jpg)
-![Screenshot 2](screenshots/login.jpg)
-![Screenshot 3](screenshots/app.jpg)
-![Screenshot 4](screenshots/modal.jpg)
-![Screenshot 5](screenshots/actionsheet.jpg)
-![Screenshot 6](screenshots/darkmode.jpg)
-![Screenshot 7](screenshots/flashlist.jpg)
+| Welcome | Login | Sign Up |
+|:---:|:---:|:---:|
+| <img src="screenshots/landing.jpg" width="200" /> | <img src="screenshots/login.jpg" width="200" /> | <img src="screenshots/signup.jpg" width="200" /> |
+
+| Home | Explore | Favorites | Profile |
+|:---:|:---:|:---:|:---:|
+| <img src="screenshots/app.jpg" width="200" /> | <img src="screenshots/explore.jpg" width="200" /> | <img src="screenshots/favourites.jpg" width="200" /> | <img src="screenshots/profile.jpg" width="200" /> |
 
 ## 🏗️ Project Structure
 
@@ -125,22 +125,22 @@ your-app-name/                     # Your new Expo app
 │   ├── 📁 middlewares/            # API middlewares
 │   └── 📁 services/               # API service endpoints
 │
-├── 📁 app/                        # App routing (Expo Router)
+├── 📁 app/                        # App routing (Expo Router) — thin route files that re-export screens from feature barrels
 │   ├── 📄 _layout.tsx             # Root layout
 │   ├── 📄 +not-found.tsx          # 404 page
 │   ├── 📄 index.tsx               # Home/Landing page
 │   ├── 📁 (auth)/                 # Authentication stack
 │   │   ├── 📄 _layout.tsx         # Auth layout
-│   │   ├── 📁 forgotPassword/     # Password reset screens
-│   │   ├── 📁 login/              # Login screens
-│   │   ├── 📁 signup/             # Registration screens
-│   │   └── 📁 welcome/            # Welcome/onboarding
+│   │   ├── 📁 forgotPassword/     # -> components/features/auth (barrel) -> screens/ForgotPassword
+│   │   ├── 📁 login/              # -> components/features/auth (barrel) -> screens/Login
+│   │   ├── 📁 signup/             # -> components/features/auth (barrel) -> screens/SignUp
+│   │   └── 📁 welcome/            # -> components/features/auth (barrel) -> screens/Welcome
 │   └── 📁 (main)/                 # Main app stack
 │       ├── 📄 _layout.tsx         # Main layout
-│       ├── 📁 (tabs)/             # Tab navigation
-│       ├── 📁 screen1/            # Feature screens
-│       ├── 📁 screen2/
-│       └── 📁 screen3/
+│       ├── 📁 (tabs)/             # Tab navigation -> components/features/main (barrel) -> screens/{Home,Explore,Favourites,Profile}
+│       ├── 📁 screen1/            # -> components/features/main (barrel) -> screens/Screen1
+│       ├── 📁 screen2/            # -> components/features/main (barrel) -> screens/Screen2
+│       └── 📁 screen3/            # -> components/features/main (barrel) -> screens/Screen3
 │
 ├── 📁 assets/                     # Static assets
 │   ├── 📁 fonts/                  # Custom fonts
@@ -148,20 +148,26 @@ your-app-name/                     # Your new Expo app
 │   ├── 📁 images/                 # Image assets
 │   └── 📁 svgs/                   # SVG components
 │
-├── 📁 components/                 # UI Components (Atomic Design)
-│   ├── 📁 atoms/                  # Basic building blocks
-│   │   ├── 📁 Button/             # Button component
-│   │   ├── 📁 Input/              # Input component
-│   │   ├── 📁 Text/               # Text component
-│   │   └── 📄 index.ts            # Atom exports
-│   ├── 📁 molecules/              # Component combinations
-│   │   ├── 📁 common/             # Shared molecules
-│   │   └── 📁 scoped/             # Feature-specific molecules
-│   ├── 📁 organisms/              # Complex components
-│   │   ├── 📁 common/             # Shared organisms
-│   │   └── 📁 scoped/             # Feature-specific organisms
-│   ├── 📁 templates/              # Page templates
-│   └── 📁 wrappers/               # Higher-order components
+├── 📁 components/                 # UI Components (Feature-based)
+│   ├── 📁 shared/                 # Generic, reusable UI (feature-agnostic)
+│   │   ├── 📁 ui/                 # Primitives: Button, Input, Text, Icon, DropDown, DropdownMenu… (+ index.ts barrel)
+│   │   ├── 📁 layout/             # Navigation chrome + screen layout: AppHeader, AppTabBar, MainScreenOptions, ScreenWrapper (+ index.ts barrel)
+│   │   ├── 📁 wrappers/           # Container / overlay wrappers: Card, Dialog, FlashList, modals, bottomsheets (+ index.ts barrel)
+│   │   └── 📁 vendor/             # Self-contained vendored lib (reactICX)
+│   └── 📁 features/               # Feature-specific components and screens
+│       ├── 📁 auth/               # Auth flow: auth screens, biometric + social login buttons
+│       │   ├── 📄 index.ts        # Single entry point: Biometric, social buttons, and all auth screens
+│       │   ├── 📁 components/     # biometric/, social/
+│       │   └── 📁 screens/        # ForgotPassword, Login, SignUp, Welcome (routed to from app/(auth)/)
+│       ├── 📁 main/               # Main flow: tab and stack screens
+│       │   ├── 📄 index.ts        # Single entry point: all main screens
+│       │   ├── 📁 components/     # Components used only by main screens
+│       │   └── 📁 screens/        # Home, Explore, Favourites, Profile, Screen1-3 (routed to from app/(main)/)
+│       └── 📁 notifications/      # Notification bell, unread badge, listener
+│           ├── 📄 index.ts        # Single entry point: NotificationBell, UnreadMessages
+│           ├── 📁 NotificationBell/
+│           ├── 📁 UnreadMessages/
+│           └── 📁 NotificationListenerContainer/  # Side-effect module — import by deep path, not via the barrel
 │
 ├── 📁 constants/                  # App constants
 │   ├── 📄 Colors.ts               # Color palette
@@ -203,8 +209,8 @@ your-app-name/                     # Your new Expo app
 
 ### 📂 Key Directories Explained
 
-- **`app/`**: Uses Expo Router for file-based routing with layout components
-- **`components/`**: Follows Atomic Design methodology (atoms → molecules → organisms → templates)
+- **`app/`**: Uses Expo Router for file-based routing with layout components. Route files stay thin and re-export their screen from that feature's `index.ts` barrel — never from a deep `screens/` path
+- **`components/`**: Feature-based organization — `shared/` for generic UI (`ui`, `layout`, `wrappers`, `vendor`) and `features/` for feature-specific components, each feature with its own `screens/` subfolder for full-screen implementations. Every feature's `index.ts` is its single entry point for anything outside the feature folder. Screens are wrapped in `ScreenWrapper` (`components/shared/layout/ScreenWrapper`), which renders the auth layout by default; main-flow screens pass `variant="main"`
 - **`apis/`**: Centralized API layer with RTK Query for data fetching and caching
 - **`redux/`**: State management using Redux Toolkit with separate slices
 - **`hooks/`**: Custom React hooks for reusable logic

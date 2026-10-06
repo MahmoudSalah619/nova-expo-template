@@ -14,7 +14,7 @@
     - Optionally, generate CSV files for translators.
 
   HOW TO USE:
-    1. Edit your base translation file (e.g., i18n/en.json) as needed.
+    1. Edit your base translation file (e.g., locale/en.json) as needed.
     2. In your terminal, run:
          node template/scripts/sync-translations.js
     3. The script will:
@@ -43,7 +43,7 @@ const { program } = require("commander");
 const readline = require("readline"); // For interactive prompts
 
 // Config
-const TRANSLATION_DIR = path.join(__dirname, "../i18n");
+const TRANSLATION_DIR = path.join(__dirname, "../locale");
 const LANGUAGES = ["en", "ar"]; // Add more languages as needed
 
 // --- Core Functions ---

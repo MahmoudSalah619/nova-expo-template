@@ -1,6 +1,6 @@
 # 🚀 Your Nova Expo App
 
-A modern React Native application built with Expo 57, featuring a comprehensive development setup with TypeScript, navigation, state management, internationalization, and atomic design components.
+A modern React Native application built with Expo 57, featuring a comprehensive development setup with TypeScript, navigation, state management, internationalization, and feature-based components.
 
 ## 📋 Table of Contents
 
@@ -30,7 +30,7 @@ A modern React Native application built with Expo 57, featuring a comprehensive 
 - **[Day.js](https://day.js.org/)**: A lightweight JavaScript date library.
 - **[Flashlist](https://shopify.github.io/flash-list/)**: A performant list component for React Native.
 - **[React Hook Form](https://react-hook-form.com/)**: Performant, flexible, and extensible forms with easy-to-use validation.
-- **[Atomic Design System](https://bradfrost.com/blog/post/atomic-web-design/)**: A methodology for creating design systems.
+- **Feature-based components**: Components and screens organized by product feature, with a shared layer for reusable UI, layout, and wrappers.
 - **[Biometric Authentication](https://docs.expo.dev/versions/latest/sdk/local-authentication/)**: Fingerprint and face recognition support.
 - **[Sentry Integration](https://sentry.io/)**: Error monitoring and performance tracking.
 - **Dark/Light Theme Support**: Built-in theme switching capability.
@@ -137,22 +137,22 @@ your-app-name/                     # Your new Expo app
 │   ├── 📁 middlewares/            # API middlewares
 │   └── 📁 services/               # API service endpoints (one folder per feature)
 │
-├── 📁 app/                        # App routing (Expo Router)
+├── 📁 app/                        # App routing (Expo Router) — thin route files that re-export screens from feature barrels
 │   ├── 📄 _layout.tsx             # Root layout
 │   ├── 📄 +not-found.tsx          # 404 page
 │   ├── 📄 index.tsx               # Home/Landing page
 │   ├── 📁 (auth)/                 # Authentication stack
 │   │   ├── 📄 _layout.tsx         # Auth layout
-│   │   ├── 📁 forgotPassword/     # Password reset screens
-│   │   ├── 📁 login/              # Login screens
-│   │   ├── 📁 signup/             # Registration screens
-│   │   └── 📁 welcome/            # Welcome/onboarding
+│   │   ├── 📁 forgotPassword/     # -> components/features/auth (barrel) -> screens/ForgotPassword
+│   │   ├── 📁 login/              # -> components/features/auth (barrel) -> screens/Login
+│   │   ├── 📁 signup/             # -> components/features/auth (barrel) -> screens/SignUp
+│   │   └── 📁 welcome/            # -> components/features/auth (barrel) -> screens/Welcome
 │   └── 📁 (main)/                 # Main app stack
 │       ├── 📄 _layout.tsx         # Main layout
-│       ├── 📁 (tabs)/             # Tab navigation
-│       ├── 📁 screen1/            # Feature screens
-│       ├── 📁 screen2/
-│       └── 📁 screen3/
+│       ├── 📁 (tabs)/             # Tab navigation -> components/features/main (barrel) -> screens/{Home,Explore,Favourites,Profile}
+│       ├── 📁 screen1/            # -> components/features/main (barrel) -> screens/Screen1
+│       ├── 📁 screen2/            # -> components/features/main (barrel) -> screens/Screen2
+│       └── 📁 screen3/            # -> components/features/main (barrel) -> screens/Screen3
 │
 ├── 📁 assets/                     # Static assets
 │   ├── 📁 fonts/                  # Custom fonts
@@ -160,20 +160,26 @@ your-app-name/                     # Your new Expo app
 │   ├── 📁 images/                 # Image assets
 │   └── 📁 svgs/                   # SVG components
 │
-├── 📁 components/                 # UI Components (Atomic Design)
-│   ├── 📁 atoms/                  # Basic building blocks
-│   │   ├── 📁 Button/             # Button component
-│   │   ├── 📁 Input/              # Input component
-│   │   ├── 📁 Text/               # Text component
-│   │   └── 📄 index.ts            # Atom exports
-│   ├── 📁 molecules/              # Component combinations
-│   │   ├── 📁 common/             # Shared molecules
-│   │   └── 📁 scoped/             # Feature-specific molecules
-│   ├── 📁 organisms/              # Complex components
-│   │   ├── 📁 common/             # Shared organisms
-│   │   └── 📁 scoped/             # Feature-specific organisms
-│   ├── 📁 templates/              # Page templates
-│   └── 📁 wrappers/               # Higher-order components
+├── 📁 components/                 # UI Components (Feature-based)
+│   ├── 📁 shared/                 # Generic, reusable UI (feature-agnostic)
+│   │   ├── 📁 ui/                 # Primitives: Button, Input, Text, Icon, DropDown, DropdownMenu… (+ index.ts barrel)
+│   │   ├── 📁 layout/             # Navigation chrome + screen layout: AppHeader, AppTabBar, MainScreenOptions, ScreenWrapper (+ index.ts barrel)
+│   │   ├── 📁 wrappers/           # Container / overlay wrappers: Card, Dialog, FlashList, modals, bottomsheets (+ index.ts barrel)
+│   │   └── 📁 vendor/             # Self-contained vendored lib (reactICX)
+│   └── 📁 features/               # Feature-specific components and screens
+│       ├── 📁 auth/               # Auth flow: auth screens, biometric + social login buttons
+│       │   ├── 📄 index.ts        # Single entry point: Biometric, social buttons, and all auth screens
+│       │   ├── 📁 components/     # biometric/, social/
+│       │   └── 📁 screens/        # ForgotPassword, Login, SignUp, Welcome (routed to from app/(auth)/)
+│       ├── 📁 main/               # Main flow: tab and stack screens
+│       │   ├── 📄 index.ts        # Single entry point: all main screens
+│       │   ├── 📁 components/     # Components used only by main screens
+│       │   └── 📁 screens/        # Home, Explore, Favourites, Profile, Screen1-3 (routed to from app/(main)/)
+│       └── 📁 notifications/      # Notification bell, unread badge, listener
+│           ├── 📄 index.ts        # Single entry point: NotificationBell, UnreadMessages
+│           ├── 📁 NotificationBell/
+│           ├── 📁 UnreadMessages/
+│           └── 📁 NotificationListenerContainer/  # Side-effect module — import by deep path, not via the barrel
 │
 ├── 📁 constants/                  # App constants
 │   ├── 📄 Colors.ts               # Color palette
@@ -215,8 +221,8 @@ your-app-name/                     # Your new Expo app
 
 ### 📂 Key Directories Explained
 
-- **`app/`**: Uses Expo Router for file-based routing with layout components
-- **`components/`**: Follows Atomic Design methodology (atoms → molecules → organisms → templates)
+- **`app/`**: Uses Expo Router for file-based routing with layout components. Route files stay thin and re-export their screen from that feature's `index.ts` barrel — never from a deep `screens/` path
+- **`components/`**: Feature-based organization — `shared/` for generic UI (`ui`, `layout`, `wrappers`, `vendor`) and `features/` for feature-specific components, each feature with its own `screens/` subfolder for full-screen implementations. Every feature's `index.ts` is its single entry point for anything outside the feature folder
 - **`apis/`**: Centralized API layer with RTK Query for data fetching and caching
 - **`redux/`**: State management using Redux Toolkit with separate slices
 - **`hooks/`**: Custom React hooks for reusable logic
@@ -227,39 +233,98 @@ your-app-name/                     # Your new Expo app
 
 ## 🎨 Component Architecture
 
-This template follows the **Atomic Design** methodology:
+Components are organized by **what they are for**, not by technical granularity. There are two top-level buckets: `shared/` (generic, feature-agnostic UI) and `features/` (components and screens owned by a specific product feature).
 
-### Atoms (`components/atoms/`)
-Basic building blocks like buttons, inputs, and text components.
-
-```tsx
-import { Button } from '@/components/atoms';
-
-<Button variant="primary" onPress={handlePress}>
-  Click me
-</Button>
-```
-
-### Molecules (`components/molecules/`)
-Simple combinations of atoms that work together.
+### Shared UI (`components/shared/ui/`)
+Reusable primitives like buttons, inputs, and text components. Import them from the `ui` barrel.
 
 ```tsx
-import { SearchInput } from '@/components/molecules/common';
+import { Button } from "@/components/shared/ui";
 
-<SearchInput onSearch={handleSearch} placeholder="Search..." />
+<Button title="Click me" variant="primary" onPress={handlePress} />
 ```
 
-### Organisms (`components/organisms/`)
-Complex components made up of molecules and atoms.
+### Layout (`components/shared/layout/`)
+Navigation chrome (`AppHeader`, `AppTabBar`, `MainScreenOptions`) and the screen layout wrapper, `ScreenWrapper`.
+
+Wrap every screen in `ScreenWrapper`. It renders the auth layout (logo header, auth padding) by default; pass `variant="main"` for main-flow screens.
 
 ```tsx
-import { UserProfile } from '@/components/organisms/common';
+import { ScreenWrapper } from "@/components/shared/layout";
 
-<UserProfile user={currentUser} onEdit={handleEdit} />
+// Auth screen (default variant)
+<ScreenWrapper justifyContent="space-between" isScrollable>
+  {/* screen content */}
+</ScreenWrapper>
+
+// Main-flow screen
+<ScreenWrapper variant="main">{/* screen content */}</ScreenWrapper>
 ```
 
-### Templates (`components/templates/`)
-Page-level components that define layout structure.
+| Prop | Default | Description |
+|------|---------|-------------|
+| `variant` | `"auth"` | `"auth"` renders the logo header and auth padding; `"main"` is the header-less main-flow layout |
+| `justifyContent` | `"flex-start"` | Content alignment inside the wrapper |
+| `style` | — | Extra container style |
+| `paddingSize` | `"md"` | Horizontal padding — auth: `sm` 24 / `md` 32; main: `sm` 12 / `md` 16 |
+| `paddingBlockSize` | `"md"` | Vertical padding, main variant only — `sm` 12 / `md` 24 |
+| `isScrollable` | `false` | Enables scrolling of the screen content |
+| `isStatusBarShown` | `false` | Auth variant only — pads the top by the status bar height instead of 10 |
+| `showHeader` | `variant === "auth"` | Renders the logo header |
+| `hasNoHorizontalSpacing` | `false` | Removes horizontal padding |
+| `hasNoKeyboardVerticalOffset` | `false` | Drops the header-height keyboard offset |
+
+### Wrappers (`components/shared/wrappers/`)
+Container / overlay wrappers — `Card`, `Dialog`, `FlashList`, modals, and bottom sheets.
+
+```tsx
+import { Card } from "@/components/shared/wrappers";
+
+<Card>{/* content */}</Card>
+```
+
+> `components/shared/wrappers/bottomsheets` registers the sheets at import time, so it is not re-exported from the barrel — import it directly where the sheets are needed: `import "@/components/shared/wrappers/bottomsheets";`
+
+### Vendor (`components/shared/vendor/`)
+Self-contained vendored or adapted third-party library code (`reactICX`). Keep app and product components out of it.
+
+### Features (`components/features/<feature>/`)
+Components and screens that belong to one product feature (e.g. `auth`, `main`, `notifications`). Co-locate everything for a feature under its folder: feature-scoped components in `components/`, full screens in `screens/`. **The feature's `index.ts` is its single entry point** — anything outside the feature folder (other features, `components/shared/*`, and `app/` route files) imports through that barrel, never through a deep path like `components/features/auth/screens/Login` or `components/features/auth/components/biometric`.
+
+```tsx
+// components/features/auth/index.ts
+export { default as Biometric } from "./components/biometric";
+// ...social buttons...
+
+export { default as LoginScreen } from "./screens/Login";
+// ...other auth screens, each with a `Screen` suffix on the alias...
+```
+
+```tsx
+import { Biometric } from "@/components/features/auth";
+
+<Biometric />
+```
+
+Full-screen implementations live in the feature's `screens/<ScreenName>/` subfolder. Each screen owns its `index.tsx` (plus a colocated `styles.ts` when it has styles), and is re-exported from the feature's `index.ts` with a `Screen` suffix on the barrel alias (`LoginScreen`, not `Login`) so screens read as visually distinct from plain feature components in the same barrel. The matching route file under `app/` stays a thin re-export **from the barrel** — never from `screens/` directly — so routing structure and screen implementation can evolve independently.
+
+```tsx
+// app/(auth)/login/index.tsx
+export { LoginScreen as default } from "@/components/features/auth";
+```
+
+```tsx
+// components/features/main/screens/Profile/index.tsx
+import ScreenWrapper from "@/components/shared/layout/ScreenWrapper";
+
+export default function Profile() {
+  return <ScreenWrapper variant="main">{/* screen content */}</ScreenWrapper>;
+}
+```
+
+> The plop `screen` generator (`npm run generate` → `screen`) keeps this wired automatically: it creates the screen under `components/features/<auth|main>/screens/`, adds its export to the feature's `index.ts`, and points the route at the barrel. See [PLOP_GENERATOR.md](PLOP_GENERATOR.md).
+
+> Side-effect modules are the one exception to the barrel rule. `components/features/notifications/NotificationListenerContainer` calls `Notifications.setNotificationHandler` at import time, so it is not exported from the notifications barrel — import it by its deep path, only where the handler is wanted.
 
 ## 🌐 API Integration
 
@@ -426,7 +491,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 - [React Native Documentation](https://reactnative.dev/docs/getting-started)
 - [TypeScript Documentation](https://www.typescriptlang.org/docs/)
 - [Redux Toolkit Documentation](https://redux-toolkit.js.org/)
-- [Atomic Design Methodology](https://bradfrost.com/blog/post/atomic-web-design/)
+- [Expo Router Documentation](https://docs.expo.dev/routing/introduction/)
 
 ---
 

@@ -9,14 +9,14 @@ Use this for any defect fix (UI bug, logic bug, API bug, state bug).
 
 ## Project location guide
 
-- Screen bug -> `components/pages/<flow>/<ScreenName>/...`
-- UI component bug -> `components/atoms|molecules|organisms/...`
+- Screen bug -> `components/features/<flow>/screens/<ScreenName>/...`
+- UI component bug -> `components/shared/ui|layout|wrappers/...` or `components/features/<feature>/...`
 - API bug -> `apis/**` + `apis/@types/**`
 - State bug -> `redux/**` + related hooks/components
 
 ## 1) Reproduce first
 
-- Reproduce from exact screen/flow (`app/**` route -> `components/pages/**`).
+- Reproduce from exact screen/flow (`app/**` route -> `components/features/<flow>/screens/**`).
 - Identify deterministic trigger (inputs, state, API response, language, platform).
 
 ## 2) Find root cause
@@ -28,7 +28,7 @@ Use this for any defect fix (UI bug, logic bug, API bug, state bug).
 ## 3) Apply minimal safe fix
 
 - Change the smallest set of files required.
-- Keep architecture/layer boundaries aligned with Atomic Design.
+- Keep architecture/layer boundaries aligned with the component directory structure (`component-structure.mdc`).
 - Reuse existing shared components/utilities where possible.
 
 ## 4) Verify regression safety

@@ -1,28 +1,28 @@
 ---
-description: Icon usage pattern for this repo (Icon atom + iconsList + SVG generator)
+description: Icon usage pattern for this repo (Icon component + iconsList + SVG generator)
 globs: **/*.tsx
 alwaysApply: false
 ---
 
 # Icon Usage (Project-Specific)
 
-**CRITICAL**: Always render icons through `@/components/atoms/Icon`.  
+**CRITICAL**: Always render icons through `@/components/shared/ui/Icon`.  
 Do **not** import icon SVG/TSX files directly inside feature/UI components.
 
 If a component accepts an icon as `ReactNode` (for example button prefix/suffix), pass `<Icon ... />` node, not a direct asset icon component.
 
 ## Use Existing Icon
 
-Only use names that exist in `@/components/atoms/Icon/list.ts` (`iconsList` keys).
+Only use names that exist in `@/components/shared/ui/Icon/list.ts` (`iconsList` keys).
 
 ```tsx
-import Icon from "@/components/atoms/Icon";
+import Icon from "@/components/shared/ui/Icon";
 import { iconsColorType } from "@/@types/mainTypes";
 
 <Icon name={prefix} size={sizeData.iconSize} color={iconColor as iconsColorType} />
 ```
 
-`name` must be a valid key of `iconsList` (see `components/atoms/Icon/types.ts`).
+`name` must be a valid key of `iconsList` (see `components/shared/ui/Icon/types.ts`).
 
 ## If Icon Does Not Exist
 
@@ -34,7 +34,7 @@ When requested icon is missing, create it before using it:
    node scripts/generate-svg.js
    ```
 3. Ensure the generated TSX icon exists in `assets/icons/`.
-4. Ensure `components/atoms/Icon/list.ts` includes:
+4. Ensure `components/shared/ui/Icon/list.ts` includes:
    - import for the new icon component from `@/assets/icons/...` (or nested icon path used by this repo)
    - new key/value entry in `iconsList`
 5. Use the new icon via `<Icon name="newKey" ... />` where `newKey` is the `iconsList` key.
@@ -43,11 +43,11 @@ When requested icon is missing, create it before using it:
 
 - Import icons directly in UI components (example: `import Heart from "@/assets/icons/Heart"`).
 - Use icon names not defined in `iconsList`.
-- Bypass `Icon` atom rendering.
+- Bypass `Icon` rendering.
 
 ## Source of Truth
 
-- `components/atoms/Icon/index.tsx` (renderer)
-- `components/atoms/Icon/list.ts` (`iconsList` keys/components)
-- `components/atoms/Icon/types.ts` (`name: keyof typeof iconsList`)
+- `components/shared/ui/Icon/index.tsx` (renderer)
+- `components/shared/ui/Icon/list.ts` (`iconsList` keys/components)
+- `components/shared/ui/Icon/types.ts` (`name: keyof typeof iconsList`)
 - `scripts/generate-svg.js` (generate icon TSX + list updates)

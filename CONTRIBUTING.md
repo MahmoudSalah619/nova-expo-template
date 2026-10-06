@@ -9,6 +9,7 @@ Thank you for considering contributing to this project! Here are some guidelines
 
 ## Code Guidelines
 - Follow the existing code style.
+- Follow the template's feature-based component structure (paths relative to `template/`): generic UI goes in `components/shared/` (`ui`, `layout`, `wrappers`, `vendor`), feature-scoped components and screens go in `components/features/<feature>/`, and code outside a feature imports it only through that feature's `index.ts` barrel. See [Component Architecture](template/README.md#-component-architecture) in the template README.
 - Write clear and concise commit messages.
 - Add comments where necessary to explain complex logic.
 

@@ -40,10 +40,16 @@
           "image": "./assets/images/nova-black.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#0a7ea4"
+          "backgroundColor": "#F5F6FA",
+          "dark": {
+            "image": "./assets/images/nova-white.png",
+            "backgroundColor": "#171A24"
+          }
         }
       ],
-      "expo-localization"
+      "expo-localization",
+      "expo-status-bar",
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true

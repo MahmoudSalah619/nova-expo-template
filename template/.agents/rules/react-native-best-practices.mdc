@@ -19,13 +19,13 @@ For component-local files, import:
 ```tsx
 // ✅ CORRECT: lib → absolute → relative
 import { Pressable, Text } from "react-native";
-import Icon from "@/components/atoms/Icon";
+import Icon from "@/components/shared/ui/Icon";
 import ButtonProps from "./types";
 import styles from "./styles";
 
 // ❌ WRONG: mixed order and wrong local import conventions
 import styles from "./Button.module.scss";
-import Icon from "@/components/atoms/Icon";
+import Icon from "@/components/shared/ui/Icon";
 import { Pressable, Text } from "react-native";
 import { ButtonProps } from "./Button.type";
 ```
@@ -45,13 +45,13 @@ import { useMemo } from "react";
 
 ## Image Component
 
-Always use the Image atom from `@/components/atoms/Image` in app components.
+Always use the Image component from `@/components/shared/ui/Image` in app components.
 
 ```tsx
-// ✅ CORRECT: use project Image atom
-import Image from "@/components/atoms/Image";
-import Logo from '@/assets/images/nova-black.png';
-import styles from './styles';
+// ✅ CORRECT: use project Image component
+import Image from "@/components/shared/ui/Image";
+import Logo from "@/assets/images/nova-black.png";
+import styles from "./styles";
 
 <Image
   source={Logo}
@@ -80,7 +80,7 @@ export type ButtonProps = {
 };
 ```
 
-For component style files (like `components/atoms/Button/styles.ts`), follow the same pattern:
+For component style files (like `components/shared/ui/Button/styles.ts`), follow the same pattern:
 
 ```tsx
 // ✅ CORRECT: styles file with default export
@@ -113,12 +113,20 @@ export default function Button() {
 }
 
 // ✅ CORRECT: default import
-import Button from "@/components/atoms/Button";
+import Button from "@/components/shared/ui/Button";
 
 // ❌ WRONG: named export + named import for single component file
 export function Button() {
   return null;
 }
 
-import { Button } from "@/components/atoms/Button";
+import { Button } from "@/components/shared/ui/Button";
+```
+
+Named imports from a **barrel** are fine and are the expected way to consume barrels (see `component-structure.mdc`). The rule above is about importing directly from a single-component file.
+
+```tsx
+// ✅ CORRECT: named imports from barrels
+import { Button, Text } from "@/components/shared/ui";
+import { NotificationBell } from "@/components/features/notifications";
 ```

@@ -6,6 +6,23 @@ All notable changes to this project will be documented in this file.
 
 - Internet Detection using NetInfo
 
+### Changed
+
+- **BREAKING: Replaced the Atomic Design `components/` layout with a feature-based structure**, ported back from the ScoutX rebuild (a project created from this template). Components are now grouped by what they are for instead of by granularity:
+  - `components/shared/ui/` — generic primitives (formerly `atoms/*` and `molecules/common/*`, including `Input`, `PhoneInput`, `FormPhoneInput`, `DropDown`, `RadioButton`, `RotateArrow`, and `ShadowWrapper`).
+  - `components/shared/layout/` — navigation chrome and screen layout: `AppHeader`, `AppTabBar`, `MainScreenOptions` (formerly `organisms/scoped/navigation/*`) and `ScreenWrapper` (formerly `templates/AuthScreenWrapper` + `templates/MainScreenWrapper`).
+  - `components/shared/wrappers/` — container / overlay wrappers: `Card`, `FlashList` (formerly `wrappers/Card`, `wrappers/flashlist`), `bottomsheets`, `modals` (formerly `organisms/common/*`), and `Dialog` (formerly `organisms/common/dialog`, still exported as `DialogComponent`).
+  - `components/shared/vendor/` — the vendored `reactICX` library (formerly `vendor/`).
+  - `components/features/auth/components/` — `biometric` and `social` login buttons (formerly `organisms/scoped/auth/*`).
+  - `components/features/notifications/` — `NotificationBell` and `UnreadMessages` (formerly `molecules/scoped/notifications/*`), and `NotificationListenerContainer` (formerly `templates/NotificationListnerContainer.tsx`; filename typo fixed).
+- Added `index.ts` barrels for `components/shared/ui`, `components/shared/layout`, `components/shared/wrappers`, and every `components/features/<feature>`. A feature's barrel is its single public entry point: code outside the feature imports from `@/components/features/<feature>`, never from deep paths. Side-effect modules (`components/shared/wrappers/bottomsheets`, `components/features/notifications/NotificationListenerContainer`) are intentionally kept out of the barrels and imported by deep path.
+- **BREAKING: Moved screen implementations out of `app/`** into `components/features/<flow>/screens/` — `auth`: `Login`, `SignUp`, `Welcome`, `ForgotPassword`; `main`: `Home`, `Explore`, `Favourites`, `Profile`, `Screen1`–`Screen3`. Screens are exported from their feature barrel with a `Screen` suffix (`LoginScreen`, `HomeScreen`, …), and `app/` route files are now thin re-exports, e.g. `export { LoginScreen as default } from "@/components/features/auth";`.
+- **BREAKING: Merged `AuthScreenWrapper` and `MainScreenWrapper` into a single `ScreenWrapper`** (`components/shared/layout/ScreenWrapper`). It renders the auth layout (logo header, auth padding) by default; pass `variant="main"` for main-flow screens. Migrating from `MainScreenWrapper`: add `variant="main"`, rename `customStyle` → `style` and `paddingHorizontalSize` → `paddingSize` (`paddingBlockSize` is unchanged). `AuthScreenWrapper` usages keep their props and only switch to `ScreenWrapper`.
+- **BREAKING:** The common dropdown now lives in `components/shared/ui/DropdownMenu` (still exported as `DropdownComponent`); the folder was renamed to avoid a case-only collision with `components/shared/ui/DropDown`.
+- Updated the Plop generator for the new structure: components prompt for a `shared/ui`, `shared/layout`, `shared/wrappers`, or feature location; screens are generated under `components/features/<auth|main>/screens/<Name>/`, auto-registered in the feature barrel with a `Screen` suffix, routed through a thin `app/` re-export, and wrapped in `ScreenWrapper`. See `template/PLOP_GENERATOR.md`.
+- Updated the AI agent rules, skills, and commands (`.agent`, `.agents`, `.claude`, `.codex`, `.cursor`) for the feature-based structure: `atomic-design-pattern.mdc` is replaced by `component-structure.mdc`, and the remaining rules reference the new paths.
+- Updated the READMEs to document the feature-based structure, feature barrels, thin routes, and `ScreenWrapper`.
+
 ## [4.0.1] - 2026-07-05
 
 ### Added

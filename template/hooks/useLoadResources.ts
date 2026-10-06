@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { SplashScreen } from "expo-router";
 import * as Font from "expo-font";
 import cosmica_300 from "@/assets/fonts/Cosmica-Light.otf";
@@ -8,7 +8,14 @@ import cosmica_600 from "@/assets/fonts/Cosmica-SemiBold.otf";
 import cosmica_700 from "@/assets/fonts/Cosmica-Bold.otf";
 import cosmica_800 from "@/assets/fonts/Cosmica-ExtraBold.otf";
 
+/**
+ * Loads fonts, then hides the native splash.
+ * `isLoaded` turns true when loading finished (or failed) so the animated
+ * splash knows it can exit.
+ */
 const useLoadResources = () => {
+  const [isLoaded, setIsLoaded] = useState(false);
+
   useEffect(() => {
     const loadResources = async () => {
       try {
@@ -24,12 +31,15 @@ const useLoadResources = () => {
       } catch (e) {
         console.warn(e);
       } finally {
+        setIsLoaded(true);
         SplashScreen.hideAsync();
       }
     };
 
     loadResources();
   }, []);
+
+  return { isLoaded };
 };
 
 export default useLoadResources;

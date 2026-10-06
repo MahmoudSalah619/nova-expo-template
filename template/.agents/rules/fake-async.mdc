@@ -10,7 +10,7 @@ Use this when adding temporary async simulation (delay/mock response/loading sta
 ## Project location guide
 
 - Demo/dev-only UI behavior:
-  - `components/pages/**` or feature component files
+  - `components/features/**/screens/**` or feature component files
 - API-level fake responses:
   - keep in isolated dev helpers, not inside production `apis/services/**` runtime paths
 - Test-level fake async:

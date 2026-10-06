@@ -1,6 +1,8 @@
 /* eslint-disable react-native/sort-styles */
 import { I18nManager, StyleSheet } from "react-native";
 import METRICS from "./Metrics";
+import Radius from "./Radius";
+import Spacing from "./Spacing";
 
 const GLOBAL_STYLES = StyleSheet.create({
   /* FONTS */
@@ -25,6 +27,11 @@ const GLOBAL_STYLES = StyleSheet.create({
   /* Containers */
   mainContainer: {
     padding: METRICS.generalSpacingValue,
+  },
+  /** Raised card surface — pair with a backgroundColor from COLORS.Surface. */
+  card: {
+    borderRadius: Radius.lg,
+    padding: Spacing.x5,
   },
   flatlistProductColumnWrapper: {
     justifyContent: "space-between",
@@ -83,7 +90,7 @@ const GLOBAL_STYLES = StyleSheet.create({
     transform: "rotate(90deg)",
   },
   mainLogo: {
-    marginVertical: 40,
+    marginVertical: Spacing.x8,
   },
 });
 

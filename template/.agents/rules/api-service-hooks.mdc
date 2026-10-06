@@ -128,13 +128,13 @@ interface UseUsersListReturn {
 
 ## Usage in screens/components
 
-- Keep route files thin (`app/**` imports page component only).
-- Use page component + orchestration hook for data/state.
+- Keep route files thin (`app/**` only re-exports the screen from its feature barrel, `@/components/features/<flow>`).
+- Use the screen component (`components/features/<flow>/screens/<ScreenName>`) + orchestration hook for data/state.
 - UI layer should render states explicitly:
   - loading
   - error/empty
   - success
-- User-facing text remains translation-key based via Text atom rules.
+- User-facing text remains translation-key based via `Text` component rules (`translation-i18n.mdc`).
 
 ## Validation checklist before done
 

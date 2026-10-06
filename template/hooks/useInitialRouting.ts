@@ -5,7 +5,7 @@ const useInitialRouting = () => {
 
   const determineRoute = async () => {
     const isSignedIn = await fakeAuthCheck(); // Your auth logic
-    setTargetPath(isSignedIn ? "/(main)/home" : "/(auth)/welcome");
+    setTargetPath(isSignedIn ? "/(main)/(tabs)/Home" : "/(auth)/welcome");
   };
 
   useEffect(() => {

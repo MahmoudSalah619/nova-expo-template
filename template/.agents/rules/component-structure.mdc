@@ -1,0 +1,86 @@
+---
+description: Enforce the feature-based component structure and boundaries in components/ (shared ui/layout/wrappers/vendor and features)
+alwaysApply: true
+---
+
+# Component Directory Structure
+
+Use the feature-scoped and shared directory structure for all UI components under `components/`:
+
+- **Shared UI** (`components/shared/ui/`): Generic, reusable UI primitives (e.g., `Button`, `Text`, `Icon`, `Image`, `Checkbox`, `Input`, `DropDown`).
+- **Shared Layout** (`components/shared/layout/`): Navigation chrome or screen-level layout components (e.g., `AppHeader`, `AppTabBar`, `MainScreenOptions`, `ScreenWrapper`).
+- **Shared Wrappers** (`components/shared/wrappers/`): Technical container/overlay wrapper components around React Native or third-party primitives (e.g., `FlashList` wrapper, `Card`, `Dialog`, `ModalWrapper`, `SheetWrapper` bottom sheets).
+- **Shared Vendor** (`components/shared/vendor/`): Third-party vendor code or adapted library code integrated into the codebase (e.g., `components/shared/vendor/reactICX`). Keep it self-contained; do not put app/product components here.
+- **Features** (`components/features/<feature>/`): Feature-specific, product-focused components and screens scoped to a single product feature (e.g., `auth/components/social/`, `auth/components/biometric/`, `auth/screens/Login/`, `main/screens/Home/`, `notifications/NotificationBell/`).
+
+## Placement Checklist (Decide the Layer)
+
+1. Is this component a generic UI primitive (like a button, custom text, or basic input) that can be reused across different features and layout wrappers?
+   - **Yes** -> Place in `components/shared/ui/`.
+2. Is this component defining the page skeleton, navigation layout, screen wrappers, or app headers?
+   - **Yes** -> Place in `components/shared/layout/`.
+3. Is this component an overlay wrapper (modal, bottom sheet, dialog) or adapting a technical container library (like a list wrapper)?
+   - **Yes** -> Place in `components/shared/wrappers/`.
+4. Is this vendored or adapted third-party library code rather than app UI?
+   - **Yes** -> Place in `components/shared/vendor/`.
+5. Is this component scoped to a specific business feature (like login, billing, notifications, messaging) and unlikely to be used outside that feature?
+   - **Yes** -> Place in `components/features/<feature>/`.
+
+If a component starts inside a feature and later becomes genuinely reused by multiple features, strip the feature-specific logic and promote it to `components/shared/`.
+
+## Component Folder Conventions
+
+Each component lives in its own folder:
+
+```
+components/shared/<group>/<ComponentName>/
+  index.tsx
+  types.ts (or types.d.ts)
+  styles.ts
+```
+
+Or for feature-specific code:
+
+```
+components/features/<feature>/
+  index.ts                         # the feature's single public entry point (barrel)
+  components/<ComponentName>/      # feature-scoped components
+    index.tsx
+    types.ts
+    styles.ts
+  screens/<ScreenName>/            # full-screen implementations (see screen-implementation.mdc)
+    index.tsx
+    styles.ts
+  hooks/                           # optional: hooks used only inside this feature (see custom-hooks.mdc)
+```
+
+A small feature with no screens may keep its components directly under the feature folder (e.g. `components/features/notifications/NotificationBell/`); once it gains screens, use the `components/` + `screens/` split.
+
+- **Naming**: PascalCase for folders/files/components (`AppHeader`, `NotificationBell`).
+- **Styles**: colocated in `styles.ts` using `StyleSheet.create(...)`.
+- **Types**: public props declared in `types.ts` (or `types.d.ts` where appropriate).
+
+## Imports and Boundaries
+
+- **Allowed dependencies**:
+  - Shared UI (`shared/ui`) components can import other `shared/ui` components and global constants/styles, but must not import feature components or screen wrappers.
+  - Shared Layout (`shared/layout`) and Shared Wrappers (`shared/wrappers`) can import `shared/ui` components.
+  - Feature components can import anything from `components/shared/`.
+- **Shared barrels**: `components/shared/ui`, `components/shared/layout`, and `components/shared/wrappers` each expose an `index.ts` barrel, so shared components can be imported as `import { Button, Text } from "@/components/shared/ui";`.
+- **Scope Rule**:
+  - Keep feature-only components strictly within `components/features/<feature>/`. Do not import feature-scoped components from unrelated features.
+- **Single entry point per feature**:
+  - Each `components/features/<feature>/index.ts` is that feature's only public interface. Anything outside the feature's own folder — other features, `components/shared/*`, and `app/` route files — must import from `@/components/features/<feature>` and never reach into a deep path like `@/components/features/<feature>/screens/<Name>` or `@/components/features/<feature>/components/<Name>`.
+  - Every component or screen a feature exposes externally must have a matching named export in that feature's `index.ts`. Code that only ever gets consumed from inside the same feature (e.g. a screen importing a sibling component in its own feature) does not need to go through the barrel.
+  - **Naming**: screen exports carry a `Screen` suffix on the barrel alias (`export { default as LoginScreen } from "./screens/Login";`) so they're visually distinct from plain component exports (`export { default as Biometric } from "./components/biometric";`) in the same barrel. The suffix applies only to the alias, not the folder/file name.
+- **Side-effect modules are the exception**:
+  - A module that runs code at import time must NOT be re-exported from a barrel, otherwise every consumer of that barrel triggers the side effect. Import it directly by its deep path, only where the side effect is wanted, and leave a note in the barrel explaining why it is missing.
+  - Current examples: `components/features/notifications/NotificationListenerContainer` (calls `Notifications.setNotificationHandler`) and `components/shared/wrappers/bottomsheets` (calls `registerSheet`, imported as `import "@/components/shared/wrappers/bottomsheets";`).
+- **Avoid Circular Dependencies** across folders and layers.
+
+## When Refactoring
+
+- If a component in `shared/ui` grows specific feature business logic -> extract the logic, or move it to `components/features/<feature>/`.
+- If a feature component turns out to be reused by other features -> remove the feature-specific parts and move it to the matching `components/shared/` group.
+- Keep the API surface minimal: fewer props, more composable children/slots.
+- **Prefer composition** over adding boolean props that create many variants; split into smaller components when variants grow.

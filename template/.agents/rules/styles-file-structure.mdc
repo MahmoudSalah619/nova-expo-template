@@ -18,10 +18,10 @@ alwaysApply: true
 - **Global style reuse**: prefer composing `GLOBAL_STYLES` helpers (row, centering, gaps, fonts) before adding duplicate inline style declarations.
 - **Numeric fallback is allowed**: use raw numeric values when no matching `Spacing` token exists or when exact design values are required.
 - **Avoid blind `moderateScale` usage**: since `Spacing` already uses `moderateScale`, only call `moderateScale(...)` directly when implementing a non-token custom size.
-- **Text atom first**: for normal UI copy, use `@/components/atoms/Text` instead of `react-native` `Text`.
+- **Text component first**: for normal UI copy, use `Text` from `@/components/shared/ui` instead of `react-native` `Text`.
 - **Typography in styles is allowed only when needed by the component type**:
   - Allowed: components that render native text directly (for example `Input`, placeholders/hints, third-party wrappers, button internals).
-  - Preferred otherwise: keep text styling through Text atom `variant` and `color` props.
+  - Preferred otherwise: keep text styling through the `Text` component's `variant` and `color` props.
 
 ## styles.ts example (like Button)
 
@@ -56,7 +56,7 @@ export default styles;
 
 ```tsx
 import { View } from "react-native";
-import Text from "@/components/atoms/Text";
+import { Text } from "@/components/shared/ui";
 import styles from "./styles";
 
 export default function EmptyState() {

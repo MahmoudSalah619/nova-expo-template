@@ -1,0 +1,6 @@
+import type { ICheckbox } from "@/components/shared/vendor/reactICX/Checkbox/types";
+
+export interface CheckboxProps extends ICheckbox {
+  label?: string;
+  labelPosition?: "left" | "right";
+}

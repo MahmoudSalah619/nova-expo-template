@@ -9,7 +9,7 @@ All user-facing text in this project must be translated.
 
 ## Text Component Usage
 
-- Use only `Text` from `@/components/atoms/Text` for app text.
+- Use only `Text` from `@/components/shared/ui` (implemented in `components/shared/ui/Text/Base`) for app text.
 - Do not use `Text` from `react-native` for user-facing strings.
 - Keep `autoTranslate` enabled (default is `true`).
 - With `autoTranslate={true}`, `children` must be a translation key string (for example: `LOGIN`, `PERSONAL_INFORMATION`).
@@ -17,7 +17,7 @@ All user-facing text in this project must be translated.
 
 ```tsx
 // ✅ CORRECT
-import Text from "@/components/atoms/Text";
+import { Text } from "@/components/shared/ui";
 import { t } from "i18next";
 
 <Text>PERSONAL_INFORMATION</Text>

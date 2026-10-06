@@ -6,6 +6,41 @@ const { spawnSync } = require("child_process");
 const inquirer = require("inquirer");
 const prompt = inquirer.createPromptModule();
 
+const TEMPLATE_PATH = path.join(__dirname, "../template");
+const NPM_CMD = process.platform === "win32" ? "npm.cmd" : "npm";
+
+// Present in a local checkout of the template but never part of a generated project
+const TEMPLATE_COPY_EXCLUDES = ["node_modules", ".expo", "expo-env.d.ts"];
+
+// npm strips `.gitignore` from published packages, so the template ships it without the dot
+const RENAMED_DOTFILES = { gitignore: ".gitignore" };
+
+// `.agents/` is the source of truth; tool folders mirror it through symlinks that npm drops on publish
+const AGENT_SOURCE_DIR = ".agents";
+const AGENT_MIRROR_DIRS = [".agent", ".claude", ".codex", ".cursor"];
+const AGENT_MIRRORED_FOLDERS = ["rules", "skills"];
+
+// Code wrapped in `// i18n:start` ... `// i18n:end` (or the `{/* */}` JSX form) is translation-only
+const I18N_BLOCK_REGEX =
+  /^[ \t]*(?:\/\/|\{\/\*)[ \t]*i18n:start.*\r?\n([\s\S]*?)^[ \t]*(?:\/\/|\{\/\*)[ \t]*i18n:end.*\r?\n/gm;
+const SOURCE_FILE_EXTENSIONS = [".ts", ".tsx", ".js", ".jsx"];
+
+const TRANSLATION_PACKAGES = ["i18next", "react-i18next"];
+const TRANSLATION_ONLY_PATHS = [
+  "locale",
+  "@types/TranslationKeyEnum.ts",
+  "constants/TranslationConfig.ts",
+  "constants/dayjsArabicLocalization.ts",
+  "hooks/useFetchTranslation.ts",
+  "scripts/translate.js",
+  "scripts/sync-translations.js",
+  ...[AGENT_SOURCE_DIR, ...AGENT_MIRROR_DIRS].flatMap((dir) => [
+    `${dir}/commands/translate.md`,
+    `${dir}/commands/sync-translations.md`,
+    `${dir}/rules/translation-i18n.mdc`,
+  ]),
+];
+
 program
   .version(require("../package.json").version)
   .arguments("[project-directory]")
@@ -16,12 +51,14 @@ program
       await copyTemplateFiles(targetPath);
       await processPackageJson(targetPath, answers);
       await processAppJson(targetPath, answers);
+      // Runs before install so dropped translation packages are never installed
+      await handleTranslationSetup(targetPath, answers);
 
       console.log("Installing dependencies...");
       installDependencies(targetPath);
 
       if (answers.eslint) {
-        await setupESLint(targetPath, answers);
+        await setupESLint(targetPath);
       }
 
       if (answers.husky) {
@@ -32,19 +69,9 @@ program
         await configureSentry(targetPath, answers);
       }
 
-      await handleTranslationSetup(targetPath, answers);
-
       if (answers.eslint) {
         console.log("Running ESLint to fix issues...");
-        spawnSync(
-          "npx",
-          ["eslint", ".", "--ext", ".js,.jsx,.ts,.tsx", "--fix"],
-          {
-            cwd: targetPath,
-            stdio: "inherit",
-            shell: true,
-          }
-        );
+        run("npx", ["eslint", ".", "--fix"], targetPath);
       }
       console.log(
         `\n✅ Thank you for using nova! Your project is ready at ${targetPath}`
@@ -65,8 +92,8 @@ async function promptUser(projectDir) {
       type: "input",
       name: "projectName",
       message: "What's the name of the project?",
-      required: true,
       default: projectDir,
+      validate: validateProjectName,
     },
     {
       type: "confirm",
@@ -106,6 +133,19 @@ async function promptUser(projectDir) {
   ]);
 }
 
+function validateProjectName(input) {
+  const name = (input || "").trim();
+  if (!name) return "Project name is required";
+  if (!/^[a-zA-Z0-9][\w.-]*$/.test(name)) {
+    return "Use letters, numbers, dots, dashes, or underscores (must start with a letter or number)";
+  }
+  const targetPath = path.join(process.cwd(), name);
+  if (fs.existsSync(targetPath) && fs.readdirSync(targetPath).length > 0) {
+    return `Directory "${name}" already exists and is not empty`;
+  }
+  return true;
+}
+
 async function setupProjectDirectory(answers) {
   const targetPath = path.join(process.cwd(), answers.projectName);
   console.log(`Creating ${answers.projectName}...`);
@@ -114,220 +154,238 @@ async function setupProjectDirectory(answers) {
 }
 
 async function copyTemplateFiles(targetPath) {
-  const templatePath = path.join(__dirname, "../template");
   console.log("Copying template files...");
-  await fs.copy(templatePath, targetPath);
+  await fs.copy(TEMPLATE_PATH, targetPath, {
+    filter: (src) => {
+      const [topLevelEntry] = path.relative(TEMPLATE_PATH, src).split(path.sep);
+      return !TEMPLATE_COPY_EXCLUDES.includes(topLevelEntry);
+    },
+  });
+
+  for (const [from, to] of Object.entries(RENAMED_DOTFILES)) {
+    const fromPath = path.join(targetPath, from);
+    if (await fs.pathExists(fromPath)) {
+      await fs.move(fromPath, path.join(targetPath, to), { overwrite: true });
+    }
+  }
+
+  await restoreAgentMirrors(targetPath);
+}
+
+async function restoreAgentMirrors(targetPath) {
+  const sourceRoot = path.join(targetPath, AGENT_SOURCE_DIR);
+  if (!(await fs.pathExists(sourceRoot))) return;
+
+  for (const mirrorDir of AGENT_MIRROR_DIRS) {
+    if (!(await fs.pathExists(path.join(targetPath, mirrorDir)))) continue;
+
+    for (const folder of AGENT_MIRRORED_FOLDERS) {
+      const sourceFolder = path.join(sourceRoot, folder);
+      if (!(await fs.pathExists(sourceFolder))) continue;
+
+      const mirrorFolder = path.join(targetPath, mirrorDir, folder);
+      await fs.ensureDir(mirrorFolder);
+
+      for (const entry of await fs.readdir(sourceFolder)) {
+        const linkPath = path.join(mirrorFolder, entry);
+        if (await lpathExists(linkPath)) continue;
+
+        try {
+          await fs.symlink(path.join("..", "..", AGENT_SOURCE_DIR, folder, entry), linkPath);
+        } catch {
+          // Symlinks need extra privileges on Windows; a copy keeps the mirror usable
+          await fs.copy(path.join(sourceFolder, entry), linkPath);
+        }
+      }
+    }
+  }
+}
+
+async function lpathExists(filePath) {
+  try {
+    await fs.lstat(filePath);
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 async function processPackageJson(targetPath, answers) {
-  const packageJsonPath = path.join(targetPath, "package.json");
-  const packageJson = await fs.readFile(packageJsonPath, "utf-8");
-  const renderedPackageJson = require("ejs").render(packageJson, {
-    projectName: answers.projectName,
-    eslint: answers.eslint,
-    husky: answers.husky,
-  });
-  await fs.writeFile(packageJsonPath, renderedPackageJson);
+  const ejs = require("ejs");
+  const templateData = { projectName: toSlug(answers.projectName) };
+
+  for (const file of ["package.json", "package-lock.json"]) {
+    const filePath = path.join(targetPath, file);
+    if (!(await fs.pathExists(filePath))) continue;
+    const content = await fs.readFile(filePath, "utf-8");
+    await fs.writeFile(filePath, ejs.render(content, templateData));
+  }
 }
 
 async function processAppJson(targetPath, answers) {
   const appJsonPath = path.join(targetPath, "app.json");
-  if (await fs.pathExists(appJsonPath)) {
-    const appJson = await fs.readFile(appJsonPath, "utf-8");
-    const parsedAppJson = JSON.parse(appJson);
-    parsedAppJson.expo = parsedAppJson.expo || {};
-    parsedAppJson.expo.name = answers.projectName;
-    parsedAppJson.expo.slug = answers.projectName
-      .toLowerCase()
-      .replace(/\s+/g, "-");
-    // Auto-generate bundleIdentifier and package
-    parsedAppJson.expo.ios = {
-      bundleIdentifier: `com.nova.${answers.projectName
-        .toLowerCase()
-        .replace(/\s+/g, "")}`,
-    };
-    parsedAppJson.expo.android = {
-      package: `com.nova.${answers.projectName
-        .toLowerCase()
-        .replace(/\s+/g, "")}`,
-    };
-    await fs.writeFile(appJsonPath, JSON.stringify(parsedAppJson, null, 2));
-  }
+  if (!(await fs.pathExists(appJsonPath))) return;
+
+  const appJson = await fs.readJson(appJsonPath);
+  const expo = appJson.expo || {};
+  const appIdentifier = `com.nova.${toIdentifierSegment(answers.projectName)}`;
+
+  appJson.expo = {
+    ...expo,
+    name: answers.projectName,
+    slug: toSlug(answers.projectName),
+    // Merge so template settings (infoPlist, adaptiveIcon, ...) survive
+    ios: { ...expo.ios, bundleIdentifier: appIdentifier },
+    android: { ...expo.android, package: appIdentifier },
+  };
+  await fs.writeJson(appJsonPath, appJson, { spaces: 2 });
+}
+
+function toSlug(name) {
+  return name.toLowerCase().replace(/[^a-z0-9-]+/g, "-").replace(/^-+|-+$/g, "");
+}
+
+function toIdentifierSegment(name) {
+  const segment = name.toLowerCase().replace(/[^a-z0-9]/g, "");
+  // Android package segments must start with a letter
+  return /^[a-z]/.test(segment) ? segment : `app${segment}`;
+}
+
+function run(command, args, cwd) {
+  return spawnSync(command, args, { cwd, stdio: "inherit", shell: true });
 }
 
 function installDependencies(targetPath) {
-  const npmCmd = process.platform === "win32" ? "npm.cmd" : "npm";
-  spawnSync(npmCmd, ["install"], {
-    cwd: targetPath,
-    stdio: "inherit",
-    shell: true,
-  });
+  run(NPM_CMD, ["install"], targetPath);
 }
 
 async function handleTranslationSetup(targetPath, answers) {
-  if (!answers.translation) {
-    // Delete locale folder if translation is false
-    const localePath = path.join(targetPath, "locale");
-    if (await fs.pathExists(localePath)) {
-      await fs.remove(localePath);
+  const sourceFiles = await listSourceFiles(targetPath);
+
+  if (answers.translation) {
+    // Keep the translation code, only drop the marker comments
+    for (const filePath of sourceFiles) {
+      await transformFile(filePath, (content) => content.replace(I18N_BLOCK_REGEX, "$1"));
     }
-    const keyEnumPath = path.join(targetPath, "@types/TranslationKeyEnum.ts");
-    if (await fs.pathExists(keyEnumPath)) {
-      await fs.remove(keyEnumPath);
-    }
-
-    // Update Text component to remove translation logic
-    const textComponentPath = path.join(
-      targetPath,
-      "components/atoms/Text/index.tsx"
-    );
-
-    if (await fs.pathExists(textComponentPath)) {
-      let textContent = await fs.readFile(textComponentPath, "utf-8");
-
-      // Remove the useTranslation import
-      textContent = textContent.replace(
-        /import\s*{\s*useTranslation\s*}\s*from\s*"react-i18next";\s*\n/g,
-        ""
-      );
-
-      // Remove the t function usage
-      textContent = textContent.replace(
-        /const\s*{\s*t\s*}\s*=\s*useTranslation\(\s*\);\s*\n/g,
-        ""
-      );
-
-      // Replace the translation logic with direct children
-      textContent = textContent.replace(
-        /\{autoTranslate \? t\(String\(rest\.children\)\) : rest\.children\}/g,
-        "{rest.children}"
-      );
-
-      // Remove autoTranslate from props
-      textContent = textContent.replace(
-        /,\s*autoTranslate\s*=\s*true,\s*\n/g,
-        ",\n"
-      );
-
-      await fs.writeFile(textComponentPath, textContent);
-    }
-
-    // Update Text types to remove autoTranslate
-    const textTypesPath = path.join(
-      targetPath,
-      "components/atoms/Text/types.ts"
-    );
-    if (await fs.pathExists(textTypesPath)) {
-      let typesContent = await fs.readFile(textTypesPath, "utf-8");
-      typesContent = typesContent.replace(/autoTranslate\?: boolean;\n/g, "");
-      await fs.writeFile(textTypesPath, typesContent);
-    }
-
-    // Update ThemedView component to remove translation logic
-    const themedViewComponentPath = path.join(
-      targetPath,
-      "components/atoms/ThemedView/index.tsx"
-    );
-
-    if (await fs.pathExists(themedViewComponentPath)) {
-      let themedViewContent = await fs.readFile(
-        themedViewComponentPath,
-        "utf-8"
-      );
-
-      // Remove the import
-      themedViewContent = themedViewContent.replace(
-        /import\s*{\s*useTranslation\s*}\s*from\s*"react-i18next";\s*\n/g,
-        ""
-      );
-
-      // Remove the i18n usage and direction style
-      themedViewContent = themedViewContent.replace(
-        /\s*const\s*{\s*i18n\s*}\s*=\s*useTranslation\(\);\s*\n/g,
-        ""
-      );
-      themedViewContent = themedViewContent.replace(
-        /<RNView[^>]*style={[^>]*direction:[^>]*i18n[^>]*\/>/,
-        "<RNView style={[{ backgroundColor }, style]} {...otherProps} />"
-      );
-      await fs.writeFile(themedViewComponentPath, themedViewContent);
-    }
-
-    // Update Input component to remove translation logic
-    const inputComponentPath = path.join(
-      targetPath,
-      "components/atoms/Input/index.tsx"
-    );
-
-    if (await fs.pathExists(inputComponentPath)) {
-      let inputContent = await fs.readFile(inputComponentPath, "utf-8");
-
-      // Remove the import
-      inputContent = inputContent.replace(
-        /import { useTranslation } from "react-i18next";\n/g,
-        ""
-      );
-
-      // Remove the i18n usage and text alignment logic
-      inputContent = inputContent.replace(
-        /const { i18n } = useTranslation\(\);\n/g,
-        ""
-      );
-      inputContent = inputContent.replace(
-        /\{ textAlign: i18n.dir\(\) === "rtl" \? "right" : "left" as "auto" \| "center" \| "right" \| "left" \| "justify" \| undefined \},/g,
-        ""
-      );
-
-      await fs.writeFile(inputComponentPath, inputContent);
-    }
-
-    // Update profile screen to remove translation logic
-    const profilePath = path.join(targetPath, "app/(main)/(tabs)/profile.tsx");
-    if (await fs.pathExists(profilePath)) {
-      let profileContent = await fs.readFile(profilePath, "utf-8");
-
-      // Remove the i18n import
-      profileContent = profileContent.replace(
-        /import\s+i18n\s+from\s+"@\/locale";\s*\n/g,
-        ""
-      );
-
-      // Remove the changeLanguage function
-      profileContent = profileContent.replace(
-        /const\s+changeLanguage\s*=\s*async\s*\(lang:\s*"en"\s*\|\s*"ar"\)\s*=>\s*{\s*\n\s*try\s*{\s*\n\s*await\s*i18n\.changeLanguage\(lang\);\s*\n\s*}\s*catch\s*\(error\)\s*{\s*\n\s*console\.error\("Language\s+change\s+failed",\s*error\);\s*\n\s*}\s*\n\s*};\s*\n/g,
-        ""
-      );
-
-      // Remove the language change buttons
-      profileContent = profileContent.replace(
-        /<View>\s*\n\s*<Button\s*\n\s*title="Change\s+Language\s+To\s+AR"\s*\n\s*onPress=\{\s*\(\)\s*=>\s*changeLanguage\("ar"\)\s*\}\s*\n\s*\/>\s*\n\s*<\/View>\s*\n\s*<View>\s*\n\s*<Button\s*\n\s*title="Change\s+Language\s+To\s+EN"\s*\n\s*onPress=\{\s*\(\)\s*=>\s*changeLanguage\("en"\)\s*\}\s*\n\s*\/>\s*\n\s*<\/View>\s*\n/g,
-        ""
-      );
-
-      await fs.writeFile(profilePath, profileContent);
-    }
-
     return;
   }
 
-  // Install translation-related packages
-  const npmCmd = process.platform === "win32" ? "npm.cmd" : "npm";
-  const translationPackages = ["i18next", "react-i18next"];
+  console.log("\nRemoving translation support...");
 
-  console.log("\nInstalling translation dependencies...");
-  spawnSync(npmCmd, ["install", ...translationPackages], {
-    cwd: targetPath,
-    stdio: "inherit",
-    shell: true,
-  });
+  for (const filePath of sourceFiles) {
+    await transformFile(filePath, (content) =>
+      content
+        .replace(I18N_BLOCK_REGEX, "")
+        .replace(/\s+autoTranslate=\{false\}/g, "")
+    );
+  }
+
+  await replaceInFile(targetPath, "components/shared/ui/Text/Base/index.tsx", [
+    [/import\s*{\s*useTranslation\s*}\s*from\s*"react-i18next";\r?\n/, ""],
+    [/[ \t]*const\s*{\s*t\s*}\s*=\s*useTranslation\(\s*\);\r?\n/, ""],
+    [/[ \t]*autoTranslate\s*=\s*true,\r?\n/, ""],
+    [/\{autoTranslate \? t\(String\(rest\.children\)\) : rest\.children\}/, "{rest.children}"],
+  ]);
+
+  await replaceInFile(targetPath, "components/shared/ui/Text/Base/types.ts", [
+    [/[ \t]*autoTranslate\?: boolean;\r?\n/, ""],
+  ]);
+
+  await replaceInFile(targetPath, "components/shared/ui/ThemedView/index.tsx", [
+    [/import\s*{\s*useTranslation\s*}\s*from\s*"react-i18next";\r?\n/, ""],
+    [/[ \t]*const\s*{\s*i18n\s*}\s*=\s*useTranslation\(\);\r?\n/, ""],
+    [/,\s*direction:\s*i18n\.dir\(\)\s*\|\|\s*"ltr"/, ""],
+  ]);
+
+  await replaceInFile(targetPath, "components/shared/ui/Input/index.tsx", [
+    [/import\s*{\s*t\s*}\s*from\s*"i18next";\r?\n/, ""],
+    [/\$\{t\(placeholder\)\}/, "${placeholder}"],
+  ]);
+
+  await replaceInFile(targetPath, "components/shared/ui/DropDown/index.tsx", [
+    [/import\s+i18n\s+from\s+"@\/locale";\r?\n/, ""],
+    [/i18n\.t\("CHOOSE"\)/, '"Choose"'],
+  ]);
+
+  // TouchableOpacity is only used by the (removed) language switcher
+  await replaceInFile(targetPath, "components/features/main/screens/Profile/index.tsx", [
+    [/import\s*{\s*TouchableOpacity,\s*View\s*}\s*from\s*"react-native";/, 'import { View } from "react-native";'],
+  ]);
+
+  for (const relativePath of TRANSLATION_ONLY_PATHS) {
+    await fs.remove(path.join(targetPath, relativePath));
+  }
+
+  const packageJsonPath = path.join(targetPath, "package.json");
+  const packageJson = await fs.readJson(packageJsonPath);
+  const dependencies = { ...packageJson.dependencies };
+  TRANSLATION_PACKAGES.forEach((name) => delete dependencies[name]);
+  await fs.writeJson(packageJsonPath, { ...packageJson, dependencies }, { spaces: 2 });
+
+  await warnOnLeftoverTranslationImports(targetPath);
 }
 
-async function setupESLint(targetPath, answers) {
+async function listSourceFiles(rootPath) {
+  const files = [];
+  for (const entry of await fs.readdir(rootPath, { withFileTypes: true })) {
+    if (entry.name === "node_modules" || entry.name.startsWith(".")) continue;
+    const entryPath = path.join(rootPath, entry.name);
+    if (entry.isDirectory()) {
+      files.push(...(await listSourceFiles(entryPath)));
+    } else if (SOURCE_FILE_EXTENSIONS.includes(path.extname(entry.name))) {
+      files.push(entryPath);
+    }
+  }
+  return files;
+}
+
+async function transformFile(filePath, transform) {
+  const content = await fs.readFile(filePath, "utf-8");
+  const updated = transform(content);
+  if (updated !== content) {
+    await fs.writeFile(filePath, updated);
+  }
+}
+
+// Warns instead of failing so a template change surfaces clearly without aborting the setup
+async function replaceInFile(targetPath, relativePath, replacements) {
+  const filePath = path.join(targetPath, relativePath);
+  if (!(await fs.pathExists(filePath))) {
+    console.warn(`⚠️  ${relativePath} not found, skipping its update`);
+    return;
+  }
+
+  let content = await fs.readFile(filePath, "utf-8");
+  for (const [pattern, replacement] of replacements) {
+    if (!pattern.test(content)) {
+      console.warn(`⚠️  ${relativePath}: pattern ${pattern} not found, the template may have changed`);
+      continue;
+    }
+    content = content.replace(pattern, replacement);
+  }
+  await fs.writeFile(filePath, content);
+}
+
+async function warnOnLeftoverTranslationImports(targetPath) {
+  const leftoverImport = /from\s+["'](?:i18next|react-i18next|@\/locale[^"']*)["']/;
+  for (const filePath of await listSourceFiles(targetPath)) {
+    const content = await fs.readFile(filePath, "utf-8");
+    if (leftoverImport.test(content)) {
+      console.warn(
+        `⚠️  ${path.relative(targetPath, filePath)} still imports translation code; remove it manually`
+      );
+    }
+  }
+}
+
+async function setupESLint(targetPath) {
   console.log("\nSetting up ESLint and Prettier...");
 
   const eslintPackages = [
-    "eslint",
+    // eslint-plugin-react, -import and -react-native don't support ESLint 10 yet
+    "eslint@^9",
     "eslint-config-expo",
+    "globals",
     "prettier",
     "eslint-plugin-prettier",
     "@typescript-eslint/eslint-plugin",
@@ -339,12 +397,7 @@ async function setupESLint(targetPath, answers) {
     "eslint-config-prettier",
   ];
 
-  const npmCmd = process.platform === "win32" ? "npm.cmd" : "npm";
-  spawnSync(npmCmd, ["install", "--save-dev", ...eslintPackages], {
-    cwd: targetPath,
-    stdio: "inherit",
-    shell: true,
-  });
+  run(NPM_CMD, ["install", "--save-dev", ...eslintPackages], targetPath);
 
   const eslintConfig = `// https://docs.expo.dev/guides/using-eslint/
 const typescriptEslint = require('@typescript-eslint/eslint-plugin');
@@ -360,13 +413,13 @@ const expoConfig = require('eslint-config-expo/flat');
 const { node, es2021 } = globalsPackage;
 
 const cleanGlobals = Object.fromEntries(
-  Object.entries({ ...node, ...es2021 }).filter(([key]) => !/\s/.test(key))
+  Object.entries({ ...node, ...es2021 }).filter(([key]) => !/\\s/.test(key))
 );
 
 module.exports = defineConfig([
   expoConfig,
   {
-    ignores: ['dist/*'],
+    ignores: ['dist/*', 'plop-templates/*'],
   },
   // TypeScript config
   {
@@ -489,52 +542,57 @@ module.exports = defineConfig([
 
   await fs.writeFile(path.join(targetPath, ".prettierrc"), prettierConfig);
 
-  const packageJsonPath = path.join(targetPath, "package.json");
-  const updatedPackageJson = JSON.parse(
-    await fs.readFile(packageJsonPath, "utf8")
-  );
-  updatedPackageJson.scripts = updatedPackageJson.scripts || {};
-  updatedPackageJson.scripts.lint = "eslint . --ext .js,.jsx,.ts,.tsx";
-  updatedPackageJson.scripts["lint:fix"] =
-    "eslint . --ext .js,.jsx,.ts,.tsx --fix";
-
-  await fs.writeFile(
-    packageJsonPath,
-    JSON.stringify(updatedPackageJson, null, 2)
-  );
+  // Flat config (ESLint 9+) rejects `--ext`; file types come from eslint.config.js
+  await updatePackageJson(targetPath, (packageJson) => ({
+    ...packageJson,
+    scripts: {
+      ...packageJson.scripts,
+      lint: "eslint .",
+      "lint:fix": "eslint . --fix",
+    },
+  }));
   console.log("\nESLint and Prettier setup complete!");
+}
+
+async function updatePackageJson(targetPath, update) {
+  const packageJsonPath = path.join(targetPath, "package.json");
+  const packageJson = await fs.readJson(packageJsonPath);
+  await fs.writeJson(packageJsonPath, update(packageJson), { spaces: 2 });
+}
+
+function ensureGitRepository(targetPath) {
+  const insideRepo = spawnSync("git", ["rev-parse", "--is-inside-work-tree"], {
+    cwd: targetPath,
+    stdio: "ignore",
+  });
+  if (insideRepo.status === 0) return true;
+
+  const init = spawnSync("git", ["init"], { cwd: targetPath, stdio: "inherit" });
+  return init.status === 0;
 }
 
 async function setupHusky(targetPath) {
   console.log("\nSetting up Husky with lint-staged...");
 
-  const npmCmd = process.platform === "win32" ? "npm.cmd" : "npm";
-  spawnSync(npmCmd, ["install", "--save-dev", "husky", "lint-staged"], {
-    cwd: targetPath,
-    stdio: "inherit",
-    shell: true,
-  });
+  // Husky installs hooks into .git, so the project must be a repository first
+  if (!ensureGitRepository(targetPath)) {
+    console.warn("⚠️  git is not available; skipping Husky. Run `git init && npx husky init` later.");
+    return;
+  }
 
-  spawnSync(npmCmd, ["exec", "husky", "init"], {
-    cwd: targetPath,
-    stdio: "inherit",
-    shell: true,
-  });
+  run(NPM_CMD, ["install", "--save-dev", "husky", "lint-staged"], targetPath);
+  // Adds the `prepare: husky` script and points git at .husky/
+  run(NPM_CMD, ["exec", "husky", "init"], targetPath);
 
-  const packageJsonPath = path.join(targetPath, "package.json");
-  const updatedPackageJson = JSON.parse(
-    await fs.readFile(packageJsonPath, "utf8")
-  );
-  updatedPackageJson.scripts = updatedPackageJson.scripts || {};
-  updatedPackageJson.scripts.prepare = "husky install";
-  updatedPackageJson["lint-staged"] = {
-    "*.{js,jsx,ts,tsx}": ["eslint --fix", "prettier --write"],
-  };
+  // `husky init` defaults the hook to `npm test`, which runs jest in watch mode and never exits
+  await fs.outputFile(path.join(targetPath, ".husky/pre-commit"), "npx lint-staged\n");
 
-  await fs.writeFile(
-    packageJsonPath,
-    JSON.stringify(updatedPackageJson, null, 2)
-  );
+  await updatePackageJson(targetPath, (packageJson) => ({
+    ...packageJson,
+    "lint-staged": {
+      "*.{js,jsx,ts,tsx}": ["eslint --fix", "prettier --write"],
+    },
+  }));
 
   console.log("Husky git hooks configured successfully.");
 }
@@ -542,92 +600,47 @@ async function setupHusky(targetPath) {
 async function configureSentry(targetPath, answers) {
   console.log("\nConfiguring Sentry...");
 
-  const npmCmd = process.platform === "win32" ? "npm.cmd" : "npm";
-  spawnSync(
-    npmCmd,
-    [
-      "install",
-      "@sentry/react-native@^8.14.1",
-      "expo-constants",
-      "expo-device",
-    ],
-    {
-      cwd: targetPath,
-      stdio: "inherit",
-      shell: true,
-    }
+  run(
+    NPM_CMD,
+    ["install", "@sentry/react-native@^8.14.1", "expo-constants", "expo-device"],
+    targetPath
   );
 
   const appJsonPath = path.join(targetPath, "app.json");
   const appJson = await fs.readJson(appJsonPath);
+  const sentrySlug = toSlug(answers.projectName);
 
-  appJson.expo.plugins ||= [];
-  appJson.expo.plugins.push([
-    "@sentry/react-native/expo",
-    {
-      organization: answers.projectName.toLowerCase().replace(/\s+/g, "-"),
-      project: answers.projectName.toLowerCase().replace(/\s+/g, "-"),
-      url: "https://sentry.io",
-    },
-  ]);
+  appJson.expo.plugins = [
+    ...(appJson.expo.plugins || []),
+    [
+      "@sentry/react-native/expo",
+      { organization: sentrySlug, project: sentrySlug, url: "https://sentry.io" },
+    ],
+  ];
   await fs.writeJson(appJsonPath, appJson, { spaces: 2 });
 
-  // Remove the existing index.tsx file if it exists
-  const existingIndexPath = path.join(targetPath, "app/index.tsx");
-  if (await fs.pathExists(existingIndexPath)) {
-    await fs.remove(existingIndexPath);
-  }
-
-  const initialScreenPath = path.join(targetPath, "app/index.tsx");
-  const initialScreenContent = `import React from "react";
-import { View, ActivityIndicator, StyleSheet } from "react-native";
-import useInitialRouting from "../hooks/useInitialRouting";
-import { Redirect, RelativePathString } from "expo-router";
-import * as Sentry from "@sentry/react-native";
-
-const InitialScreen = () => {
-  const { targetPath } = useInitialRouting();
-
-  Sentry.init({
-    dsn: process.env.EXPO_PUBLIC_SENTRY_DSN || "${
-      answers.sentryDsn || "YOUR_DSN_HERE"
-    }",
-    enableNative: true,
-    enableNativeNagger: false,
-    debug: __DEV__,
-    environment: __DEV__ ? "development" : "production",
-    integrations: [Sentry.reactNativeTracingIntegration()],
-    tracesSampleRate: 1.0,
-  });
-
-  if (!targetPath) {
-    return (
-      <View style={styles.container}>
-        <ActivityIndicator size="large" color="#0000ff" />
-      </View>
-    );
-  }
-
-  return <Redirect href={targetPath as RelativePathString} />;
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
+  // Initialise once at module scope in the root layout, and wrap it so Sentry captures render errors
+  const sentryInit = `Sentry.init({
+  dsn: process.env.EXPO_PUBLIC_SENTRY_DSN || ${JSON.stringify(answers.sentryDsn || "")},
+  debug: __DEV__,
+  environment: __DEV__ ? "development" : "production",
+  integrations: [Sentry.reactNativeTracingIntegration()],
+  tracesSampleRate: 1.0,
 });
 
-export default InitialScreen;`;
+`;
 
-  await fs.writeFile(initialScreenPath, initialScreenContent);
+  await replaceInFile(targetPath, "app/_layout.tsx", [
+    [/^/, 'import * as Sentry from "@sentry/react-native";\n'],
+    [/^const RootLayout = /m, `${sentryInit}const RootLayout = `],
+    [/^export default RootLayout;/m, "export default Sentry.wrap(RootLayout);"],
+  ]);
 
-  console.log("✅ Sentry successfully configured in index.tsx");
+  console.log("✅ Sentry successfully configured in app/_layout.tsx");
 
   if (!answers.sentryDsn) {
     console.log(
-      "⚠️  Remember to add your Sentry DSN in index.tsx and app.json"
+      "⚠️  Remember to set EXPO_PUBLIC_SENTRY_DSN (or add the DSN in app/_layout.tsx)"
     );
   }
 }

@@ -22,8 +22,8 @@ Custom hooks must be:
 ## 1) Where to place hooks
 
 - Shared hook used across features: `hooks/use<Feature>.ts` or `hooks/use<Feature>.tsx`.
-- Feature-only hook used by one screen section can be colocated if needed, but prefer `hooks/` first for discoverability.
-- Keep route files in `app/**` thin; heavy state logic belongs in hooks + `components/pages/**`.
+- Feature-only hook used by one screen section can be colocated inside that feature if needed (`components/features/<feature>/hooks/use<Name>.ts`), but prefer `hooks/` first for discoverability.
+- Keep route files in `app/**` thin; heavy state logic belongs in hooks + `components/features/**/screens/**`.
 
 ## 2) Naming
 
@@ -108,7 +108,7 @@ Avoid:
 ## 5) Keep business logic in hook, rendering in component
 
 - Hook should prepare state/actions.
-- Component should map hook output to UI atoms/molecules/organisms.
+- Component should map hook output to UI components (shared or feature-scoped).
 
 ## Form hooks standard (react-hook-form)
 
