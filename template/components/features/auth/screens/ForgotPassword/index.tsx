@@ -21,9 +21,9 @@ const ForgotPassword = () => {
             <View style={styles.iconChip}>
               <Icon name="shield" size={30} color="action" />
             </View>
-            <Text variant="H1">verifyTitle</Text>
+            <Text variant="H1">VERIFY_EMAIL_TITLE</Text>
             <Text variant="md" color="body">
-              verifySubtitle
+              VERIFY_EMAIL_SUBTITLE
             </Text>
           </View>
 
@@ -38,14 +38,14 @@ const ForgotPassword = () => {
               }}
               placeHolderTextColor={COLORS[theme].text.disabled}
             />
-            <Button title="verify" onPress={() => router.replace("/(auth)/login")} />
+            <Button title="VERIFY" onPress={() => router.replace("/(auth)/login")} />
             <View style={styles.resendRow}>
               <Text variant="sm" color="body">
-                didNotReceiveCode
+                RESEND_CODE_PROMPT
               </Text>
               <TouchableOpacity>
                 <Text size={13} fontFamily="font700" color="primary">
-                  resend
+                  RESEND_CODE
                 </Text>
               </TouchableOpacity>
             </View>
@@ -54,11 +54,11 @@ const ForgotPassword = () => {
 
         <View style={styles.footer}>
           <Text variant="sm" color="body">
-            noAccount
+            NO_ACCOUNT_PROMPT
           </Text>
           <TouchableOpacity onPress={() => router.push("/(auth)/signup")}>
             <Text size={13} fontFamily="font700" color="primary">
-              signUp
+              SIGN_UP
             </Text>
           </TouchableOpacity>
         </View>

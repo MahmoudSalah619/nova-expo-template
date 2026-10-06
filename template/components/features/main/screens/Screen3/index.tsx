@@ -2,26 +2,39 @@ import { Icon, Text } from "@/components/shared/ui";
 import CardWrapper from "@/components/shared/wrappers/Card";
 import FlashListWrapper from "@/components/shared/wrappers/FlashList";
 import { cardListData } from "@/constants/ListData";
-import React from "react";
-import { View } from "react-native";
+import React, { useState } from "react";
+import { TouchableOpacity, View } from "react-native";
 import styles from "./styles";
 
 export default function Screen3() {
+  const [favouriteIds, setFavouriteIds] = useState<number[]>([]);
+
+  const toggleFavourite = (id: number) => {
+    setFavouriteIds((current) =>
+      current.includes(id)
+        ? current.filter((favouriteId) => favouriteId !== id)
+        : [...current, id]
+    );
+  };
+
   return (
     <View style={styles.container}>
       <FlashListWrapper
         data={cardListData}
+        extraData={favouriteIds}
         ListHeaderComponent={() => (
           <View style={styles.listHeader}>
-            <Text variant="H2">flashListTitle</Text>
+            <Text variant="H2">FLASH_LIST</Text>
             <Text variant="md" color="body">
-              FlashList Example (50 items)
+              FLASH_LIST_SUBTITLE
             </Text>
           </View>
         )}
         estimatedItemSize={150}
         gap={12}
-        renderItem={({ item }) => (
+        renderItem={({ item }) => {
+          const isFavourite = favouriteIds.includes(item.id);
+          return (
           <View>
           <CardWrapper customStyles={styles.card}>
             <View style={styles.cardTop}>
@@ -43,6 +56,17 @@ export default function Screen3() {
               >
                 {item.title}
               </Text>
+              <TouchableOpacity
+                style={[styles.heartButton, isFavourite && styles.heartButtonActive]}
+                hitSlop={8}
+                onPress={() => toggleFavourite(item.id)}
+              >
+                <Icon
+                  name={isFavourite ? "heartFilled" : "heart"}
+                  size={16}
+                  color={isFavourite ? "danger" : "secondary"}
+                />
+              </TouchableOpacity>
             </View>
             <View style={styles.cardBody}>
               <Text variant="sm" color="body" autoTranslate={false}>
@@ -57,7 +81,8 @@ export default function Screen3() {
             </View>
           </CardWrapper>
           </View>
-        )}
+          );
+        }}
       />
     </View>
   );

@@ -13,65 +13,62 @@ const styles = StyleSheet.create({
   header: {
     gap: Spacing.x1,
   },
-  chipsRow: {
+  segmented: {
     flexDirection: "row",
-    flexWrap: "wrap",
-    gap: Spacing.x2,
+    padding: Spacing.x1,
+    gap: Spacing.x1,
+    borderRadius: Radius.md,
+    backgroundColor: COLORS[theme].Surface.subtle,
   },
-  chip: {
-    paddingHorizontal: Spacing.x4,
-    paddingVertical: Spacing.x2,
-    borderRadius: Radius.pill,
-    borderWidth: 1,
-    borderColor: COLORS[theme].border.subtle,
-    backgroundColor: COLORS[theme].Surface.primary,
-  },
-  chipActive: {
-    borderColor: COLORS[theme].Surface.action,
-    backgroundColor: COLORS[theme].Surface.action,
-  },
-  grid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: Spacing.x3,
-  },
-  cardWrapper: {
-    flexBasis: "47%",
-    flexGrow: 1,
-  },
-  card: {
+  segment: {
     flex: 1,
-    gap: Spacing.x3,
-    padding: Spacing.x4,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: Spacing.x2,
+    borderRadius: Radius.sm,
+  },
+  segmentActive: {
+    backgroundColor: COLORS[theme].Surface.primary,
+    ...getShadow("sm", theme),
+  },
+  listCard: {
     borderRadius: Radius.lg,
     borderWidth: 1,
     borderColor: COLORS[theme].border.subtle,
     backgroundColor: COLORS[theme].Surface.primary,
+    overflow: "hidden",
     ...getShadow("sm", theme),
   },
-  cardTop: {
+  row: {
     flexDirection: "row",
-    alignItems: "flex-start",
-    justifyContent: "space-between",
+    alignItems: "center",
+    gap: Spacing.x3,
+    padding: Spacing.x4,
   },
-  iconTile: {
-    width: Spacing.x12,
-    height: Spacing.x12,
-    borderRadius: Radius.md,
+  rowDivider: {
+    height: 1,
+    marginStart: Spacing.x4 + Spacing.x11 + Spacing.x3,
+    backgroundColor: COLORS[theme].border.subtle,
+  },
+  rowIcon: {
+    width: Spacing.x11,
+    height: Spacing.x11,
+    borderRadius: Radius.sm,
     alignItems: "center",
     justifyContent: "center",
   },
-  tileAction: {
+  tilePlaces: {
     backgroundColor: COLORS[theme].Surface.actionSoft,
   },
-  tileSuccess: {
+  tileProducts: {
     backgroundColor: COLORS[theme].Surface.successSoft,
   },
-  tileDanger: {
-    backgroundColor: COLORS[theme].Surface.dangerSoft,
-  },
-  tileNeutral: {
+  tileArticles: {
     backgroundColor: COLORS[theme].Surface.subtle,
+  },
+  rowText: {
+    flex: 1,
+    gap: 2,
   },
   heartButton: {
     width: Spacing.x9,
@@ -79,18 +76,7 @@ const styles = StyleSheet.create({
     borderRadius: Radius.pill,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: COLORS[theme].Surface.subtle,
-  },
-  heartButtonActive: {
     backgroundColor: COLORS[theme].Surface.dangerSoft,
-  },
-  cardText: {
-    gap: 2,
-  },
-  cardFooter: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: Spacing.x1,
   },
   emptyState: {
     alignItems: "center",
@@ -105,6 +91,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: COLORS[theme].Surface.dangerSoft,
     marginBottom: Spacing.x3,
+  },
+  restoreButton: {
+    marginTop: Spacing.x4,
   },
 });
 

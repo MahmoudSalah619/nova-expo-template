@@ -57,7 +57,7 @@ export default function AppleRegistarationButton() {
                 token: res?.access_token,
                 refreshToken: res?.refresh_token,
               });
-              showSuccessMsg({ msg: "LOGIN_SUCCESSFULLY" });
+              showSuccessMsg({ msg: "LOGIN_SUCCESSFUL" });
             })
             .catch((err) => HandleErrors(err));
         } catch (e) {

@@ -22,25 +22,25 @@ const SignUp = () => {
               </View>
             </View>
           </TouchableOpacity>
-          <Text variant="H1">signUpTitle</Text>
+          <Text variant="H1">SIGN_UP_TITLE</Text>
           <Text variant="md" color="body">
-            signUpSubtitle
+            SIGN_UP_SUBTITLE
           </Text>
         </View>
 
         <View style={styles.formCard}>
           <FormInput
             name="full_name"
-            label="fullName"
-            placeholder="fullNamePlaceholder"
+            label="FULL_NAME"
+            placeholder="FULL_NAME_PLACEHOLDER"
             prefix={<Icon name="user" size={18} color="caption" />}
             control={control}
             required
           />
           <FormInput
             name="email"
-            label="email"
-            placeholder="emailPlaceholder"
+            label="EMAIL"
+            placeholder="EMAIL_PLACEHOLDER"
             keyboardType="email-address"
             prefix={<Icon name="mail" size={18} color="caption" />}
             control={control}
@@ -48,8 +48,8 @@ const SignUp = () => {
           />
           <FormInput
             name="password"
-            label="password"
-            placeholder="passwordCreatePlaceholder"
+            label="PASSWORD"
+            placeholder="NEW_PASSWORD_PLACEHOLDER"
             secureTextEntry
             prefix={<Icon name="lock" size={18} color="caption" />}
             control={control}
@@ -61,7 +61,7 @@ const SignUp = () => {
               name="accept_terms"
               render={({ field: { onChange, value } }) => (
                 <Checkbox
-                  label="acceptTerms"
+                  label="ACCEPT_TERMS"
                   labelPosition="left"
                   size={20}
                   checked={!!value}
@@ -71,18 +71,18 @@ const SignUp = () => {
             />
           </View>
           <Button
-            title="createAccount"
+            title="CREATE_ACCOUNT"
             onPress={() => router.replace("/(main)/(tabs)/Home")}
           />
         </View>
 
         <View style={styles.footer}>
           <Text variant="sm" color="body">
-            alreadyHaveAccount
+            HAVE_ACCOUNT_PROMPT
           </Text>
           <TouchableOpacity onPress={() => router.push("/(auth)/login")}>
             <Text size={13} fontFamily="font700" color="primary">
-              signIn
+              SIGN_IN
             </Text>
           </TouchableOpacity>
         </View>

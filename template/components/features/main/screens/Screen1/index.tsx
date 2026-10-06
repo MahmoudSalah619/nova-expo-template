@@ -10,9 +10,9 @@ export default function Screen1() {
   return (
     <ScreenWrapper variant="main">
       <View style={styles.header}>
-        <Text variant="H2">appearance</Text>
+        <Text variant="H2">APPEARANCE</Text>
         <Text variant="md" color="body">
-          appearanceSubtitle
+          APPEARANCE_SUBTITLE
         </Text>
       </View>
       <View style={styles.card}>
@@ -21,10 +21,10 @@ export default function Screen1() {
         </View>
         <View style={styles.cardText}>
           <Text size={15} fontFamily="font600">
-            Enable Dark Mode
+            DARK_MODE
           </Text>
           <Text variant="xsm" color="caption">
-            darkModeCaption
+            DARK_MODE_CAPTION
           </Text>
         </View>
         <Switch

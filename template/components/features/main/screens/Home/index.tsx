@@ -14,10 +14,10 @@ const QUICK_ACTIONS: {
   caption: string;
   href: Href;
 }[] = [
-  { icon: "compass", title: "exploreTitle", caption: "homeExploreCaption", href: "/(main)/(tabs)/Explore" },
-  { icon: "heart", title: "favouritesTitle", caption: "homeFavouritesCaption", href: "/(main)/(tabs)/favourites" },
-  { icon: "user", title: "Profile", caption: "homeProfileCaption", href: "/(main)/(tabs)/profile" },
-  { icon: "moon", title: "appearance", caption: "exploreAppearanceCaption", href: "/(main)/screen1" },
+  { icon: "compass", title: "EXPLORE", caption: "HOME_SHORTCUT_EXPLORE_CAPTION", href: "/(main)/(tabs)/Explore" },
+  { icon: "heart", title: "FAVORITES", caption: "HOME_SHORTCUT_FAVORITES_CAPTION", href: "/(main)/(tabs)/favourites" },
+  { icon: "user", title: "PROFILE", caption: "HOME_SHORTCUT_PROFILE_CAPTION", href: "/(main)/(tabs)/profile" },
+  { icon: "moon", title: "APPEARANCE", caption: "HOME_SHORTCUT_APPEARANCE_CAPTION", href: "/(main)/screen1" },
 ];
 
 const Home = () => {
@@ -27,9 +27,9 @@ const Home = () => {
     <ScreenWrapper variant="main" isScrollable style={styles.screen}>
       <View style={styles.greeting}>
         <Text variant="sm" color="caption">
-          homeGreeting
+          HOME_GREETING
         </Text>
-        <Text variant="H1">homeTitle</Text>
+        <Text variant="H1">DEMO_USER_NAME</Text>
       </View>
 
       <View>
@@ -37,10 +37,10 @@ const Home = () => {
         <Orb size={Spacing.x14 * 3} style={styles.heroOrb} />
         <Orb size={Spacing.x14 * 1.5} style={styles.heroOrbSmall} opacity={0.08} />
         <Text variant="H3" color="onAction">
-          homeHeroTitle
+          HOME_HERO_TITLE
         </Text>
         <Text variant="md" color="onAction" style={styles.heroBody}>
-          homeSubtitle
+          HOME_HERO_BODY
         </Text>
         <PressableScale
           style={styles.heroCta}
@@ -48,7 +48,7 @@ const Home = () => {
           onPress={() => router.push("/(main)/(tabs)/Explore")}
         >
           <Text size={13} fontFamily="font600" color="primary">
-            homeHeroCta
+            HOME_HERO_ACTION
           </Text>
           <View style={GLOBAL_STYLES.flipInArabic}>
             <Icon name="arrowRight" size={16} color="action" />
@@ -59,7 +59,7 @@ const Home = () => {
 
       <View style={styles.section}>
         <Text variant="xsm" color="caption" style={styles.sectionLabel}>
-          homeQuickActions
+          HOME_SHORTCUTS_LABEL
         </Text>
         <View style={styles.actionsGrid}>
           {QUICK_ACTIONS.map((action) => (

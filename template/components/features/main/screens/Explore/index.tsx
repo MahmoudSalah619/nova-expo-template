@@ -23,7 +23,7 @@ const Explore = () => {
 
   const handleOpenActionSheet = async () => {
     const payload = await SheetManager.show("random-bottom-sheet", {
-      payload: { title: "Random Sheet" },
+      payload: { title: "DEMO_SHEET_TITLE" },
     });
     if (payload?.decision) {
       // Do something with the decision
@@ -39,8 +39,8 @@ const Explore = () => {
   const overlayRows: ExploreRow[] = [
     {
       icon: "layers",
-      title: "exploreModalTitle",
-      caption: "exploreModalCaption",
+      title: "EXPLORE_MODAL_TITLE",
+      caption: "EXPLORE_MODAL_CAPTION",
       onPress: handleOpenModal,
     },
   ];
@@ -48,24 +48,24 @@ const Explore = () => {
   const screenRows: ExploreRow[] = [
     {
       icon: "moon",
-      title: "exploreAppearanceTitle",
-      caption: "exploreAppearanceCaption",
+      title: "APPEARANCE",
+      caption: "EXPLORE_APPEARANCE_CAPTION",
       onPress: () => router.push("/(main)/screen1"),
     },
     {
       icon: "share",
-      title: "exploreParamsTitle",
-      caption: "exploreParamsCaption",
+      title: "ROUTE_PARAMS",
+      caption: "EXPLORE_ROUTE_PARAMS_CAPTION",
       onPress: () =>
         router.push({
           pathname: "/(main)/screen2",
-          params: { id: 1, from: "Explore" },
+          params: { id: 1, from: "EXPLORE" },
         }),
     },
     {
       icon: "list",
-      title: "exploreListTitle",
-      caption: "exploreListCaption",
+      title: "FLASH_LIST",
+      caption: "EXPLORE_FLASH_LIST_CAPTION",
       onPress: () => router.push("/(main)/screen3"),
     },
   ];
@@ -103,15 +103,15 @@ const Explore = () => {
   return (
     <ScreenWrapper variant="main" isScrollable style={styles.screen}>
       <View style={styles.header}>
-        <Text variant="H1">exploreTitle</Text>
+        <Text variant="H1">EXPLORE</Text>
         <Text variant="md" color="body">
-          exploreSubtitle
+          EXPLORE_SUBTITLE
         </Text>
       </View>
 
       <View>
         <Input
-          placeholder="exploreSearch"
+          placeholder="SEARCH"
           isSearch
           prefix={<Icon name="search" size={18} color="caption" />}
         />
@@ -126,14 +126,14 @@ const Explore = () => {
           <Icon name="grid" size={22} color="onAction" />
         </View>
         <Text variant="H4" color="onAction">
-          exploreSheetTitle
+          EXPLORE_SHEET_TITLE
         </Text>
         <Text variant="sm" color="onAction" style={styles.featuredBody}>
-          exploreSheetCaption
+          EXPLORE_SHEET_CAPTION
         </Text>
         <View style={styles.featuredCta}>
           <Text size={13} fontFamily="font600" color="primary">
-            openActionSheet
+            EXPLORE_SHEET_ACTION
           </Text>
           <View style={GLOBAL_STYLES.flipInArabic}>
             <Icon name="arrowRight" size={16} color="action" />
@@ -145,14 +145,14 @@ const Explore = () => {
 
       <View style={styles.section}>
         <Text variant="xsm" color="caption" style={styles.sectionLabel}>
-          exploreOverlaysLabel
+          EXPLORE_OVERLAYS_LABEL
         </Text>
         {renderRows(overlayRows)}
       </View>
 
       <View style={styles.section}>
         <Text variant="xsm" color="caption" style={styles.sectionLabel}>
-          exploreScreensLabel
+          EXPLORE_SCREENS_LABEL
         </Text>
         {renderRows(screenRows)}
       </View>
@@ -161,7 +161,7 @@ const Explore = () => {
         <RandomModal
           isVisible={isModalShown}
           setVisible={setisModalShown}
-          onSubmit={() => {}}
+          onSubmit={() => setisModalShown(false)}
         />
       )}
     </ScreenWrapper>

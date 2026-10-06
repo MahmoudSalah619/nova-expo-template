@@ -18,25 +18,25 @@ export default function _layout() {
       <Tabs.Screen
         name="Home"
         options={{
-          title: "Home",
+          title: "HOME",
         }}
       />
       <Tabs.Screen
         name="Explore"
         options={{
-          title: "Explore",
+          title: "EXPLORE",
         }}
       />
       <Tabs.Screen
         name="favourites"
         options={{
-          title: "Favorites",
+          title: "FAVORITES",
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
-          title: "Profile",
+          title: "PROFILE",
         }}
       />
     </Tabs>

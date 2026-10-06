@@ -8,10 +8,10 @@ import { iconsListType } from "@/@types/mainTypes";
 import styles from "./styles";
 
 const FEATURES: { icon: iconsListType; title: string; caption: string }[] = [
-  { icon: "layers", title: "featureComponents", caption: "featureComponentsCaption" },
-  { icon: "sliders", title: "featureCustomizable", caption: "featureCustomizableCaption" },
-  { icon: "zap", title: "featureFast", caption: "featureFastCaption" },
-  { icon: "code", title: "featureDeveloper", caption: "featureDeveloperCaption" },
+  { icon: "layers", title: "WELCOME_FEATURE_COMPONENTS", caption: "WELCOME_FEATURE_COMPONENTS_CAPTION" },
+  { icon: "sliders", title: "WELCOME_FEATURE_THEMING", caption: "WELCOME_FEATURE_THEMING_CAPTION" },
+  { icon: "zap", title: "WELCOME_FEATURE_PERFORMANCE", caption: "WELCOME_FEATURE_PERFORMANCE_CAPTION" },
+  { icon: "code", title: "WELCOME_FEATURE_DEVELOPER", caption: "WELCOME_FEATURE_DEVELOPER_CAPTION" },
 ];
 
 const Welcome = () => {
@@ -27,14 +27,14 @@ const Welcome = () => {
           <View style={styles.heroBadge}>
             <Icon name="star" size={12} color="onAction" />
             <Text variant="xsm" color="onAction">
-              welcomeBadge
+              WELCOME_BADGE
             </Text>
           </View>
           <Text variant="H1" color="onAction">
-            welcomeHeadline
+            WELCOME_TITLE
           </Text>
           <Text variant="md" color="onAction" style={styles.heroBody}>
-            welcomeBody
+            WELCOME_SUBTITLE
           </Text>
           </GradientSurface>
         </View>
@@ -59,12 +59,12 @@ const Welcome = () => {
 
         <View style={styles.actions}>
           <Button
-            title="createAccount"
+            title="CREATE_ACCOUNT"
             suffix={<Icon name="arrowRight" size={18} color="onAction" />}
             onPress={() => router.push("/(auth)/signup")}
           />
           <Button
-            title="haveAccount"
+            title="I_HAVE_AN_ACCOUNT"
             variant="outlined"
             onPress={() => router.push("/(auth)/login")}
           />

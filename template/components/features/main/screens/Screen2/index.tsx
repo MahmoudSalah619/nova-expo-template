@@ -18,9 +18,9 @@ export default function Screen2() {
   return (
     <ScreenWrapper variant="main">
       <View style={styles.header}>
-        <Text variant="H2">Screen2</Text>
+        <Text variant="H2">ROUTE_PARAMS</Text>
         <Text variant="md" color="body">
-          screen2Subtitle
+          ROUTE_PARAMS_SUBTITLE
         </Text>
       </View>
 
@@ -28,7 +28,7 @@ export default function Screen2() {
         <View style={styles.cardTitleRow}>
           <Icon name="code" size={18} color="action" />
           <Text size={15} fontFamily="font600">
-            routeParams
+            ROUTE_PARAMS_RECEIVED
           </Text>
         </View>
         {params.map((param) => (
@@ -52,7 +52,7 @@ export default function Screen2() {
 
       <View>
       <Button
-        title="Go to Screen3"
+        title="ROUTE_PARAMS_NEXT_ACTION"
         containerStyle={styles.action}
         suffix={<Icon name="arrowRight" size={18} color="onAction" />}
         onPress={() => router.push("/(main)/screen3")}

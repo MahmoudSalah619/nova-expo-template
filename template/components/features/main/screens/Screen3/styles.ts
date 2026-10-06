@@ -35,6 +35,17 @@ const styles = StyleSheet.create({
   cardTitle: {
     flex: 1,
   },
+  heartButton: {
+    width: Spacing.x9,
+    height: Spacing.x9,
+    borderRadius: Radius.pill,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: COLORS[theme].Surface.subtle,
+  },
+  heartButtonActive: {
+    backgroundColor: COLORS[theme].Surface.dangerSoft,
+  },
   cardBody: {
     gap: Spacing.x3,
     marginTop: Spacing.x3,

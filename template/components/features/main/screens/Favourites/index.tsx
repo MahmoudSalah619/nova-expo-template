@@ -1,63 +1,56 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import { TouchableOpacity, View } from "react-native";
-import { Icon, PressableScale, Text } from "@/components/shared/ui";
+import { Button, Icon, Text } from "@/components/shared/ui";
 import ScreenWrapper from "@/components/shared/layout/ScreenWrapper";
 import {
+  CATEGORY_ICON_COLORS,
   DUMMY_FAVOURITES,
   FAVOURITE_FILTERS,
-  FavouriteCategory,
+  FavouriteFilter,
   FavouriteItem,
-  TONE_ICON_COLORS,
 } from "./constants";
 import styles from "./styles";
 
-type Filter = FavouriteCategory | "all";
-
-const TONE_STYLES = {
-  action: styles.tileAction,
-  success: styles.tileSuccess,
-  danger: styles.tileDanger,
-  neutral: styles.tileNeutral,
+const CATEGORY_TILE_STYLES = {
+  places: styles.tilePlaces,
+  products: styles.tileProducts,
+  articles: styles.tileArticles,
 };
 
 const Favourites = () => {
   const [items, setItems] = useState<FavouriteItem[]>(DUMMY_FAVOURITES);
-  const [filter, setFilter] = useState<Filter>("all");
+  const [filter, setFilter] = useState<FavouriteFilter>("all");
 
-  const visibleItems = items.filter(
-    (item) => item.isFavourite && (filter === "all" || item.category === filter)
-  );
+  const visibleItems =
+    filter === "all" ? items : items.filter((item) => item.category === filter);
 
-  const toggleFavourite = (id: number) => {
-    setItems((current) =>
-      current.map((item) =>
-        item.id === id ? { ...item, isFavourite: !item.isFavourite } : item
-      )
-    );
+  const removeFavourite = (id: number) => {
+    setItems((current) => current.filter((item) => item.id !== id));
   };
 
   return (
     <ScreenWrapper variant="main" isScrollable style={styles.screen}>
       <View style={styles.header}>
-        <Text variant="H1">favouritesTitle</Text>
+        <Text variant="H1">FAVORITES</Text>
         <Text variant="md" color="body">
-          favouritesSubtitle
+          FAVORITES_SUBTITLE
         </Text>
       </View>
 
-      <View style={styles.chipsRow}>
+      <View style={styles.segmented}>
         {FAVOURITE_FILTERS.map((item) => {
           const isActive = filter === item.key;
           return (
             <TouchableOpacity
               key={item.key}
-              style={[styles.chip, isActive && styles.chipActive]}
+              style={[styles.segment, isActive && styles.segmentActive]}
               onPress={() => setFilter(item.key)}
             >
               <Text
                 size={13}
-                fontFamily="font600"
-                color={isActive ? "onAction" : "body"}
+                fontFamily={isActive ? "font700" : "font500"}
+                color={isActive ? "heading" : "caption"}
+                numberOfLines={1}
               >
                 {item.label}
               </Text>
@@ -72,44 +65,49 @@ const Favourites = () => {
             <Icon name="heart" size={30} color="danger" />
           </View>
           <Text variant="H4" isCentered>
-            favEmptyTitle
+            FAVORITES_EMPTY_TITLE
           </Text>
           <Text variant="sm" color="caption" isCentered>
-            favEmptyBody
+            FAVORITES_EMPTY_BODY
           </Text>
+          <Button
+            title="FAVORITES_RESTORE"
+            variant="outlined"
+            size="md"
+            containerStyle={styles.restoreButton}
+            onPress={() => setItems(DUMMY_FAVOURITES)}
+          />
         </View>
       ) : (
-        <View style={styles.grid}>
-          {visibleItems.map((item) => (
-            <View key={item.id} style={styles.cardWrapper}>
-              <PressableScale style={styles.card} onPress={() => {}}>
-                <View style={styles.cardTop}>
-                  <View style={[styles.iconTile, TONE_STYLES[item.tone]]}>
-                    <Icon name={item.icon} size={22} color={TONE_ICON_COLORS[item.tone]} />
-                  </View>
-                  <TouchableOpacity
-                    style={[styles.heartButton, styles.heartButtonActive]}
-                    hitSlop={8}
-                    onPress={() => toggleFavourite(item.id)}
-                  >
-                    <Icon name="heart" size={16} color="danger" />
-                  </TouchableOpacity>
+        <View style={styles.listCard}>
+          {visibleItems.map((item, index) => (
+            <Fragment key={item.id}>
+              {index > 0 && <View style={styles.rowDivider} />}
+              <View style={styles.row}>
+                <View style={[styles.rowIcon, CATEGORY_TILE_STYLES[item.category]]}>
+                  <Icon
+                    name={item.icon}
+                    size={20}
+                    color={CATEGORY_ICON_COLORS[item.category]}
+                  />
                 </View>
-                <View style={styles.cardText}>
+                <View style={styles.rowText}>
                   <Text size={15} fontFamily="font600" numberOfLines={1}>
                     {item.title}
                   </Text>
-                  <Text variant="xsm" color="caption" numberOfLines={2}>
-                    {item.subtitle}
+                  <Text variant="xsm" color="caption" numberOfLines={1}>
+                    {item.caption}
                   </Text>
                 </View>
-                <View style={styles.cardFooter}>
-                  <Text variant="xsm" color="primary" fontFamily="font600">
-                    {FAVOURITE_FILTERS.find((f) => f.key === item.category)?.label ?? ""}
-                  </Text>
-                </View>
-              </PressableScale>
-            </View>
+                <TouchableOpacity
+                  style={styles.heartButton}
+                  hitSlop={8}
+                  onPress={() => removeFavourite(item.id)}
+                >
+                  <Icon name="heartFilled" size={16} color="danger" />
+                </TouchableOpacity>
+              </View>
+            </Fragment>
           ))}
         </View>
       )}

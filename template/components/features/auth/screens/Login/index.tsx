@@ -22,17 +22,17 @@ const Login = () => {
           <View style={styles.brandMark}>
             <Icon name="zap" size={24} color="onAction" />
           </View>
-          <Text variant="H1">loginTitle</Text>
+          <Text variant="H1">LOGIN_TITLE</Text>
           <Text variant="md" color="body">
-            loginSubtitle
+            LOGIN_SUBTITLE
           </Text>
         </View>
 
         <View style={styles.formCard}>
           <FormInput
             name="username"
-            label="email"
-            placeholder="emailPlaceholder"
+            label="EMAIL"
+            placeholder="EMAIL_PLACEHOLDER"
             keyboardType="email-address"
             prefix={<Icon name="mail" size={18} color="caption" />}
             control={control}
@@ -40,8 +40,8 @@ const Login = () => {
           />
           <FormInput
             name="password"
-            label="password"
-            placeholder="passwordPlaceholder"
+            label="PASSWORD"
+            placeholder="PASSWORD_PLACEHOLDER"
             secureTextEntry
             prefix={<Icon name="lock" size={18} color="caption" />}
             control={control}
@@ -53,7 +53,7 @@ const Login = () => {
               name="remember_me"
               render={({ field: { onChange, value } }) => (
                 <Checkbox
-                  label="rememberMe"
+                  label="REMEMBER_ME"
                   labelPosition="left"
                   size={20}
                   checked={!!value}
@@ -65,12 +65,12 @@ const Login = () => {
               onPress={() => router.push("/(auth)/forgotPassword")}
             >
               <Text size={13} fontFamily="font600" color="primary">
-                forgotPassword
+                FORGOT_PASSWORD
               </Text>
             </TouchableOpacity>
           </View>
           <Button
-            title="signIn"
+            title="SIGN_IN"
             onPress={() => router.replace("/(main)/(tabs)/Home")} // Navigate to the home page and replace the current route
           />
           <Biometric />
@@ -81,7 +81,7 @@ const Login = () => {
             <SeperateLine />
           </View>
           <Text variant="xsm" color="caption">
-            orContinueWith
+            OR_CONTINUE_WITH
           </Text>
           <View style={styles.dividerLine}>
             <SeperateLine />
@@ -96,11 +96,11 @@ const Login = () => {
 
         <View style={styles.footer}>
           <Text variant="sm" color="body">
-            noAccount
+            NO_ACCOUNT_PROMPT
           </Text>
           <TouchableOpacity onPress={() => router.push("/(auth)/signup")}>
             <Text size={13} fontFamily="font700" color="primary">
-              signUp
+              SIGN_UP
             </Text>
           </TouchableOpacity>
         </View>

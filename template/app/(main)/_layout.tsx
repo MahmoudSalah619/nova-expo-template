@@ -6,24 +6,24 @@ export default function _layout() {
     <Stack screenOptions={MainScreenOptions}>
       <Stack.Screen
         name="screen1/index"
-        initialParams={{ title: "appearance" }}
+        initialParams={{ title: "APPEARANCE" }}
       />
       <Stack.Screen
         name="screen2/index"
         initialParams={{
-          title: "Screen 2",
+          title: "ROUTE_PARAMS",
         }}
       />
       <Stack.Screen
         name="screen3/index"
         initialParams={{
-          title: "flashListTitle",
+          title: "FLASH_LIST",
         }}
       />
       <Stack.Screen
         name="notifications/index"
         initialParams={{
-          title: "notificationsTitle",
+          title: "NOTIFICATIONS",
           isRightComponentHidden: true,
         }}
       />

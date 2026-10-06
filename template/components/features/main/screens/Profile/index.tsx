@@ -18,20 +18,35 @@ type Language = "en" | "ar";
 // i18n:end
 const PROFILE_SECTIONS = [
   {
-    title: "Personal Information",
-    rows: ["First Name: John", "Last Name: Doe", "Age: 25"],
+    title: "PERSONAL_INFORMATION",
+    rows: [
+      { label: "FIRST_NAME", value: "John" },
+      { label: "LAST_NAME", value: "Doe" },
+      { label: "AGE", value: "25" },
+    ],
   },
   {
-    title: "contactInformation",
-    rows: ["Email: john.doe@example.com", "Phone: +20 100 000 0000"],
+    title: "CONTACT_INFORMATION",
+    rows: [
+      { label: "EMAIL", value: "john.doe@example.com" },
+      { label: "PHONE", value: "+20 100 000 0000" },
+    ],
   },
   {
-    title: "address",
-    rows: ["City: Cairo", "Street: 5th Settlement", "Building: 5"],
+    title: "ADDRESS",
+    rows: [
+      { label: "CITY", value: "Cairo" },
+      { label: "STREET", value: "5th Settlement" },
+      { label: "BUILDING", value: "5" },
+    ],
   },
   {
-    title: "socialMedia",
-    rows: ["Facebook: johndoe", "Twitter: @johndoe", "Instagram: @johndoe"],
+    title: "SOCIAL_MEDIA",
+    rows: [
+      { label: "FACEBOOK", value: "johndoe" },
+      { label: "X_TWITTER", value: "@johndoe" },
+      { label: "INSTAGRAM", value: "@johndoe" },
+    ],
   },
 ];
 
@@ -71,8 +86,8 @@ export default function Profile() {
             JD
           </Text>
         </View>
-        <Text variant="H3" autoTranslate={false}>
-          John Doe
+        <Text variant="H3">
+          DEMO_USER_NAME
         </Text>
         {/* Stretch + center: an auto-width centered Text clips the tail of this font on Android */}
         <Text variant="sm" color="caption" isCentered style={styles.email} autoTranslate={false}>
@@ -83,7 +98,7 @@ export default function Profile() {
 
       <View style={styles.section}>
         <Text variant="xsm" color="caption" style={styles.sectionLabel}>
-          accountLabel
+          PROFILE_ACCOUNT_LABEL
         </Text>
         <View style={styles.listCard}>
           {PROFILE_SECTIONS.map((section, index) => (
@@ -93,9 +108,19 @@ export default function Profile() {
                 <Collapsible title={section.title}>
                   <View style={styles.collapsibleBody}>
                     {section.rows.map((row) => (
-                      <Text key={row} variant="sm" color="body" autoTranslate={false}>
-                        {row}
-                      </Text>
+                      <View key={row.label} style={styles.infoRow}>
+                        <Text variant="sm" color="caption">
+                          {row.label}
+                        </Text>
+                        <Text
+                          variant="sm"
+                          numberOfLines={1}
+                          style={styles.infoValue}
+                          autoTranslate={false}
+                        >
+                          {row.value}
+                        </Text>
+                      </View>
                     ))}
                   </View>
                 </Collapsible>
@@ -107,7 +132,7 @@ export default function Profile() {
 
       <View style={styles.section}>
         <Text variant="xsm" color="caption" style={styles.sectionLabel}>
-          preferencesLabel
+          PROFILE_PREFERENCES_LABEL
         </Text>
         <View style={styles.listCard}>
           {/* i18n:start */}
@@ -116,7 +141,7 @@ export default function Profile() {
               <Icon name="globe" size={18} color="action" />
             </View>
             <Text size={15} fontFamily="font600" style={styles.settingText}>
-              changeLanguage
+              LANGUAGE
             </Text>
             <View style={styles.segmented}>
               {LANGUAGES.map((language) => {
@@ -151,7 +176,7 @@ export default function Profile() {
               <Icon name="moon" size={18} color="action" />
             </View>
             <Text size={15} fontFamily="font600" style={styles.settingText}>
-              appearance
+              APPEARANCE
             </Text>
             <View style={GLOBAL_STYLES.flipInArabic}>
               <Icon name="chevronRight" size={18} color="caption" />
@@ -162,7 +187,7 @@ export default function Profile() {
 
       <View>
       <Button
-        title="logout"
+        title="LOG_OUT"
         variant="outlined"
         prefix={<Icon name="logOut" size={18} color="danger" />}
         onPress={handleLogout}

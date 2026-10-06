@@ -21,12 +21,11 @@ export default function RandomModal({
     <ModalWrapper isVisible={isVisible} setVisible={setVisible}>
       <View>
         <View style={[GLOBAL_STYLES.vhCentering, GLOBAL_STYLES.gap8]}>
-          <Text variant="H4">
-            Random Modal
+          <Text variant="H4" isCentered>
+            DEMO_MODAL_TITLE
           </Text>
           <Text variant="sm" color="body" isCentered>
-            This is a random modal to show how to use the ModalWrapper
-            component.
+            DEMO_MODAL_BODY
           </Text>
         </View>
         <View
@@ -36,9 +35,9 @@ export default function RandomModal({
             { marginTop: 28 },
           ]}
         >
-          <Button title="Confirm" isFullWidth onPress={onSubmit} />
+          <Button title="CONFIRM" isFullWidth onPress={onSubmit} />
           <Button
-            title="Not Now"
+            title="CANCEL"
             isFullWidth
             variant="outlined"
             onPress={handleClose}

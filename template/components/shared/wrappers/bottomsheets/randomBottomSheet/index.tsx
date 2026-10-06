@@ -21,23 +21,17 @@ export default function RandomBottomSheet(
     <SheetWrapper sheetId={props.sheetId} title={props.payload.title}>
       <View style={GLOBAL_STYLES.gap16}>
         <Text variant="sm" color="body">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
+          DEMO_SHEET_BODY
         </Text>
         <View style={[GLOBAL_STYLES.row, GLOBAL_STYLES.gap8]}>
           <Button
-            title="Confirm"
+            title="CONFIRM"
             onPress={() => onCloseSheet(true)}
             isFullWidth
           />
 
           <Button
-            title="Cancel"
+            title="CANCEL"
             variant="outlined"
             onPress={() => onCloseSheet()}
             isFullWidth

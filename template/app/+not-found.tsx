@@ -16,15 +16,15 @@ export default function NotFoundScreen() {
           <Icon name="compass" size={32} color="action" />
         </View>
         <Text variant="H2" isCentered>
-          notFoundTitle
+          NOT_FOUND_TITLE
         </Text>
         <Text variant="md" color="body" isCentered>
-          notFoundSubtitle
+          NOT_FOUND_SUBTITLE
         </Text>
         <View style={styles.linkButton}>
           <Link href="/" style={styles.link}>
             <Text size={15} fontFamily="font600" color="onAction">
-              goHome
+              BACK_TO_HOME
             </Text>
           </Link>
         </View>

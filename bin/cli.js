@@ -312,9 +312,14 @@ async function handleTranslationSetup(targetPath, answers) {
     [/import\s*{\s*TouchableOpacity,\s*View\s*}\s*from\s*"react-native";/, 'import { View } from "react-native";'],
   ]);
 
+  // Read before the locale folder is removed below
+  const englishTexts = await fs.readJson(path.join(targetPath, "locale/en.json"));
+
   for (const relativePath of TRANSLATION_ONLY_PATHS) {
     await fs.remove(path.join(targetPath, relativePath));
   }
+
+  await inlineTranslationKeys(targetPath, englishTexts);
 
   const packageJsonPath = path.join(targetPath, "package.json");
   const packageJson = await fs.readJson(packageJsonPath);
@@ -323,6 +328,30 @@ async function handleTranslationSetup(targetPath, answers) {
   await fs.writeJson(packageJsonPath, { ...packageJson, dependencies }, { spaces: 2 });
 
   await warnOnLeftoverTranslationImports(targetPath);
+}
+
+// Without i18n nothing resolves translation keys, so swap every key for its English text
+async function inlineTranslationKeys(targetPath, englishTexts) {
+  // Longest first so a key never matches inside a longer one
+  const keys = Object.keys(englishTexts).sort((a, b) => b.length - a.length);
+  if (!keys.length) return;
+
+  const keyGroup = `(${keys.join("|")})`;
+  const stringLiteralRegex = new RegExp(`(["'])${keyGroup}\\1`, "g");
+  const jsxTextRegex = new RegExp(`>(\\s*)${keyGroup}(\\s*)</`, "g");
+  const jsxUnsafeChars = /[{}<>&"']/;
+
+  for (const filePath of await listSourceFiles(targetPath)) {
+    await transformFile(filePath, (content) =>
+      content
+        .replace(stringLiteralRegex, (_, quote, key) => JSON.stringify(englishTexts[key]))
+        .replace(jsxTextRegex, (_, before, key, after) => {
+          const text = englishTexts[key];
+          const jsxText = jsxUnsafeChars.test(text) ? `{${JSON.stringify(text)}}` : text;
+          return `>${before}${jsxText}${after}</`;
+        })
+    );
+  }
 }
 
 async function listSourceFiles(rootPath) {

@@ -55,8 +55,17 @@ const styles = StyleSheet.create({
     paddingVertical: Spacing.x4,
   },
   collapsibleBody: {
-    gap: Spacing.x1,
-    paddingTop: Spacing.x1,
+    gap: Spacing.x2,
+    paddingTop: Spacing.x2,
+  },
+  infoRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: Spacing.x3,
+  },
+  infoValue: {
+    flexShrink: 1,
   },
   divider: {
     height: 1,

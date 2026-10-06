@@ -10,8 +10,8 @@ import styles from "./styles";
 type Filter = "all" | "unread";
 
 const FILTERS: { key: Filter; label: string }[] = [
-  { key: "all", label: "notificationsAll" },
-  { key: "unread", label: "notificationsUnread" },
+  { key: "all", label: "ALL" },
+  { key: "unread", label: "NOTIFICATIONS_UNREAD" },
 ];
 
 export default function Notifications() {
@@ -42,13 +42,13 @@ export default function Notifications() {
       <View style={styles.header}>
         <View style={styles.headerText}>
           <Text variant="md" color="body">
-            {unreadCount > 0 ? "notificationsSubtitle" : "notificationsAllCaughtUp"}
+            {unreadCount > 0 ? "NOTIFICATIONS_SUBTITLE" : "NOTIFICATIONS_ALL_CAUGHT_UP"}
           </Text>
         </View>
         {unreadCount > 0 && (
           <TouchableOpacity style={styles.markAllButton} onPress={markAllAsRead}>
             <Text size={13} fontFamily="font600" color="primary">
-              markAllAsRead
+              NOTIFICATIONS_MARK_ALL_READ
             </Text>
           </TouchableOpacity>
         )}
@@ -93,10 +93,10 @@ export default function Notifications() {
             <Icon name="bell" size={30} color="action" />
           </View>
           <Text variant="H4" isCentered>
-            notificationsEmptyTitle
+            NOTIFICATIONS_EMPTY_TITLE
           </Text>
           <Text variant="sm" color="caption" isCentered>
-            notificationsEmptyBody
+            NOTIFICATIONS_EMPTY_BODY
           </Text>
         </View>
       ) : (

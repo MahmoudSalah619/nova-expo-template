@@ -23,7 +23,7 @@ export default function Biometric() {
           variant="outlined"
           onPress={runBiometric}
           prefix={<FingerPrint />}
-          title={"Biometric Login"}
+          title={"SIGN_IN_WITH_BIOMETRICS"}
         />
       )}
     </View>
