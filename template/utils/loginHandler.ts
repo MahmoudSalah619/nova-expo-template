@@ -3,6 +3,7 @@ import api from "@/apis";
 import store from "@/redux";
 import { login, setUserInfo } from "@/redux/authReducer";
 import { loggedInUser } from "@/apis/services/auth/types";
+import clearStorage from "@/utils/clearStorage";
 
 export default function loginHandler({
   token = "",
@@ -18,7 +19,7 @@ export default function loginHandler({
     AsyncStorage.setItem("userInfo", JSON.stringify(userInfo));
   } else {
     // if user refresh the app and got token but he didn't press remember me so we remove all
-    AsyncStorage.clear();
+    clearStorage();
   }
   store.dispatch(api.util.resetApiState());
   store.dispatch(login(token));

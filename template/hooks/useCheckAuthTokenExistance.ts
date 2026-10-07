@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { login, setUserInfo } from "@/redux/authReducer";
+import clearStorage from "@/utils/clearStorage";
 
 export default function useCheckAuthTokenExistance() {
   const dispatch = useDispatch();
@@ -19,7 +20,7 @@ export default function useCheckAuthTokenExistance() {
     } else if (!rememberMe && userToken && user) {
       dispatch(setUserInfo(user));
       dispatch(login(userToken));
-      AsyncStorage.clear();
+      clearStorage();
     }
   };
 

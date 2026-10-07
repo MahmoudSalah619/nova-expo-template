@@ -4,6 +4,8 @@ import { Alert } from "react-native";
 
 export default function useCheckNewUpdates() {
   useEffect(() => {
+    // expo-updates is unavailable in Expo Go and development builds
+    if (__DEV__ || !Updates.isEnabled) return;
     (async () => {
       try {
         const update = await Updates.checkForUpdateAsync();

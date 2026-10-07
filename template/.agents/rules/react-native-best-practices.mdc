@@ -50,7 +50,7 @@ Always use the Image component from `@/components/shared/ui/Image` in app compon
 ```tsx
 // ✅ CORRECT: use project Image component
 import Image from "@/components/shared/ui/Image";
-import Logo from "@/assets/images/nova-black.png";
+import Logo from "@/assets/images/nova-logo.png";
 import styles from "./styles";
 
 <Image

@@ -4,7 +4,7 @@
     "slug": "<%= projectName %>",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/nova-black.png",
+    "icon": "./assets/images/nova-icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "ios": {
@@ -22,8 +22,8 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/images/nova-adaptive-icon.png",
+        "backgroundColor": "#4F46E5"
       },
       "userInterfaceStyle": "automatic"
     },
@@ -37,12 +37,12 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/nova-black.png",
+          "image": "./assets/images/nova-logo.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#F5F6FA",
           "dark": {
-            "image": "./assets/images/nova-white.png",
+            "image": "./assets/images/nova-logo.png",
             "backgroundColor": "#171A24"
           }
         }

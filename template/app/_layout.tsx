@@ -10,6 +10,7 @@ import Toast from "react-native-toast-message";
 import useCheckNewUpdates from "@/hooks/useCheckNewUpdate";
 // import NotificationListenerContainer from "@/components/features/notifications/NotificationListenerContainer";
 import useLoadResources from "@/hooks/useLoadResources";
+import useThemeSync from "@/hooks/useThemeSync";
 import { COLORS } from "@/constants/Colors";
 import { theme } from "@/utils/getTheme";
 import AnimatedSplash from "@/components/shared/layout/AnimatedSplash";
@@ -24,6 +25,8 @@ const RootLayout = () => {
   const { isLoaded } = useLoadResources();
   // Check for new updates
   useCheckNewUpdates();
+  // Restore the saved theme and follow system theme changes
+  useThemeSync();
   const [isSplashVisible, setIsSplashVisible] = useState(true);
   const hideSplash = useCallback(() => setIsSplashVisible(false), []);
 

@@ -2,13 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [4.2.0] - 2026-10-07
 
-- Internet Detection using NetInfo
+### Added
+
+- New logo: an indigo (`#4F46E5`) badge with a script "N" and rocket, without the wordmark. `Logo` now renders it as an SVG, and the app icon, Android adaptive icon, and splash use the new `nova-icon.png`, `nova-adaptive-icon.png`, and `nova-logo.png`.
+- The dark mode choice is now saved and restored on launch (`utils/switchTheme`, `hooks/useThemeSync`). The app reloads when the theme changes, from the in-app switch or the system setting, so every screen picks up the new scheme.
+
+### Fixed
+
+- Removed the require cycle between the `components/shared/ui` barrel and `NoResults`, `Switch`, `Collapsible`, and `Checkbox`.
+- `useCheckNewUpdates` no longer calls `checkForUpdateAsync()` in Expo Go or development builds.
+- Clearing storage on login without "remember me" no longer removes the saved theme.
 
 ### Changed
 
-- **BREAKING: Replaced the Atomic Design `components/` layout with a feature-based structure**, ported back from the ScoutX rebuild (a project created from this template). Components are now grouped by what they are for instead of by granularity:
+- **BREAKING: Replaced the Atomic Design `components/` layout with a feature-based structure**. Components are now grouped by what they are for instead of by granularity:
   - `components/shared/ui/` — generic primitives (formerly `atoms/*` and `molecules/common/*`, including `Input`, `PhoneInput`, `FormPhoneInput`, `DropDown`, `RadioButton`, `RotateArrow`, and `ShadowWrapper`).
   - `components/shared/layout/` — navigation chrome and screen layout: `AppHeader`, `AppTabBar`, `MainScreenOptions` (formerly `organisms/scoped/navigation/*`) and `ScreenWrapper` (formerly `templates/AuthScreenWrapper` + `templates/MainScreenWrapper`).
   - `components/shared/wrappers/` — container / overlay wrappers: `Card`, `FlashList` (formerly `wrappers/Card`, `wrappers/flashlist`), `bottomsheets`, `modals` (formerly `organisms/common/*`), and `Dialog` (formerly `organisms/common/dialog`, still exported as `DialogComponent`).

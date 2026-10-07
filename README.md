@@ -20,7 +20,6 @@ This is a React Native template built with Expo 57. It provides a modern and res
 - [🛠️ Installation](#️-installation)
 - [⚙️ Prerequisites](#️-prerequisites)
 - [📚 Usage](#-usage)
-- [📸 Screenshots](#-screenshots)
 - [🏗️ Project Structure](#️-project-structure)
 - [📋 Changelog](#-changelog)
 - [🤝 Contributing](#-contributing)
@@ -90,18 +89,6 @@ To preview the production build, run:
 ```bash
 expo start --no-dev --minify
 ```
-
-## 📸 Screenshots
-
-Here are some screenshots of the application:
-
-| Welcome | Login | Sign Up |
-|:---:|:---:|:---:|
-| <img src="screenshots/landing.jpg" width="200" /> | <img src="screenshots/login.jpg" width="200" /> | <img src="screenshots/signup.jpg" width="200" /> |
-
-| Home | Explore | Favorites | Profile |
-|:---:|:---:|:---:|:---:|
-| <img src="screenshots/app.jpg" width="200" /> | <img src="screenshots/explore.jpg" width="200" /> | <img src="screenshots/favourites.jpg" width="200" /> | <img src="screenshots/profile.jpg" width="200" /> |
 
 ## 🏗️ Project Structure
 

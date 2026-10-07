@@ -1,7 +1,8 @@
 import { Icon, Switch, Text } from "@/components/shared/ui";
 import ScreenWrapper from "@/components/shared/layout/ScreenWrapper";
 import React from "react";
-import { Appearance, useColorScheme, View } from "react-native";
+import { useColorScheme, View } from "react-native";
+import switchTheme from "@/utils/switchTheme";
 import styles from "./styles";
 
 export default function Screen1() {
@@ -30,7 +31,7 @@ export default function Screen1() {
         <Switch
           value={colorScheme === "dark"}
           onValueChange={() => {
-            Appearance.setColorScheme(colorScheme === "dark" ? "light" : "dark");
+            switchTheme(colorScheme === "dark" ? "light" : "dark");
           }}
         />
       </View>

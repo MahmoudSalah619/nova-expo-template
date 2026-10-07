@@ -1,4 +1,4 @@
-import { Text } from "@/components/shared/ui";
+import Text from "@/components/shared/ui/Text/Base";
 import { StyleSheet } from "react-native";
 import Animated, {
   useSharedValue,

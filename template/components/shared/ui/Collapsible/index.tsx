@@ -7,7 +7,7 @@ import {
   View,
 } from "react-native";
 
-import { Text } from "@/components/shared/ui";
+import Text from "@/components/shared/ui/Text/Base";
 import { COLORS } from "@/constants/Colors";
 
 export default function Collapsible({

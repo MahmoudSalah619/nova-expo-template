@@ -1,5 +1,5 @@
 import { AnimatedSwitch } from "@/components/shared/vendor/reactICX/Switch";
-import { Text } from "@/components/shared/ui";
+import Text from "@/components/shared/ui/Text/Base";
 import { View, StyleSheet } from "react-native";
 import type { SwitchProps } from "./types";
 import {

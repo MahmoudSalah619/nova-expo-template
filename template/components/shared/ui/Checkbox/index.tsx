@@ -1,5 +1,5 @@
 import { Checkbox as ICXCheckbox } from "@/components/shared/vendor/reactICX/Checkbox";
-import { Text } from "@/components/shared/ui";
+import Text from "@/components/shared/ui/Text/Base";
 import { Pressable, StyleSheet } from "react-native";
 import type { CheckboxProps } from "./types";
 import { DEFAULT_CHECKMARK_COLOR, DEFAULT_SIZE, DEFAULT_STROKE } from "./conf";

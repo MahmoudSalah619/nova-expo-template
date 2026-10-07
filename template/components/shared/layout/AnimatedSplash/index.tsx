@@ -11,10 +11,8 @@ import Animated, {
   withSequence,
   withTiming,
 } from "react-native-reanimated";
-import NovaBlack from "@/assets/images/nova-black.png";
-import NovaWhite from "@/assets/images/nova-white.png";
+import NovaLogo from "@/assets/images/nova-logo.png";
 import { Text } from "@/components/shared/ui";
-import { theme } from "@/utils/getTheme";
 import styles from "./styles";
 import { AnimatedSplashProps } from "./types";
 
@@ -23,7 +21,6 @@ const PULSE_MS = 1800;
 const EXIT_MS = 450;
 const DOT_COUNT = 3;
 const DOT_STAGGER_MS = 160;
-const LOGO_SOURCE = theme === "dark" ? NovaWhite : NovaBlack;
 
 function PulseRing({ delay }: { delay: number }) {
   const progress = useSharedValue(0);
@@ -139,7 +136,7 @@ export default function AnimatedSplash({ isReady, onFinish }: AnimatedSplashProp
         <PulseRing delay={0} />
         <PulseRing delay={PULSE_MS / 2} />
         <Animated.View style={logoStyle}>
-          <Image source={LOGO_SOURCE} style={styles.logo} resizeMode="contain" />
+          <Image source={NovaLogo} style={styles.logo} resizeMode="contain" />
         </Animated.View>
       </View>
 
