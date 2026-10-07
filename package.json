@@ -1,6 +1,6 @@
 {
   "name": "create-nova-expo-template",
-  "version": "4.2.0",
+  "version": "4.3.0",
   "description": "A template for creating a new React Native app using Expo and TypeScript, with a focus on performance and best practices.",
   "main": "index.js",
   "author": "mahmoud salah <mahmoud.s.m619@gmail.com>",

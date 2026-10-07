@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.3.0] - 2026-10-08
+
+### Changed
+
+- Restored the Screenshots section in the README.
+
 ## [4.2.0] - 2026-10-07
 
 ### Added
