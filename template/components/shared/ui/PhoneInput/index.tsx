@@ -1,3 +1,4 @@
+import type { ViewRef } from "@/@types/mainTypes";
 import { useState, useMemo, useRef } from "react";
 import { View } from "react-native";
 import Text from "@/components/shared/ui/Text/Base";
@@ -33,7 +34,7 @@ export default function PhoneInput({
   const [phoneValue, setPhoneValue] = useState<string>(value);
   const [prevDefaultCountry, setPrevDefaultCountry] = useState(defaultCountry);
   const [prevValue, setPrevValue] = useState(value);
-  const containerRef = useRef<View>(null);
+  const containerRef = useRef<ViewRef>(null);
 
   const countryData = useMemo(
     () =>

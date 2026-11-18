@@ -1,17 +1,14 @@
-import {
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  View,
-  ViewStyle,
-} from "react-native";
+import { View, ViewStyle } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 
 import Constants from "expo-constants";
 import GLOBAL_STYLES from "@/constants/GlobalStyles";
-import METRICS from "@/constants/Metrics";
 import { ScreenWrapperProps } from "./types";
 import styles from "./styles";
 import { Logo, ThemedView } from "@/components/shared/ui";
+
+/** Gap kept between the focused input and the top of the keyboard. */
+const KEYBOARD_BOTTOM_OFFSET = 24;
 
 type VariantStyleOptions = Required<
   Pick<
@@ -54,7 +51,6 @@ export default function ScreenWrapper({
   justifyContent = "flex-start",
   style,
   hasNoHorizontalSpacing = false,
-  hasNoKeyboardVerticalOffset = false,
   isScrollable = false,
   paddingSize = "md",
   paddingBlockSize = "md",
@@ -77,28 +73,24 @@ export default function ScreenWrapper({
   const MainContentMarkup = <View style={allContainerStyle}>{children}</View>;
 
   return (
-    <KeyboardAvoidingView
-      style={[GLOBAL_STYLES.fullSize]}
-      behavior={Platform.select({ android: undefined, ios: "padding" })}
-      keyboardVerticalOffset={
-        !hasNoKeyboardVerticalOffset ? METRICS.headerHeight : 0
-      }
-    >
-      <ThemedView style={[GLOBAL_STYLES.fullSize]}>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          scrollEnabled={isScrollable}
-          contentContainerStyle={styles.scrollContainer}
-        >
-          {showHeader && (
-            <View>
-              <Logo width={260} height={200} />
-            </View>
-          )}
+    // KeyboardAwareScrollView (react-native-keyboard-controller) scrolls the
+    // focused input above the keyboard, identically on iOS and Android.
+    <ThemedView style={[GLOBAL_STYLES.fullSize]}>
+      <KeyboardAwareScrollView
+        showsVerticalScrollIndicator={false}
+        scrollEnabled={isScrollable}
+        bottomOffset={KEYBOARD_BOTTOM_OFFSET}
+        keyboardShouldPersistTaps="handled"
+        contentContainerStyle={styles.scrollContainer}
+      >
+        {showHeader && (
+          <View>
+            <Logo width={260} height={200} />
+          </View>
+        )}
 
-          {MainContentMarkup}
-        </ScrollView>
-      </ThemedView>
-    </KeyboardAvoidingView>
+        {MainContentMarkup}
+      </KeyboardAwareScrollView>
+    </ThemedView>
   );
 }

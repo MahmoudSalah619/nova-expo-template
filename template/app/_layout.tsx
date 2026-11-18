@@ -2,6 +2,7 @@ import React, { useCallback, useState } from "react";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaInsetsContext } from "react-native-safe-area-context";
+import { KeyboardProvider } from "react-native-keyboard-controller";
 import { StyleSheet, View } from "react-native";
 import { Provider } from "react-redux";
 import store from "@/redux";
@@ -14,6 +15,34 @@ import useThemeSync from "@/hooks/useThemeSync";
 import { COLORS } from "@/constants/Colors";
 import { theme } from "@/utils/getTheme";
 import AnimatedSplash from "@/components/shared/layout/AnimatedSplash";
+import ScreenErrorFallback from "@/components/shared/layout/ScreenErrorFallback";
+
+/**
+ * If a screen throws while rendering, show ScreenErrorFallback in its place
+ * (with "Try again" and "Back to home") instead of crashing the whole app.
+ * Applies to every route below this layout. SDK 58 API, still `unstable_`.
+ */
+export const unstable_settings = {
+  screenErrorBoundary: ScreenErrorFallback,
+};
+/**
+ * EAS Observe (performance monitoring), disabled by default.
+ *
+ * ⚠️ Requires a development build. expo-observe ships native code, so it does
+ * NOT work in Expo Go, and importing it there crashes on launch
+ * ("Cannot find native module 'ExpoObserve'").
+ *
+ * To enable:
+ *  1. Make sure `extra.eas.projectId` is set in app.json (run `eas init`).
+ *  2. Uncomment the three Observe blocks in this file (import, markInteractive, wrap)
+ *     and add `useEffect` to the "react" import.
+ *  3. Rebuild the dev client: `npm run build:dev` or `npx expo run:android|ios`.
+ *     A dev build made before enabling this will also crash. Rebuild it once.
+ *  4. Metrics appear in the Observe tab of the EAS dashboard.
+ *
+ * Docs: https://docs.expo.dev/versions/latest/sdk/observe/
+ */
+// import { ObserveRoot, useObserve } from "expo-observe";
 
 /**
  * RootLayout component that defines the main layout of the application.
@@ -29,6 +58,13 @@ const RootLayout = () => {
   useThemeSync();
   const [isSplashVisible, setIsSplashVisible] = useState(true);
   const hideSplash = useCallback(() => setIsSplashVisible(false), []);
+
+  // EAS Observe: record "time to interactive" once the splash is gone.
+  // Only the first call per session counts. See the setup note at the top.
+  // const { markInteractive } = useObserve();
+  // useEffect(() => {
+  //   if (!isSplashVisible) markInteractive();
+  // }, [isSplashVisible, markInteractive]);
 
   return (
     <View style={styles.root}>
@@ -59,12 +95,14 @@ const AppProviders = ({ children }: { children: React.ReactNode }) => (
       >
         <StatusBar style={theme === "dark" ? "light" : "dark"} />
         <Provider store={store}>
-          <SheetProvider>
-            {/* <NotificationListnerContainer /> */}
-            <Toast />
+          <KeyboardProvider>
+            <SheetProvider>
+              {/* <NotificationListnerContainer /> */}
+              <Toast />
 
-            {children}
-          </SheetProvider>
+              {children}
+            </SheetProvider>
+          </KeyboardProvider>
         </Provider>
       </View>
     )}
@@ -79,3 +117,5 @@ const styles = StyleSheet.create({
 });
 
 export default RootLayout;
+// EAS Observe: replace the export above with this (requires a development build):
+// export default ObserveRoot.wrap(RootLayout);

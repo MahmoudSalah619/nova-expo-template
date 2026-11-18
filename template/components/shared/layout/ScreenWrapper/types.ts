@@ -14,7 +14,6 @@ export interface ScreenWrapperProps {
   justifyContent?: ViewStyle["justifyContent"];
   style?: ViewStyle;
   hasNoHorizontalSpacing?: boolean;
-  hasNoKeyboardVerticalOffset?: boolean;
   isScrollable?: boolean;
   /** Horizontal padding. auth: sm 24 / md 32 — main: sm 12 / md 16. */
   paddingSize?: ScreenWrapperSpacingSize;

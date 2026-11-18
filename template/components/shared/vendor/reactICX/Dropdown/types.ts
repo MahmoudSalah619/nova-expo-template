@@ -37,8 +37,8 @@ export interface ItemProps {
   index?: number;
 }
 
-export interface Styles {
+export type Styles = {
   overlay: ViewStyle;
   content: ViewStyle;
   item: ViewStyle;
-}
+};

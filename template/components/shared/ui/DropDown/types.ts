@@ -1,5 +1,6 @@
+import type { ViewRef } from "@/@types/mainTypes";
 import { RefObject } from "react";
-import { ViewStyle, StyleProp, View } from "react-native";
+import { ViewStyle, StyleProp } from "react-native";
 import { InputSize } from "../Input/types";
 
 export interface SelectionItem {
@@ -30,7 +31,7 @@ export interface DropDownProps {
   coloredSelected?: boolean;
   dropDownSize?: InputSize;
   modalOptionsCustomStyle?: StyleProp<ViewStyle>;
-  customRef?: RefObject<View | null>;
+  customRef?: RefObject<ViewRef | null>;
 }
 
 export type DropdownPosition = {

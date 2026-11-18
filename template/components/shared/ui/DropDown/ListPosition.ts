@@ -1,5 +1,5 @@
+import type { ViewRef } from "@/@types/mainTypes";
 import { RefObject } from "react";
-import { View } from "react-native";
 import { DropdownPosition } from "./types";
 
 export const measureButtonPosition = ({
@@ -8,7 +8,7 @@ export const measureButtonPosition = ({
   xExtraOffset = 0,
   yExtraOffset = 0,
 }: {
-  ref: RefObject<View | null>;
+  ref: RefObject<ViewRef | null>;
   callback: (position: DropdownPosition) => void;
   xExtraOffset?: number;
   yExtraOffset?: number;

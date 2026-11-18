@@ -11,6 +11,11 @@ import DomainUrl from "@/apis/Domain";
 import { login, logout } from "@/redux/authReducer";
 import { RootState } from "@/redux";
 import tagTypes from "./tagTypes";
+import {
+  clearSecureStorage,
+  getSecureItem,
+  setSecureItem,
+} from "@/utils/secureStorage";
 import { AuthTokenResponse } from "./services/auth/types";
 
 const rawBaseQuery = (baseUrl: string) =>
@@ -49,7 +54,7 @@ const baseQueryWithReauth = async (
   let result = await baseQueryWithRetry(args, api, extraOptions);
 
   const getNewAccessToken = async () => {
-    const refreshToken = await AsyncStorage.getItem("refreshToken");
+    const refreshToken = await getSecureItem("refreshToken");
 
     const refreshResult = (await baseQueryWithRetry(
       {
@@ -67,7 +72,7 @@ const baseQueryWithReauth = async (
   const saveTheNewAccessTokenAndRetrySameRequest = async (
     newAccessToken: string
   ) => {
-    AsyncStorage.setItem("token", newAccessToken);
+    await setSecureItem("token", newAccessToken);
     api.dispatch(login(newAccessToken));
     result = (await baseQueryWithRetry(args, api, extraOptions)) as {
       error: FetchBaseQueryError;
@@ -85,8 +90,7 @@ const baseQueryWithReauth = async (
         refreshResult.data?.access
       );
     } else {
-      AsyncStorage.removeItem("token");
-      AsyncStorage.removeItem("refreshToken");
+      await clearSecureStorage();
       api.dispatch(logout());
     }
   }
