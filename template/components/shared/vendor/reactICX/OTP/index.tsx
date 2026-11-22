@@ -1,3 +1,4 @@
+import type { TextInputRef } from "@/@types/mainTypes";
 import React, {
   createContext,
   memo,
@@ -238,7 +239,7 @@ export const OtpInput: FC<IOtpInput> & FunctionComponent<IOtpInput> =
       const data: string[] = new Array(otpCount).fill("");
       const inputRefs = useMemo(
         () =>
-          Array.from({ length: otpCount }, () => React.createRef<TextInput>()),
+          Array.from({ length: otpCount }, () => React.createRef<TextInputRef>()),
         [otpCount],
       );
       const [focus, setFocus] = useState<number>(0);

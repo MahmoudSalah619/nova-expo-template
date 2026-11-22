@@ -1,3 +1,4 @@
+import type { ViewRef } from "@/@types/mainTypes";
 import React, {
   useState,
   createContext,
@@ -7,7 +8,7 @@ import React, {
   Children,
   useCallback,
 } from "react";
-import { View, StyleSheet, Modal, TouchableOpacity } from "react-native";
+import { StyleSheet, Modal, TouchableOpacity } from "react-native";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -90,7 +91,7 @@ const Dropdown = ({ children }: DropdownProps): JSX.Element => {
 
 const Trigger = ({ children, style }: TriggerProps): JSX.Element => {
   const { open, setTriggerLayout } = useDropdownContext();
-  const triggerRef = useRef<View>(null);
+  const triggerRef = useRef<ViewRef>(null);
 
   const handlePress = (): void => {
     triggerRef.current?.measureInWindow(
@@ -127,7 +128,7 @@ const Content = ({
     useDropdownContext();
   const itemCount = Children.count(children);
   const lastHapticIndex = useSharedValue<number>(-1);
-  const contentRef = useRef<View>(null);
+  const contentRef = useRef<ViewRef>(null);
   const [contentDimensions, setContentDimensions] = useState<{
     width: number;
     height: number;

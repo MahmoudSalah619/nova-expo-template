@@ -4,3 +4,4 @@ export { default as AppTabBar } from "./AppTabBar";
 export { default as MainScreenOptions } from "./MainScreenOptions";
 export { default as ScreenWrapper } from "./ScreenWrapper";
 export { default as AnimatedSplash } from "./AnimatedSplash";
+export { default as ScreenErrorFallback } from "./ScreenErrorFallback";

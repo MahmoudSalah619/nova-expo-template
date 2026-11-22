@@ -1,3 +1,4 @@
+import type { ViewRef } from "@/@types/mainTypes";
 import { useRef, useState, useEffect, useMemo } from "react";
 import { View, TouchableOpacity, FlatList, Modal, Pressable } from "react-native";
 import Animated, {
@@ -51,7 +52,7 @@ export default function DropDown({
     width: 0,
     end: 0,
   });
-  const refButton = useRef<View>(null);
+  const refButton = useRef<ViewRef>(null);
   const listHeight = useSharedValue(0);
 
   const toggleList = () => {

@@ -1,7 +1,15 @@
 import React from "react";
 import { View } from "react-native";
 import { Href, useRouter } from "expo-router";
-import { Orb, GradientSurface, Icon, PressableScale, Text } from "@/components/shared/ui";
+import { useTranslation } from "react-i18next";
+import {
+  Orb,
+  GradientSurface,
+  Icon,
+  MotionText,
+  PressableScale,
+  Text,
+} from "@/components/shared/ui";
 import Spacing from "@/constants/Spacing";
 import ScreenWrapper from "@/components/shared/layout/ScreenWrapper";
 import GLOBAL_STYLES from "@/constants/GlobalStyles";
@@ -18,18 +26,34 @@ const QUICK_ACTIONS: {
   { icon: "heart", title: "FAVORITES", caption: "HOME_SHORTCUT_FAVORITES_CAPTION", href: "/(main)/(tabs)/favourites" },
   { icon: "user", title: "PROFILE", caption: "HOME_SHORTCUT_PROFILE_CAPTION", href: "/(main)/(tabs)/profile" },
   { icon: "moon", title: "APPEARANCE", caption: "HOME_SHORTCUT_APPEARANCE_CAPTION", href: "/(main)/screen1" },
+  // Temporary entry point for the Motion demo; remove when no longer needed.
+  { icon: "zap", title: "MOTION", caption: "HOME_SHORTCUT_MOTION_CAPTION", href: "/(main)/motion" },
+  { icon: "star", title: "TEXT_EFFECTS", caption: "HOME_SHORTCUT_TEXT_EFFECTS_CAPTION", href: "/(main)/motion-text" },
+  { icon: "layers", title: "BUTTON_EFFECTS", caption: "HOME_SHORTCUT_BUTTON_EFFECTS_CAPTION", href: "/(main)/motion-button" },
+  { icon: "search", title: "SKELETON", caption: "HOME_SHORTCUT_SKELETON_CAPTION", href: "/(main)/skeleton" },
 ];
 
 const Home = () => {
   const router = useRouter();
+  const { t } = useTranslation();
+  // One line, typed as a single sentence: "Welcome back, John Doe".
+  const greeting = `${t("HOME_GREETING")} ${t("DEMO_USER_NAME")}`;
 
   return (
     <ScreenWrapper variant="main" isScrollable style={styles.screen}>
       <View style={styles.greeting}>
-        <Text variant="sm" color="caption">
-          HOME_GREETING
-        </Text>
-        <Text variant="H1">DEMO_USER_NAME</Text>
+        <MotionText
+          effect="typing"
+          hasCursor={false}
+          variant="H2"
+          autoTranslate={false}
+        >
+          {greeting}
+        </MotionText>
+        {/* Showcases MotionText's gradient effect on a real screen. */}
+        <MotionText effect="gradient" variant="H4">
+          HOME_MOTIVATION
+        </MotionText>
       </View>
 
       <View>

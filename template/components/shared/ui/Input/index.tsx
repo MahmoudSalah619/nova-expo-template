@@ -1,3 +1,4 @@
+import type { TextInputRef } from "@/@types/mainTypes";
 import { Pressable, TextInput, TouchableOpacity, View } from "react-native";
 import { useRef, useState } from "react";
 import { t } from "i18next";
@@ -34,7 +35,7 @@ export default function Input({
   const hasErrors = Boolean(error);
   const [showPassword, setShowPassword] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
-  const inputRef = useRef<TextInput>(null);
+  const inputRef = useRef<TextInputRef>(null);
 
   const debouncedOnChange = debounce((value: string) => {
     if (onChange) onChange(value);

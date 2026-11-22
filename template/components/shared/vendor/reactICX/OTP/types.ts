@@ -1,5 +1,6 @@
+import type { TextInputRef } from "@/@types/mainTypes";
 import type { RefObject } from "react";
-import type { TextInput, TextInputProps, ViewStyle, TextStyle, StyleProp } from "react-native";
+import type { TextInputProps, ViewStyle, TextStyle, StyleProp } from "react-native";
 
 export type AnimationVariant = "fadeSlideDown" | "fadeSlideUp" | "scale" | "bounce";
 
@@ -29,8 +30,8 @@ export interface IOtpInput extends Omit<TextInputProps, "value"> {
   errorBorderColor?: string;
 }
 
-export interface IOtpContext extends IOtpInput {
-  inputRefs: RefObject<TextInput | null>[];
+export interface IOtpContext extends Omit<IOtpInput, "onPress"> {
+  inputRefs: RefObject<TextInputRef | null>[];
   otpValue: string[];
   onPress: () => void;
   onFocusNext: <V extends string, I extends number>(value: V, index: I) => void;

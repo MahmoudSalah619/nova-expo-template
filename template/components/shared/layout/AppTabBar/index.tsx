@@ -34,7 +34,7 @@ const capitalize = (value: string) =>
 /**
  * Floating tab bar. The active pill slides to the selected tab.
  */
-const TabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => {
+const TabBar = ({ state, descriptors, emitter, navigateToTab }: BottomTabBarProps) => {
   const insets = useSafeAreaInsets();
   const [barWidth, setBarWidth] = useState(0);
   const indicatorX = useSharedValue(0);
@@ -65,14 +65,14 @@ const TabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => {
     route: (typeof state.routes)[number],
     isFocused: boolean
   ) => {
-    const event = navigation.emit({
+    const event = emitter.emit({
       type: "tabPress",
       target: route.key,
       canPreventDefault: true,
     });
 
     if (!isFocused && !event.defaultPrevented) {
-      navigation.navigate(route.name, route.params);
+      navigateToTab(route.key);
     }
   };
 

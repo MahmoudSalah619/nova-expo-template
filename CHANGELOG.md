@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file.
 
+## [5.0.0] - 2026-11-09
+
+### Changed
+
+- **BREAKING: Upgraded to Expo SDK 58** — React Native 0.88.1, React 19.3.0, Expo Router 58, Reanimated 4.7, Worklets 0.13, Gesture Handler 3.3, Screens 4.30, Safe Area Context 5.11, WebView 14, FlashList 2.3, Jest 30 and `jest-expo` 58. All `expo-*` packages are on their `~58` releases.
+- `app/(main)/_layout.tsx` sets each screen's header with `options={createScreenOptions({ ... })}`. SDK 58 removed `Stack.Screen` `initialParams`, so headers set that way no longer showed. `MainScreenOptions` still reads header params passed when navigating.
+- `AppTabBar` uses the new tab bar props (`emitter`, `navigateToTab`) in place of `navigation`.
+- Refs to `View` and `TextInput` use the new `ViewRef` and `TextInputRef` types from `@/@types/mainTypes`. In RN 0.88 these are function components, so `useRef<View>` no longer type-checks.
+- `onPress` handlers that took an optional argument (`router.back`, `handleSubmit(...)`) are wrapped in arrow functions, because `onPress` now passes an event.
+- `react-native-worklets` is forced to a single version through `overrides`, because `react-native-actions-sheet` 10 pulled in a second copy. Removed the outdated `@react-native/jest-preset` override.
+
+### Added
+
+- Unit testing setup: React Native Testing Library 14 (`test-renderer` 1.3) and `@react-native/jest-preset` 0.88.1, which `jest-expo` 58 needs as a peer dependency. Without it, `npm test` fails to start. New `test:ci` and `test:coverage` scripts. `jest.setup.ts` mocks AsyncStorage and `react-i18next`. `@/` imports resolve in Jest, and `immer` is transformed so Redux Toolkit loads.
+- `tsconfig.json` sets `"types": ["jest"]`, because TypeScript 6 no longer includes `@types/*` automatically.
+- `unit-testing` agent skill (`.agents/skills/unit-testing/`, mirrored to each agent folder): commands, where tests go, recipes for each layer, RNTL v14 rules, and troubleshooting.
+- Tests for `utils/` (lodash helpers, debounce, findChangedFields, getSerializedQueryArgs, handleOptions, isLastIndex, the pagination merge handler, handleErrors), the `auth` and `app` slices, `usePagination`, and `Button`.
+
+### Known issues
+
+- `utils/handleErrors`: an empty error object shows a toast with no message, a string error shows only its first character, and `null` throws. Each case is covered by an `it.failing` test, which will go red once it's fixed.
+
 ## [4.3.0] - 2026-10-08
 
 ### Changed

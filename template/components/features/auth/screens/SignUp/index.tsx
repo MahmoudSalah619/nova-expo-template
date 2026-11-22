@@ -15,7 +15,7 @@ const SignUp = () => {
     <ScreenWrapper showHeader={false} paddingSize="sm" isScrollable>
       <View style={styles.container}>
         <View style={styles.header}>
-          <TouchableOpacity style={styles.backButton} onPress={router.back}>
+          <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
             <View style={styles.backIcon}>
               <View style={GLOBAL_STYLES.flipInArabic}>
                 <Icon name="chevronRight" size={20} color="primary" />

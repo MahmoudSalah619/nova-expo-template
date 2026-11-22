@@ -44,7 +44,7 @@ export default function FormShowcase() {
           label="Phone number"
           rules={{ required: "Phone number is required" }}
         />
-        <Button title="Validate form" onPress={handleSubmit(onValid)} />
+        <Button title="Validate form" onPress={() => handleSubmit(onValid)()} />
       </ShowcaseItem>
     </ShowcaseSection>
   );
